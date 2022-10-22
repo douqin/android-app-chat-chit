@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Main"
+    android:id="@+id/layoutLogin"
+    android:background="@color/bg_color_app">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="400px"
+        android:layout_height="400px"
+       android:layout_marginTop="100px"
+       android:layout_gravity="center"
+        android:src="@drawable/ic_login_love_me"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text=" Login"
+            android:textColor="#DEDEDE"
+            android:textSize="70px"></TextView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/custom_edittext"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/TvLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:text="Mail"
+                android:textColor="#8B9096"
+                android:textSize="10dp" />
+
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="47dp"
+                android:layout_below="@+id/TvLogin"
+                android:paddingLeft="10dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/custom_edittext"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/TvPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:text="Pass"
+                android:textColor="#8B9096"
+                android:textSize="10dp" />
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="47dp"
+                android:layout_below="@+id/TvPass"
+                android:inputType="textPassword"
+                android:paddingLeft="10dp" />
+        </RelativeLayout>
+
+        <ProgressBar
+            android:id="@+id/iconloading"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            />
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/messLogin"
+            android:layout_gravity="center"
+            android:text="Hi bro"
+            android:textColor="#FF0000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp">
+
+            <TextView
+                android:id="@+id/forgot_pass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="3dp"
+                android:text="@string/forgot_password"
+                android:textColor="#A893FB"
+                android:textSize="20dp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/forgot_pass"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/custom_btn_login"
+                android:backgroundTint="@color/teal_200"
+                android:text="@string/login"
+                android:textAllCaps="false"
+                android:textSize="17dp" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+     <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/if_you_haven_t_account_please_sign_up"
+        android:textColor="@color/white"
+        android:layout_marginTop="22dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/singUp"
+        android:text="@string/sign_up"
+        android:layout_width="match_parent"
+        android:layout_marginRight="60dp"
+        android:layout_marginLeft="60dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_btn_login"
+        android:textAllCaps="false"
+        android:layout_marginTop="7dp">
+    </androidx.appcompat.widget.AppCompatButton>
+</LinearLayout>
+</LinearLayout>

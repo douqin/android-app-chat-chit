@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splashView">
+    <fragment
+        android:id="@+id/splashView"
+        android:name="JavaCode.Screen.Splash.SplashView"
+        android:label="SplashView" >
+        <action
+            android:id="@+id/action_splashView_to_loginView"
+            app:destination="@id/loginView" />
+        <action
+            android:id="@+id/action_splashView_to_screenStartChat"
+            app:destination="@id/screenStartChat" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginView"
+        android:name="JavaCode.Screen.Login.LoginView"
+        android:label="LoginView">
+        <action
+            android:id="@+id/action_screenLogin_to_screenStartChat"
+            app:destination="@id/screenStartChat"
+            app:enterAnim="@anim/anim_fade_in"
+            app:exitAnim="@anim/anim_fade_out"
+            app:popEnterAnim="@anim/anim_fade_in"
+            app:popExitAnim="@anim/anim_fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/screenChat"
+        android:name="JavaCode.Screen.Chat.ScreenChat"
+        android:label="ScreenChat" >
+        <action
+            android:id="@+id/action_screenChat_to_screenInforUser"
+            app:destination="@id/screenInforUser" />
+    </fragment>
+    <fragment
+        android:id="@+id/screenInforUser"
+        android:name="JavaCode.Screen.InforUser.ScreenInforUser"
+        android:label="ScreenInforUser" />
+    <fragment
+        android:id="@+id/screenStartChat"
+        android:name="JavaCode.Screen.StartChat.StartChatView"
+        android:label="ScreenStartChat" >
+        <action
+            android:id="@+id/action_screenStartChat_to_screenChat"
+            app:destination="@id/screenChat" />
+    </fragment>
+
+</navigation>

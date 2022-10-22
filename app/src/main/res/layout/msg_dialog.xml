@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="120pt"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/custom_search_toolbar">
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="40dp"
+    android:textSize="20dp"
+    android:text="--Hi--"
+    android:textStyle="bold"
+    android:textColor="@color/black"
+    android:layout_gravity="center"
+    android:gravity="center_vertical"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="2dp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/msgdlg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="afdgfdsg"
+            android:textStyle="bold"
+            android:textSize="17dp"
+            android:textColor="#7D7B7B"/>
+    </RelativeLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="3dp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btns">
+
+        <Button
+            android:id="@+id/btnMsgDlg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="OK"
+            android:textColor="@color/black"/>
+    </RelativeLayout>
+</LinearLayout>
