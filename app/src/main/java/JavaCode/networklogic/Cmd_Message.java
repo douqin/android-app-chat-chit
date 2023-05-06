@@ -1,4 +1,4 @@
-package JavaCode.networklogic;
+package JavaCode.Component.networklogic;
 
 import org.json.JSONException;
 
@@ -14,8 +14,8 @@ public class Cmd_Message {
     public void init() throws JSONException {
         this.m = new Message();
     }
-    public void send()
-    {
+
+    public void send() {
         this.session.sendMessage(this.m);
     }
 }

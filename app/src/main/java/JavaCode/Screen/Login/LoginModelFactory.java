@@ -1,4 +1,4 @@
-package JavaCode.Screen.Login;
+package JavaCode.DataLocal.Screen.Login;
 
 
 import android.app.Application;
@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 public class LoginModelFactory implements ViewModelProvider.Factory {
     static Application application;
+
     public LoginModelFactory(Application application) {
         LoginModelFactory.application = application;
     }

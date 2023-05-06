@@ -1,4 +1,4 @@
-package JavaCode.networklogic;
+package JavaCode.Component.networklogic;
 
 import android.util.Log;
 
@@ -100,7 +100,7 @@ public class GlobalMessageHandler implements IMessageHandler {
                 }
                 return;
             }
-            case 5:
+            case 5: {
                 Log.e(TAG + "cmd: 5", "");
 
                 try {
@@ -114,12 +114,17 @@ public class GlobalMessageHandler implements IMessageHandler {
                 } catch (Exception ignored) {
                 }
                 break;
+            }
             case 6: // VERYFY REJECT
+            {
                 readMessServer.authError("");
                 break;
+            }
             case 7: // VERYFY OKE
+            {
                 readMessServer.authSuccessfully();
                 break;
+            }
         }
     }
 }

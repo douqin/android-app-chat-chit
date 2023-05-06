@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "558648785736",
+    "project_id": "notification-app-mess-android",
+    "storage_bucket": "notification-app-mess-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558648785736:android:a9bc72a5a80300d21ed17d",
+        "android_client_info": {
+          "package_name": "com.dxlampro.appchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "558648785736-5u7rp22c6nrose6d3r4afvvv5h97vg5t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dxlampro.appchat",
+            "certificate_hash": "eca6282236115d7a89d3c34c95e435f2bf251a6a"
+          }
+        },
+        {
+          "client_id": "558648785736-4q577tapk151aias275c7lh3p01eukgh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLjldTCZprpSR7qxiUN4QP1IjGV2l1Yrg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "558648785736-4q577tapk151aias275c7lh3p01eukgh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

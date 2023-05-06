@@ -1,4 +1,4 @@
-package JavaCode.Screen.Login;
+package JavaCode.DataLocal.Screen.Login;
 
 public enum StateLogin {
     SUCCESSFULLY,

@@ -1,4 +1,4 @@
-package JavaCode.Screen.Splash;
+package JavaCode.DataLocal.Screen.Splash;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,24 +13,21 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.dxlampro.appchat.R;
-import com.dxlampro.appchat.databinding.SplashViewBinding;
-
-import JavaCode.Screen.Login.LoginView;
 
 public class SplashView extends Fragment {
     private SplashViewBinding splashViewBinding;
     private iAuth splViewModel;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         splashViewBinding = SplashViewBinding.inflate(getLayoutInflater());
         splViewModel = new ViewModelProvider(requireActivity()).get(SplashViewModel.class);
-        splViewModel.getStateAuth().observe(getViewLifecycleOwner(),stateAuth -> {
-            if(stateAuth == StateAuth.ERROR){
+        splViewModel.getStateAuth().observe(getViewLifecycleOwner(), stateAuth -> {
+            if (stateAuth == StateAuth.ERROR) {
                 final NavController navController = NavHostFragment.findNavController(SplashView.this);
                 navController.navigate(R.id.loginView);
-            }
-            else if(stateAuth == StateAuth.SUCCESSFULLY){
+            } else if (stateAuth == StateAuth.SUCCESSFULLY) {
                 final NavController navController = NavHostFragment.findNavController(SplashView.this);
                 navController.navigate(R.id.screenStartChat);
             }

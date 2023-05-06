@@ -1,4 +1,4 @@
-package JavaCode.Screen.StartChat;
+package JavaCode.DataLocal.Screen.StartChat;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -22,7 +22,6 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.dxlampro.appchat.R;
-import com.dxlampro.appchat.databinding.FragmentStartChatBinding;
 
 import JavaCode.Model.GroupAdapter;
 import JavaCode.Model.GroupChat;
@@ -30,19 +29,18 @@ import JavaCode.Model.GroupChat;
 public class StartChatView extends Fragment {
     private static String TAG = "StartChatView";
     private GroupAdapter chatApdater;
-    private final int size = 0;
     private FragmentStartChatBinding startChatBinding;
-    private iChat mainViewModel;
+    private ChatViewModel mainViewModel;
 
     @Override
     public void onDestroyView() {
-        Log.e(TAG,"onDestroyView");
+        Log.e(TAG, "onDestroyView");
         super.onDestroyView();
     }
 
     @Override
     public void onDestroy() {
-        Log.e(TAG,"onDestroy");
+        Log.e(TAG, "onDestroy");
         super.onDestroy();
     }
 
@@ -60,7 +58,6 @@ public class StartChatView extends Fragment {
         startChatBinding.listChat.setLayoutManager(linearLayoutManager);
         this.initListener();
         this.initOnClickView(startChatBinding);
-        mainViewModel.loadListChatUser();
         return startChatBinding.getRoot();
     }
 
@@ -74,42 +71,44 @@ public class StartChatView extends Fragment {
                 }
             });
             startChatBinding.listChat.setAdapter(chatApdater);
-            if(mainViewModel.getListGroupChat().getValue().size() != 0){
-                startChatBinding.loadingListChat.setVisibility(View.GONE);
-            }
+//            if(mainViewModel.getListMess().getValue().listMessage != null) {
+//                if (mainViewModel.getListMess().getValue().listMessage.size() != 0) {
+//                    startChatBinding.loadingListChat.setVisibility(View.GONE);
+//                }
+//            } chua lam xong
         });
-        mainViewModel.getCurrentGr().observe(getViewLifecycleOwner(),(groupChat)->{
-            if(groupChat != null) {
+        mainViewModel.getCurrentGr().observe(getViewLifecycleOwner(), (groupChat) -> {
+            if (groupChat != null) {
                 final NavController navController = NavHostFragment.findNavController(this);
-                navController.navigate(R.id.action_screenStartChat_to_screenChat);
+                navController.navigate(R.id.screenChat);
             }
         });
-        chatApdater = new GroupAdapter(mainViewModel.getListGroupChat().getValue(), groupChat ->{
-            mainViewModel.openChat(groupChat);
+        chatApdater = new GroupAdapter(mainViewModel.getListGroupChat().getValue(), groupChat -> {
+                    mainViewModel.openChat(groupChat);
         });
         startChatBinding.listChat.setAdapter(chatApdater);
     }
 
     @SuppressLint({"ShowToast", "RestrictedApi"})
     private void initOnClickView(FragmentStartChatBinding startChatBinding) {
-        MenuBuilder menuBuilder = new MenuBuilder(this.getContext());
+        MenuBuilder menuBuilder = new MenuBuilder(this.requireContext());
         MenuInflater menuInflater = new MenuInflater(this.getContext());
         menuInflater.inflate(R.menu.menu_add_more_startchat, menuBuilder);
         startChatBinding.addMore.setOnClickListener((View) -> {
-            MenuPopupHelper menuPopupHelper = new MenuPopupHelper(this.getContext(), menuBuilder, View);
+            MenuPopupHelper menuPopupHelper = new MenuPopupHelper(this.requireContext(), menuBuilder, View);
             menuPopupHelper.setForceShowIcon(true);
             menuBuilder.setCallback(new MenuBuilder.Callback() {
                 @Override
                 public boolean onMenuItemSelected(@NonNull MenuBuilder menu, @NonNull MenuItem item) {
                     switch (item.getItemId()) {
                         case (R.id.creategroupchat):
-                            Toast.makeText(StartChatView.this.getContext().getApplicationContext(), "Chức năng đang phát triển", Toast.LENGTH_SHORT);
+                            Toast.makeText(StartChatView.this.requireContext().getApplicationContext(), "Chức năng đang phát triển", Toast.LENGTH_SHORT);
                             return true;
                         case (R.id.historylogin):
-                            Toast.makeText(StartChatView.this.getContext().getApplicationContext(), "Chức năng đang phát triển...", Toast.LENGTH_SHORT);
+                            Toast.makeText(StartChatView.this.requireContext().getApplicationContext(), "Chức năng đang phát triển...", Toast.LENGTH_SHORT);
                             return true;
                         case (R.id.callgroup):
-                            Toast.makeText(StartChatView.this.getContext().getApplicationContext(), "Chức năng đang phát triển 1", Toast.LENGTH_SHORT);
+                            Toast.makeText(StartChatView.this.requireContext().getApplicationContext(), "Chức năng đang phát triển 1", Toast.LENGTH_SHORT);
                             return true;
                     }
                     return false;

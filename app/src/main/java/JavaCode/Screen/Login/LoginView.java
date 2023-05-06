@@ -1,4 +1,4 @@
-package JavaCode.Screen.Login;
+package JavaCode.DataLocal.Screen.Login;
 
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
@@ -20,17 +20,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.dxlampro.appchat.Main;
 import com.dxlampro.appchat.R;
-import com.dxlampro.appchat.databinding.FragmentLoginBinding;
-
-import JavaCode.Screen.StartChat.StartChatView;
-import JavaCode.network.Session_ME;
 
 
 public class LoginView extends Fragment {
     FragmentLoginBinding viewLoginBinding;
-    private iLogin mainViewModel;
+    private LoginViewModel mainViewModel;
 
     @Nullable
     @Override
@@ -81,7 +76,7 @@ public class LoginView extends Fragment {
             @Override
             public void onChanged(StateLogin stateLogin) {
 
-                switch (stateLogin){
+                switch (stateLogin) {
                     case SUCCESSFULLY:
                         viewLoginBinding.iconloading.post(() -> {
                             viewLoginBinding.iconloading.setVisibility(View.GONE);
