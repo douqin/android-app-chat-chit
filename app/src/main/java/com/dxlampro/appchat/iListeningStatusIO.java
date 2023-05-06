@@ -1,7 +1,7 @@
 package com.dxlampro.appchat;
 
-public interface iStatusConnectServer {
-    void onDisconnectServer();
-    void onConnectFail();
-    void onConnectOK();
+import JavaCode.Clib.StatusIO;
+
+public interface iListeningStatusIO {
+    void onChangeStatus(StatusIO statusIO);
 }

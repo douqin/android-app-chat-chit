@@ -11,4 +11,7 @@
     <string name="if_you_haven_t_account_please_sign_up">If you haven\'t account, Please sign up</string>
     <string name="login">Login</string>
     <string name="forgot_password">Forgot password ?</string>
+    <string name="group">Nhóm: </string>
+    <string name="mail">Mail</string>
+    <string name="loginstr">Login</string>
 </resources>

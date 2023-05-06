@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "558648785736",
-    "project_id": "notification-app-mess-android",
-    "storage_bucket": "notification-app-mess-android.appspot.com"
+    "project_number": "438221737217",
+    "project_id": "android-notification-dxmess",
+    "storage_bucket": "android-notification-dxmess.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:558648785736:android:a9bc72a5a80300d21ed17d",
+        "mobilesdk_app_id": "1:438221737217:android:394861d6531ab415db5f00",
         "android_client_info": {
           "package_name": "com.dxlampro.appchat"
         }
       },
       "oauth_client": [
         {
-          "client_id": "558648785736-5u7rp22c6nrose6d3r4afvvv5h97vg5t.apps.googleusercontent.com",
+          "client_id": "438221737217-1ejgiben3g2a9b6johni8gpscboiikei.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.dxlampro.appchat",
-            "certificate_hash": "eca6282236115d7a89d3c34c95e435f2bf251a6a"
+            "certificate_hash": "df2b6a0a4f80cfe9c906ccf5591181dda8c13b38"
           }
         },
         {
-          "client_id": "558648785736-4q577tapk151aias275c7lh3p01eukgh.apps.googleusercontent.com",
+          "client_id": "438221737217-2kib8ri6k9fob99ptqglr22arna7noco.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCLjldTCZprpSR7qxiUN4QP1IjGV2l1Yrg"
+          "current_key": "AIzaSyBzqzsi_0R_gHpZfAwIPE5J3LjqUzKlgHk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "558648785736-4q577tapk151aias275c7lh3p01eukgh.apps.googleusercontent.com",
+              "client_id": "438221737217-2kib8ri6k9fob99ptqglr22arna7noco.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

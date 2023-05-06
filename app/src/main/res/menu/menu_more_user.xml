@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/blobk"
-        android:title="Block"/>
+        android:title="Block" />
     <item
         android:id="@+id/turn_off_noti"
-        android:title="Turn Off Notifiocartion"/>
+        android:title="Turn Off Notifiocartion" />
 </menu>

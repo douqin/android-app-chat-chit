@@ -1,4 +1,4 @@
-package JavaCode.DataLocal.Screen.StartChat;
+package JavaCode.Screen.StartChat;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -22,9 +22,9 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.dxlampro.appchat.R;
+import com.dxlampro.appchat.databinding.FragmentStartChatBinding;
 
 import JavaCode.Model.GroupAdapter;
-import JavaCode.Model.GroupChat;
 
 public class StartChatView extends Fragment {
     private static String TAG = "StartChatView";
@@ -32,17 +32,6 @@ public class StartChatView extends Fragment {
     private FragmentStartChatBinding startChatBinding;
     private ChatViewModel mainViewModel;
 
-    @Override
-    public void onDestroyView() {
-        Log.e(TAG, "onDestroyView");
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onDestroy() {
-        Log.e(TAG, "onDestroy");
-        super.onDestroy();
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,24 +41,29 @@ public class StartChatView extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        assert getArguments() != null;
         startChatBinding = FragmentStartChatBinding.inflate(inflater, container, false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setStackFromEnd(false);
         startChatBinding.listChat.setLayoutManager(linearLayoutManager);
+        mainViewModel = new ViewModelProvider(requireActivity()).get(ChatViewModel.class);
+        this.initDataFirstLogin();
         this.initListener();
         this.initOnClickView(startChatBinding);
         return startChatBinding.getRoot();
     }
 
+    private void initDataFirstLogin() {
+        JavaCode.Screen.StartChat.StartChatViewArgs args = StartChatViewArgs.fromBundle(getArguments());
+        boolean isLoginNew =  args.getIsStartFromScrLogin();
+       if(isLoginNew){
+           mainViewModel.initDataFirstLogin();
+       }
+    }
+
     private void initListener() {
-        mainViewModel = new ViewModelProvider(requireActivity()).get(ChatViewModel.class);
         mainViewModel.getListGroupChat().observe(getViewLifecycleOwner(), groupChats -> {
-            chatApdater = new GroupAdapter(groupChats, new iOnClickItemGroupChat() {
-                @Override
-                public void onClickItemGroupChat(GroupChat groupChat) {
-                    mainViewModel.openChat(groupChat);
-                }
-            });
+            chatApdater = new GroupAdapter(groupChats, groupChat -> mainViewModel.openChat(groupChat));
             startChatBinding.listChat.setAdapter(chatApdater);
 //            if(mainViewModel.getListMess().getValue().listMessage != null) {
 //                if (mainViewModel.getListMess().getValue().listMessage.size() != 0) {
@@ -80,11 +74,11 @@ public class StartChatView extends Fragment {
         mainViewModel.getCurrentGr().observe(getViewLifecycleOwner(), (groupChat) -> {
             if (groupChat != null) {
                 final NavController navController = NavHostFragment.findNavController(this);
-                navController.navigate(R.id.screenChat);
+                navController.navigate(R.id.screenMessage);
             }
         });
         chatApdater = new GroupAdapter(mainViewModel.getListGroupChat().getValue(), groupChat -> {
-                    mainViewModel.openChat(groupChat);
+            mainViewModel.openChat(groupChat);
         });
         startChatBinding.listChat.setAdapter(chatApdater);
     }

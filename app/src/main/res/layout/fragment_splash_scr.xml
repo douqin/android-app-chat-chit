@@ -4,15 +4,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@color/bg_color_app"
-    >
+    android:background="@color/bg_color_app">
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/logo_spl_src" />
+
     <ImageView
         android:paddingTop="1dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/icon_logo_name"/>
+        android:src="@drawable/icon_logo_name" />
 </LinearLayout>

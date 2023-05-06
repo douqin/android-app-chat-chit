@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-   <item
-       android:drawable="@color/bg_color_app" />
-   <item
-    android:width="120dp"
-    android:height="120dp"
+    <item android:drawable="@color/bg_color_app" />
+    <item
+        android:width="120dp"
+        android:height="120dp"
         android:gravity="center"
-    android:drawable="@drawable/logo_spl_src"/>
+        android:drawable="@drawable/logo_spl_src" />
 </layer-list>

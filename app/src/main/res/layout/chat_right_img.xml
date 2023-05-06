@@ -8,10 +8,12 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20px"
         android:layout_alignParentEnd="true">
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/avtuser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
         <ImageView
             android:id="@+id/imgMess"
             android:layout_width="wrap_content"

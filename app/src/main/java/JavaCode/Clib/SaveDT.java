@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 
-import com.dxlampro.appchat.Main;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -13,14 +11,14 @@ import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
-import JavaCode.AMain.AppCanvas;
-
 public class SaveDT {
     private static String TAG = "SaveDT";
     private static Context context;
-    public static void initContext(Context c){
-        context =c;
+
+    public static void initContext(Context c) {
+        context = c;
     }
+
     @SuppressLint({"WorldWriteableFiles"})
     public static void saveRMS(String name, byte[] data) {
         try {
@@ -30,6 +28,7 @@ public class SaveDT {
         } catch (Exception ignored) {
         }
     }
+
     public static byte[] loadRMS(String name) {
         try {
             FileInputStream fis = SaveDT.context.openFileInput(name);
@@ -46,10 +45,11 @@ public class SaveDT {
             fis.close();
             return data;
         } catch (Exception e) {
-            Log.e(TAG,e.toString());
+            Log.e(TAG, e.toString());
             return null;
         }
     }
+
     public static void saveStr(String nameFile, String data) {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(bos);
@@ -60,7 +60,7 @@ public class SaveDT {
             saveRMS(nameFile, bos.toByteArray());
             dos.close();
         } catch (Exception e) {
-            Log.e(TAG,e.toString());
+            Log.e(TAG, e.toString());
         }
     }
 
@@ -73,7 +73,7 @@ public class SaveDT {
                 data = dis.readUTF();
                 dis.close();
             } catch (Exception e) {
-                Log.e("Error load data",e.toString());
+                Log.e("Error load data", e.toString());
             }
         }
         return data;

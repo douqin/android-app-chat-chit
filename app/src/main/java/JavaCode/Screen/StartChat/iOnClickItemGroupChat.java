@@ -1,4 +1,4 @@
-package JavaCode.DataLocal.Screen.StartChat;
+package JavaCode.Screen.StartChat;
 
 import JavaCode.Model.GroupChat;
 

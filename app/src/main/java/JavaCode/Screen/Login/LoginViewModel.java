@@ -1,4 +1,4 @@
-package JavaCode.DataLocal.Screen.Login;
+package JavaCode.Screen.Login;
 
 import android.app.Application;
 
@@ -15,18 +15,16 @@ class LoginViewModel extends AndroidViewModel {
     private iLoginRepository loginRepository;
     private MutableLiveData<String> username = new MutableLiveData<>(SaveDT.loadData("username"));
     private MutableLiveData<String> password = new MutableLiveData<>(SaveDT.loadData("password"));
-    private LiveData<String> textStatusLogin;
-    private LiveData<StateLogin> stateLogin;
+    private LiveData<cStateLogin> stateLogin;
 
     public LoginViewModel(@NonNull Application application) {
         super(application);
-        loginRepository = new LoginRepository(application);
-        textStatusLogin = loginRepository.getTextStatusLogin();
+        loginRepository = new LoginRepository();
         stateLogin = loginRepository.getStateLogin();
     }
 
     public void login(String username, String password) {
-        loginRepository.login(username,password);
+        loginRepository.login(username, password);
         SaveDT.saveStr("username", username);
         SaveDT.saveStr("password", password);
     }
@@ -35,7 +33,7 @@ class LoginViewModel extends AndroidViewModel {
 
     }
 
-    public LiveData<StateLogin> getStateLogin() {
+    public LiveData<cStateLogin> getStateLogin() {
         return stateLogin;
     }
 
@@ -47,8 +45,5 @@ class LoginViewModel extends AndroidViewModel {
         return password;
     }
 
-    public LiveData<String> getTextStatusLogin() {
-        return textStatusLogin;
-    }
 
 }

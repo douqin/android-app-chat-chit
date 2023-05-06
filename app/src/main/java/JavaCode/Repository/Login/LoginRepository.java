@@ -1,52 +1,72 @@
-package com.Repository.Login;
+package JavaCode.Repository.Login;
 
-import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import JavaCode.networklogic.ReadMessServer;
-import JavaCode.networklogic.Service;
-import JavaCode.DataLocal.Screen.Login.StateLogin;
-import JavaCode.DataLocal.Screen.Login.iResultLogin;
+import com.google.gson.Gson;
 
-public class LoginRepository implements iLoginRepository, iResultLogin {
-    private MutableLiveData<String> textStatusLogin = new MutableLiveData<>("");
+import JavaCode.Api.ApiAuth;
+import JavaCode.Clib.SaveDT;
+import JavaCode.Repository.Login.dtos.LoginSuccessfully;
+import JavaCode.Repository.User.UserManager;
+import JavaCode.Screen.Login.StateLogin;
+import JavaCode.Screen.Login.cStateLogin;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
+public class LoginRepository implements iLoginRepository {
+    private MutableLiveData<cStateLogin> stateLogin = new MutableLiveData<>(new cStateLogin(StateLogin.NO_STATE, ""));
 
-    private MutableLiveData<StateLogin> stateLogin = new MutableLiveData<>(StateLogin.NO_STATE);
-    public LoginRepository(Application application){
-        ReadMessServer.setLogin(this);
+    public LoginRepository() {
+
     }
 
     @Override
-    public void login(String username, String password) {
-        stateLogin.setValue(StateLogin.NO_STATE);
-        textStatusLogin.setValue("");
-        Service.gI().Login(username, password);
+    public void login(String phone, String password) {
+        RequestBody phoneRequestBody = RequestBody.create(phone, MediaType.parse("text/plain"));
+        RequestBody passwordRequestBody = RequestBody.create(password, MediaType.parse("text/plain"));
+        ApiAuth.loginService.login(phoneRequestBody, passwordRequestBody)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<LoginSuccessfully>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull LoginSuccessfully s) {
+                        UserManager.gI().setMySelf(s.user);
+                        Gson gson = new Gson();
+                        SaveDT.saveStr("token", gson.toJson(s.token));
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+//                        stateLogin.postValue(new cStateLogin(StateLogin.ERROR, e.getMessage()));
+                        Log.w(LoginRepository.class.getSimpleName(), e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        stateLogin.setValue(new cStateLogin(StateLogin.SUCCESSFULLY, ""));
+                    }
+                });
     }
 
     @Override
     public void signUp() {
-
     }
 
     @Override
-    public void loginSuccess() {
-        stateLogin.postValue(StateLogin.SUCCESSFULLY);
-    }
-
-    @Override
-    public void loginError(String strMessage) {
-        stateLogin.postValue(StateLogin.ERROR);
-        textStatusLogin.postValue(strMessage);
-    }
-
-    public LiveData<String> getTextStatusLogin(){
-        return textStatusLogin;
-    }
-
-    public LiveData<StateLogin> getStateLogin() {
+    public LiveData<cStateLogin> getStateLogin() {
         return stateLogin;
     }
 

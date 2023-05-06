@@ -1,2 +1,7 @@
-package com.dxlampro.appchat;public class StatusIO {
+package JavaCode.Clib;
+
+public enum StatusIO {
+    DISCONNECT,
+    CONNECTED,
+    CONNECTING
 }

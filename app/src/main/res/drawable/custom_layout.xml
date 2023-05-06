@@ -5,11 +5,8 @@
     android:layout_height="wrap_content">
     <corners
         android:bottomLeftRadius="100dp"
-        android:topLeftRadius="100dp">
-    </corners>
-    <solid
-        android:color="#17151B" >
-    </solid>
+        android:topLeftRadius="100dp"></corners>
+    <solid android:color="#313C52"></solid>
     <!--    <stroke-->
     <!--        android:width="4dp"-->
     <!--    />-->

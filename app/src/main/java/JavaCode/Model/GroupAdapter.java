@@ -2,9 +2,7 @@ package JavaCode.Model;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,11 +20,10 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     private iOnClickItemGroupChat onClickItemGroupChat;
 
     public GroupAdapter(List<GroupChat> mGroupChat, iOnClickItemGroupChat onClickItemGroupChat) {
-        if(mGroupChat != null){
+        if (mGroupChat != null) {
             this.mGroupChat = mGroupChat;
-        }
-       else  this.mGroupChat = new ArrayList<>();
-       this.onClickItemGroupChat = onClickItemGroupChat;
+        } else this.mGroupChat = new ArrayList<>();
+        this.onClickItemGroupChat = onClickItemGroupChat;
     }
 
     @NonNull
@@ -39,7 +36,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull GroupAdapter.ViewHolder holder, int position) {
         GroupChat groupChat = mGroupChat.get(position);
-        holder.bindView(groupChat,this.onClickItemGroupChat);
+        holder.bindView(groupChat, this.onClickItemGroupChat);
     }
 
     @Override
@@ -49,12 +46,14 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ItUserChatBinding inflate;
+
         public ViewHolder(ItUserChatBinding inflate) {
             super(inflate.getRoot());
             this.inflate = inflate;
         }
+
         @SuppressLint("ResourceAsColor")
-        public void bindView(GroupChat groupChat,iOnClickItemGroupChat onClickItemGroupChat){
+        public void bindView(GroupChat groupChat, iOnClickItemGroupChat onClickItemGroupChat) {
             this.inflate.nameGroup.setText(groupChat.name);
             this.inflate.messageUser.setText("Loading...");
             this.inflate.messageUser.setTextColor(R.color.red);

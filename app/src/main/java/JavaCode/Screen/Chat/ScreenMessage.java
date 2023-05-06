@@ -1,10 +1,7 @@
 package JavaCode.Screen.Chat;
 
 import android.Manifest;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,24 +26,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import JavaCode.Model.MessageApdater;
 import JavaCode.Screen.StartChat.ChatViewModel;
-import JavaCode.Utils.ImageUtil;
 import JavaCode.Utils.NetworkUtils;
-import JavaCode.network.Session_ME;
 import gun0912.tedbottompicker.TedBottomPicker;
-import gun0912.tedbottompicker.TedBottomSheetDialogFragment;
 
 
-public class ScreenChat extends Fragment {
+public class ScreenMessage extends Fragment {
     private MessageApdater messageApdater;
     private FragmentChatscrBinding chatscrBinding;
     private LinearLayoutManager linearLayoutManager;
     private ChatViewModel chatViewModel;
 
-    public ScreenChat() {
+    public ScreenMessage() {
     }
 
     private void initListener() {
@@ -82,11 +75,11 @@ public class ScreenChat extends Fragment {
                 Toast.makeText(requireContext(), "Hiện không có kết nối Internet", Toast.LENGTH_SHORT).show();
             }
         });
-        chatscrBinding.addImage.setOnClickListener(v -> ScreenChat.this.addImage());
+        chatscrBinding.addImage.setOnClickListener(v -> ScreenMessage.this.addImage());
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                final NavController navController = NavHostFragment.findNavController(ScreenChat.this);
+                final NavController navController = NavHostFragment.findNavController(ScreenMessage.this);
                 chatViewModel.openChat(null);
                 navController.popBackStack();
             }

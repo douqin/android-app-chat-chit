@@ -1,4 +1,4 @@
-package JavaCode.DataLocal.Room.Entity.Relationship;
+package JavaCode.LocalData.Room.Entity.Relationship;
 
 import androidx.room.Entity;
 

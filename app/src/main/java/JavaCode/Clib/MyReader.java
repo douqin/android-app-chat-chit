@@ -2,31 +2,34 @@ package JavaCode.Clib;
 
 import android.util.Log;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class myReader {
+public class MyReader {
     JSONObject jsonObject;
-    public myReader(JSONObject data) {
+
+    public MyReader(JSONObject data) {
         jsonObject = data;
     }
+
     public int readInt(String key) throws JSONException {
         return jsonObject.getInt(key);
     }
+
     public String readStr(String key) throws JSONException {
         return jsonObject.getString(key);
     }
-    public String convertObjectToStr(){
+
+    public String convertObjectToStr() {
         return jsonObject.toString();
     }
 
-    public JSONObject getObject(String key){
+    public JSONObject getObject(String key) {
         try {
             return this.jsonObject.getJSONObject(key);
         } catch (JSONException e) {
             Log.e("getObject  myReader", "getObject");
-            return  null;
+            return null;
 
         }
     }

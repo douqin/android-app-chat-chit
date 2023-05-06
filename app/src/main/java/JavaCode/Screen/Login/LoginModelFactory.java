@@ -1,4 +1,4 @@
-package JavaCode.DataLocal.Screen.Login;
+package JavaCode.Screen.Login;
 
 
 import android.app.Application;

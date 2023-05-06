@@ -6,7 +6,7 @@
     <fragment
         android:id="@+id/splashView"
         android:name="JavaCode.Screen.Splash.SplashView"
-        android:label="SplashView" >
+        android:label="SplashView">
         <action
             android:id="@+id/action_splashView_to_loginView"
             app:destination="@id/loginView" />
@@ -27,9 +27,9 @@
             app:popExitAnim="@anim/anim_fade_out" />
     </fragment>
     <fragment
-        android:id="@+id/screenChat"
-        android:name="JavaCode.Screen.Chat.ScreenChat"
-        android:label="ScreenChat" >
+        android:id="@+id/screenMessage"
+        android:name="JavaCode.Screen.Chat.ScreenMessage"
+        android:label="ScreenMessage">
         <action
             android:id="@+id/action_screenChat_to_screenInforUser"
             app:destination="@id/screenInforUser" />
@@ -41,10 +41,16 @@
     <fragment
         android:id="@+id/screenStartChat"
         android:name="JavaCode.Screen.StartChat.StartChatView"
-        android:label="ScreenStartChat" >
+        android:label="ScreenStartChat">
+        <argument
+            android:name="isStartFromScrLogin"
+            app:argType="boolean"
+            android:defaultValue="false" />
         <action
             android:id="@+id/action_screenStartChat_to_screenChat"
-            app:destination="@id/screenChat" />
+            app:destination="@id/screenMessage"
+            app:popUpTo="@+id/screenStartChat"
+            app:popUpToInclusive="true" />
     </fragment>
 
 </navigation>

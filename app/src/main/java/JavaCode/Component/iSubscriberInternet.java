@@ -1,5 +1,5 @@
 package JavaCode.Component;
 
-public interface iSubcriberInternet {
-    
+public interface iSubscriberInternet {
+    void listeningStatusInternet(Boolean isInternet);
 }

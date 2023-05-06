@@ -1,4 +1,4 @@
-package JavaCode.DataLocal.Room.Dao;
+package JavaCode.LocalData.Room.Dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

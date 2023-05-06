@@ -1,29 +1,21 @@
 package JavaCode.Model;
 
-import java.util.ArrayList;
-import java.util.List;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity(tableName = "groupchat")
 public class GroupChat {
-    public GroupChat(int idGroup, String name, int status, String avatar, List<MessageChat> listChatMessage) {
-        this.idGroup = idGroup;
+    public GroupChat(int idgroup, String name, int status, String avatar) {
+        this.idgroup = idgroup;
         this.name = name;
         this.status = status;
         this.avatar = avatar;
-        if (listChatMessage != null)
-        this.listChatMessage = listChatMessage;
-        else  this.listChatMessage = new ArrayList<>();
     }
-    public GroupChat(int idGroup, String name, int status, String avatar) {
-        this.idGroup = idGroup;
-        this.name = name;
-        this.status = status;
-        this.avatar = avatar;
-        this.listChatMessage = new ArrayList<>();
-    }
-    public int idGroup;
+
+    @PrimaryKey
+    public int idgroup;
     public String name;
     public int status;
     public String avatar;
-    public List<MessageChat> listChatMessage;
 
 }

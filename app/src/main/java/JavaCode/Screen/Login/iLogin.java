@@ -1,6 +1,4 @@
-package JavaCode.DataLocal.Screen.Login;
-
-import androidx.lifecycle.LiveData;
+package JavaCode.Screen.Login;
 
 public interface iLogin {
 

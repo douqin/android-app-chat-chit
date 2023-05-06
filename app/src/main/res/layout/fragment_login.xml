@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -12,9 +12,9 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="400px"
         android:layout_height="400px"
-       android:layout_marginTop="100px"
-       android:layout_gravity="center"
-        android:src="@drawable/ic_login_love_me"/>
+        android:layout_marginTop="100px"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_login_love_me" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -25,9 +25,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text=" Login"
-            android:textColor="#DEDEDE"
-            android:textSize="70px"></TextView>
+            android:text="@string/loginstr"
+            android:textColor="#F5FFFF"
+            android:textSize="40sp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -42,17 +42,20 @@
                 android:id="@+id/TvLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:text="Mail"
+                android:paddingStart="10dp"
+                android:text="@string/mail"
                 android:textColor="#8B9096"
-                android:textSize="10dp" />
+                android:textSize="11sp" />
 
             <EditText
+                android:text=""
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
                 android:layout_below="@+id/TvLogin"
-                android:paddingLeft="10dp" />
+                android:paddingStart="10dp"
+                android:autofillHints=""
+                android:inputType="" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -71,15 +74,16 @@
                 android:paddingLeft="10dp"
                 android:text="Pass"
                 android:textColor="#8B9096"
-                android:textSize="10dp" />
+                android:textSize="10sp" />
 
             <EditText
+                android:contentDescription=""
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
                 android:layout_below="@+id/TvPass"
                 android:inputType="textPassword"
-                android:paddingLeft="10dp" />
+                android:paddingStart="10dp" />
         </RelativeLayout>
 
         <ProgressBar
@@ -87,8 +91,8 @@
             android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            />
+            android:layout_gravity="center" />
+
         <TextView
             android:visibility="gone"
             android:id="@+id/messLogin"
@@ -96,13 +100,12 @@
             android:text="Hi bro"
             android:textColor="#FF0000"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </TextView>
+            android:layout_height="wrap_content"></TextView>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp">
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:id="@+id/forgot_pass"
@@ -112,8 +115,9 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="3dp"
                 android:text="@string/forgot_password"
-                android:textColor="#A893FB"
-                android:textSize="20dp" />
+                android:textColor="#77728A"
+                android:textStyle="italic"
+                android:textSize="15sp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_login"
@@ -127,35 +131,35 @@
                 android:backgroundTint="@color/teal_200"
                 android:text="@string/login"
                 android:textAllCaps="false"
-                android:textSize="17dp" />
+                android:textSize="17sp" />
 
         </RelativeLayout>
     </LinearLayout>
 
-     <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:gravity="center">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/if_you_haven_t_account_please_sign_up"
-        android:textColor="@color/white"
-        android:layout_marginTop="22dp"/>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/singUp"
-        android:text="@string/sign_up"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginRight="60dp"
-        android:layout_marginLeft="60dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/custom_btn_login"
-        android:textAllCaps="false"
-        android:layout_marginTop="7dp">
-    </androidx.appcompat.widget.AppCompatButton>
-</LinearLayout>
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/if_you_haven_t_account_please_sign_up"
+            android:textColor="@color/white"
+            android:layout_marginTop="22dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/singUp"
+            android:text="@string/sign_up"
+            android:layout_width="match_parent"
+            android:layout_marginRight="60dp"
+            android:layout_marginLeft="60dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_btn_login"
+            android:textAllCaps="false"
+            android:layout_marginTop="7dp"></androidx.appcompat.widget.AppCompatButton>
+    </LinearLayout>
 </LinearLayout>

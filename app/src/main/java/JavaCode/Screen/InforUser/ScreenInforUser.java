@@ -1,4 +1,4 @@
-package JavaCode.DataLocal.Screen.InforUser;
+package JavaCode.Screen.InforUser;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

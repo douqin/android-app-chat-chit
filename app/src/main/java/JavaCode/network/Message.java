@@ -1,39 +1,40 @@
 package JavaCode.network;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-import JavaCode.Clib.myReader;
-import JavaCode.Clib.myWriter;
+
+import JavaCode.Clib.MyReader;
+import JavaCode.Clib.MyWriter;
 
 
 public class Message {
     public String type;
     public int cmd;
-    private myWriter dos;
-    private myReader dis;
+    private MyWriter dos;
+    private MyReader dis;
 
-    public Message() throws JSONException {
-        this.dos = new myWriter();
+    public Message() {
+        this.dos = new MyWriter();
     }
+
     public Message(int command, JSONObject data) {
         this.cmd = command;
-        this.dis = new myReader(data);
+        this.dis = new MyReader(data);
     }
-    public Message( JSONObject data) {
+
+    public Message(JSONObject data) {
         this.cmd = 0;
-        this.dis = new myReader(data);
+        this.dis = new MyReader(data);
     }
-    public JSONObject getData()
-    {
+
+    public JSONObject getData() {
         return this.dos.getData();
     }
-    public myReader reader()
-    {
+
+    public MyReader reader() {
         return this.dis;
     }
-    public myWriter writer()
-    {
+
+    public MyWriter writer() {
         return this.dos;
     }
 }

@@ -1,67 +1,48 @@
 package com.dxlampro.appchat;
+
 import android.app.Application;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
-import android.widget.Toast;
+import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 
 import JavaCode.Clib.SaveDT;
-import JavaCode.Component.MyBroadcastReceiver;
-import JavaCode.network.Session_ME;
-import JavaCode.networklogic.GlobalMessageHandler;
-import JavaCode.networklogic.ReadMessServer;
+import JavaCode.Component.BroadcastReceiverInternet;
+import JavaCode.Component.iSubscriberInternet;
+import JavaCode.Repository.Main.MainRepository;
+import JavaCode.Repository.User.UserManager;
 
-public class MainViewModel extends AndroidViewModel implements iHandlerApp {
-    private MutableLiveData<String> strNotificationApp = new MutableLiveData<>("");
-    private MyBroadcastReceiver br;
+public class MainViewModel extends AndroidViewModel implements iSubscriberInternet {
+    private MainRepository mainRepository;
+    private BroadcastReceiverInternet br;
+
     public MainViewModel(@NonNull Application application) {
         super(application);
-        this.initReceiver();
-        this._initNetwork();
-        SaveDT.initContext(application);
-        ReadMessServer.setHandler(this);
-    }
-
-    private void initReceiver() {
-        br = new MyBroadcastReceiver();
+        br = new BroadcastReceiverInternet(this);
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        super.getApplication().registerReceiver(br, filter);
+        application.registerReceiver(br, filter);
+        SaveDT.initContext(application.getApplicationContext());
+        mainRepository = new MainRepository(application);
     }
 
-    public void _initNetwork() {
-        Session_ME.gI().setHandler( GlobalMessageHandler.gI());
-        Session_ME.gI().connect("http://192.168.1.9", "3000");
+    public LiveData<String> getStatusApp() {
+        return mainRepository.getStatusApp();
     }
-    public LiveData<Boolean> getStatusInternet(){
-        return br.getIsInternet();
-    }
-    public LiveData<String> getNotificaionApp(){
-        return strNotificationApp;
-    }
+
     @Override
     protected void onCleared() {
-        super.getApplication().unregisterReceiver(br);
-        ReadMessServer.setHandler(null);
+        this.getApplication().unregisterReceiver(br);
         super.onCleared();
     }
 
     @Override
-    public void onDisconnectServer() {
-        strNotificationApp.postValue("on Disconnect Server");
+    public void listeningStatusInternet(Boolean isInternet) {
+        this.mainRepository.listeningStatusInternet(isInternet);
     }
-
-    @Override
-    public void onConnectFail() {
-        strNotificationApp.postValue("on Connect Fail");
-    }
-
-    @Override
-    public void onConnectOK() {
-        strNotificationApp.postValue("on Connect OK");
-    }
-
 }

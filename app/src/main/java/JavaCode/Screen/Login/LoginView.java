@@ -1,4 +1,4 @@
-package JavaCode.DataLocal.Screen.Login;
+package JavaCode.Screen.Login;
 
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
@@ -10,18 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
-
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
-
 import com.dxlampro.appchat.R;
+import com.dxlampro.appchat.databinding.FragmentLoginBinding;
 
+import JavaCode.Screen.Login.LoginViewDirections;
 
 public class LoginView extends Fragment {
     FragmentLoginBinding viewLoginBinding;
@@ -31,7 +30,7 @@ public class LoginView extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         viewLoginBinding = FragmentLoginBinding.inflate(getLayoutInflater());
-        mainViewModel = new ViewModelProvider(requireActivity(), new LoginModelFactory(getActivity().getApplication())).get(LoginViewModel.class);
+        mainViewModel = new ViewModelProvider(requireActivity(), new LoginModelFactory(requireActivity().getApplication())).get(LoginViewModel.class);
         viewLoginBinding.username.setText(mainViewModel.getUsername().getValue());
         viewLoginBinding.password.setText(mainViewModel.getPassword().getValue());
         viewLoginBinding.btnLogin.setOnClickListener(v -> {
@@ -52,46 +51,42 @@ public class LoginView extends Fragment {
     }
 
     private void listenViewModel() {
-        mainViewModel.getUsername().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
+        mainViewModel.getUsername().observe(getViewLifecycleOwner(), s -> {
 
-            }
         });
-        mainViewModel.getPassword().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
+        mainViewModel.getPassword().observe(getViewLifecycleOwner(), s -> {
 
-            }
         });
-        mainViewModel.getTextStatusLogin().observe(requireActivity(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                viewLoginBinding.iconloading.setVisibility(View.GONE);
-                viewLoginBinding.messLogin.setText(s);
-                viewLoginBinding.messLogin.setVisibility(View.VISIBLE);
-            }
-        });
-        mainViewModel.getStateLogin().observe(getViewLifecycleOwner(), new Observer<StateLogin>() {
-            @Override
-            public void onChanged(StateLogin stateLogin) {
-
-                switch (stateLogin) {
-                    case SUCCESSFULLY:
-                        viewLoginBinding.iconloading.post(() -> {
-                            viewLoginBinding.iconloading.setVisibility(View.GONE);
-                        });
-                        final NavController navController = NavHostFragment.findNavController(LoginView.this);
-                        navController.navigate(R.id.screenStartChat);
-                        break;
-                    case ERROR:
-                        viewLoginBinding.iconloading.post(() -> {
-                            viewLoginBinding.iconloading.setVisibility(View.GONE);
-                        });
-                        break;
-                    case NO_STATE:
-                        break;
-                }
+        mainViewModel.getStateLogin().observe(getViewLifecycleOwner(), stateLogin -> {
+            switch (stateLogin.stateLogin) {
+                case LOGGING:
+                    viewLoginBinding.iconloading.post(() -> {
+                        viewLoginBinding.messLogin.setVisibility(View.GONE);
+                        viewLoginBinding.iconloading.setVisibility(View.VISIBLE);
+                    });
+                    break;
+                case SUCCESSFULLY:
+                    viewLoginBinding.iconloading.post(() -> {
+                        viewLoginBinding.iconloading.setVisibility(View.GONE);
+                    });
+                   JavaCode.Screen.Login.LoginViewDirections.ActionScreenLoginToScreenStartChat action = LoginViewDirections.actionScreenLoginToScreenStartChat();
+                    action.setIsStartFromScrLogin(true);
+                   final NavController navController = NavHostFragment.findNavController(LoginView.this);
+                    navController.navigate(action);
+                    break;
+                case ERROR:
+                    viewLoginBinding.iconloading.post(() -> {
+                        viewLoginBinding.iconloading.setVisibility(View.VISIBLE);
+                    });
+                    viewLoginBinding.messLogin.post(() -> {
+                        viewLoginBinding.messLogin.setVisibility(View.VISIBLE);
+                        viewLoginBinding.messLogin.setText(stateLogin.message);
+                    });
+                case NO_STATE:
+                    viewLoginBinding.iconloading.post(() -> {
+                        viewLoginBinding.iconloading.setVisibility(View.GONE);
+                    });
+                    break;
             }
         });
     }

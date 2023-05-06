@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 public class MainViewModelFactory implements ViewModelProvider.Factory {
     static Application application;
+
     public MainViewModelFactory(Application application) {
         MainViewModelFactory.application = application;
     }

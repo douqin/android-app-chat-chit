@@ -1,4 +1,4 @@
-package JavaCode.Clib;
+package JavaCode.Utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -7,6 +7,8 @@ import android.util.Base64;
 import androidx.annotation.NonNull;
 
 import java.io.ByteArrayOutputStream;
+
+import JavaCode.Clib.MotherCanvas;
 
 public class ImageUtil {
     private Bitmap bitmap;

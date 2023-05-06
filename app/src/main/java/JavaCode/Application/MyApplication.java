@@ -1,4 +1,4 @@
-package com.dxlampro.appchat.Application;
+package JavaCode.Application;
 
 import android.app.Application;
 import android.app.NotificationChannel;
@@ -21,8 +21,8 @@ public class MyApplication extends Application {
     }
 
     private void createChanelID() {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            NotificationChannel notificationChannel = new NotificationChannel(CHANEL_ID,"Push Notification", NotificationManager.IMPORTANCE_HIGH);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel(CHANEL_ID, "Push Notification", NotificationManager.IMPORTANCE_HIGH);
             notificationChannel.setSound(Uri.parse("android.resource://"
                     + this.getApplicationContext().getPackageName() + "/" + R.raw.sound_message), (new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_NOTIFICATION).build()));
             NotificationManager notificationManager = getSystemService(NotificationManager.class);

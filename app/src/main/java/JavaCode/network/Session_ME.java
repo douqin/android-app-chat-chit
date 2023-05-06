@@ -9,287 +9,122 @@ import org.json.JSONObject;
 
 import java.net.URI;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import JavaCode.Clib.SaveDT;
-import JavaCode.Clib.mSystem;
-import JavaCode.Clib.mVector;
-import JavaCode.Model.dto.Token;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.BackpressureStrategy;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import io.socket.client.IO;
 import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
 
-public class Session_ME implements ISession, Runnable {
-    private static String TAG = "Session_ME";
-    public static int countRead = 0;
+public class Session_ME implements ISession {
     protected static Session_ME instance = new Session_ME();
-    public static boolean isCancel;
     public static IMessageHandler messageHandler;
-    public static mVector recieveMsg = new mVector();
-    public Thread collectorThread;
-    public boolean connected;
-    public boolean connecting;
+
     public Message a;
-    int countMsg = 0;
-    private byte curR;
-    private byte curW;
-    //    public DataInputStream dis;
-//    private DataOutputStream dos;
-    boolean getKeyComplete;
-    public Thread initThread;
-    public byte[] key = null;
-    public int recvByteCount;
-    public Socket sc;
-    public int sendByteCount;
-    private final Sender sender = new Sender();
-    //    public String strRecvByteCount = BuildConfig.FLAVOR;
-    long timeConnected;
+    private Socket sc;
 
-    @Override
-    public void close() {
-
-    }
-
-    @Override
     public void connect(String host, String port) {
-        if (!this.connected && !this.connecting) {
-            this.sender.removeAllMessage();
-            this.sc = null;
-            this.initThread = new Thread(new NetworkInit(host, port));
-            this.initThread.start();
-        }
+        this.sc = null;
+        Disposable disposable = Observable.fromCallable(() -> {
+                    String url = host + ":" + port;
+                    Gson gson = new Gson();
+                    String json = gson.toJson(SaveDT.loadData("token"));
+                    Map<String, String> token = new HashMap<>();
+                    token.put("token", json);
+                    IO.Options options = IO.Options.builder()
+                            .setAuth(token)
+                            .build();
+                    Socket socket = IO.socket(URI.create(url), options).connect();
+                    return socket;
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(socket -> {
+                    Session_ME.this.sc = socket;
+                    startListeningOn();
+//                        Session_ME.messageHandler.onConnectOK();
+                }, error -> {
+//                        Session_ME.messageHandler.onConnectionFail();
+                });
+
     }
 
-    @Override
     public boolean isConnected() {
-        return this.connected;
-    }
-
-    @Override
-    public void sendMessage(Message message) {
-        this.sender.AddMessage(message);
-    }
-
-    @Override
-    public void setHandler(IMessageHandler iMessageHandler) {
-        messageHandler = iMessageHandler;
+        return this.sc.connected();
     }
 
     public static Session_ME gI() {
         return instance;
     }
 
-    @Override
-    public void run() {
 
-    }
+    public void startListeningOn() {
+        Session_ME.gI().sc.on("typing", args -> {
+            Disposable disposable = Flowable.create(emitter -> {
+                        if (Session_ME.this.sc.connected() && args[0] != null) {
+                            Log.e("co nguoi typing tin den:", args[0].toString());
+                        }
+                    }, BackpressureStrategy.BUFFER).subscribeOn(Schedulers.single())
+                    .observeOn(Schedulers.io())
+                    .subscribe(
+                            message -> {
 
-    class NetworkInit implements Runnable {
-        private final String host;
-        private final String port;
+                            }, throwable -> {
 
-        NetworkInit(String host2, String port2) {
-            this.host = host2;
-            this.port = port2;
-        }
-
-        public void run() {
-            Session_ME.isCancel = false;
-            new Thread(new Runnable() {
-                public void run() {
-                    try {
-                        Thread.sleep(20000);
-                    } catch (InterruptedException e) {
-                    }
-                    if (Session_ME.this.connecting) {
-                        Session_ME.isCancel = true;
-                        Session_ME.this.connecting = false;
-                        Session_ME.this.connected = false;
-                        Session_ME.messageHandler.onConnectionFail();
-                    }
-                }
-            }).start();
-            Session_ME.this.connecting = true;
-            Thread.currentThread().setPriority(1);
-            Session_ME.this.connected = true;
-            try {
-                doConnect2(this.host, this.port);
-                Session_ME.messageHandler.onConnectOK();
-            } catch (Exception e) {
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e2) {
-                }
-                if (!Session_ME.isCancel && Session_ME.messageHandler != null) {
-                    Session_ME.this.close();
-                    Session_ME.messageHandler.onConnectionFail();
-                }
-            }
-        }
-
-        public void doConnect(String host2, String port) throws Exception {
-            String url = host2 + ":" + port;
-            Session_ME.this.sc = IO.socket(host2);
-            Session_ME.this.sc.connect();
-            Log.e("STATUS CONNECT:", "DANG KN");
-            Session_ME.this.timeConnected = mSystem.currentTimeMillis();
-            Session_ME.this.connecting = false;
-            waitconnect();
-        }
-
-        public void doConnect2(String host2, String port) throws Exception {
-            String url = host2 + ":" + port;
-            String accessToken = SaveDT.loadData("accessToken");
-            String refreshToken = SaveDT.loadData("refreshToken");
-            if (accessToken != null && refreshToken != null) {
-                Token _token = new Token(accessToken, refreshToken);
-                Gson gson = new Gson();
-                String json = gson.toJson(_token);
-                Map<String, String> token = new HashMap<>();
-                token.put("accessToken", accessToken);
-                token.put("refreshToken", refreshToken);
-                IO.Options options = IO.Options.builder()
-                        .setAuth(token)
-                        .build();
-                Session_ME.this.sc = IO.socket(URI.create(url), options);
-            } else {
-                Session_ME.this.sc = IO.socket(url);
-            }
-            try {
-                Session_ME.this.sc.connect();
-            } catch (Exception e) {
-                Log.e(TAG, "Error connect server");
-            }
-
-            Log.e("STATUS CONNECT:", "DANG KN");
-            Session_ME.this.timeConnected = mSystem.currentTimeMillis();
-            Session_ME.this.connecting = false;
-            waitconnect();
-        }
-
-    }
-
-    public void setStart() {
-        new Thread(this.sender).start();
-        this.collectorThread = new Thread(new MessageCollector());
-        this.collectorThread.start();
-    }
-
-    /**
-     * Receive mess
-     */
-    public class MessageCollector implements Runnable {
-        MessageCollector() {
-        }
-
-        public void run() {
-            Session_ME.gI().sc.on("serverguitinnhan", new Emitter.Listener() {
-                @Override
-                public void call(Object... args) {
-                    if (Session_ME.this.sc.connected() && args[0] != null) {
-                        Log.e("co tin den:", args[0].toString());
-                        Log.e("args", args[0].toString());
-                        //  if(args.length > 0) {
-                        //     JSONObject cmd = (JSONObject) args[0];
-                        try {
-                            JSONObject jsonObject = null;
-                            JSONArray arrayjson = (JSONArray) args[0];
-                            int cmd = arrayjson.getJSONObject(0).getInt("cmd");
-                            try {
-                                jsonObject = arrayjson.getJSONObject(1);
-                            } catch (Exception e) {
-                                Log.e(TAG,"Error handler data from server");
                             }
-                            messageHandler.onMessage(new Message(cmd,jsonObject));
-                            Log.e(TAG,"Test");
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                    );
+        });
+        Session_ME.gI().sc.on("serverguitinnhan", args -> {
+            Disposable disposable = Flowable.create(emitter -> {
+                        if (Session_ME.this.sc.connected() && args[0] != null) {
+                            Log.e("co tin den:", args[0].toString());
+                            Log.e("args", args[0].toString());
+                            //  if(args.length > 0) {
+                            //     JSONObject cmd = (JSONObject) args[0];
+                            try {
+                                JSONObject jsonObject = null;
+                                JSONArray arrayjson = (JSONArray) args[0];
+                                int cmd = arrayjson.getJSONObject(0).getInt("cmd");
+                                try {
+                                    jsonObject = arrayjson.getJSONObject(1);
+                                } catch (Exception e) {
+                                    Log.e(this.getClass().getSimpleName(), "Error handler data from server");
+                                }
+                                emitter.onNext(new Message(cmd, jsonObject));
+                                emitter.onComplete();
+                            } catch (Exception e) {
+                                emitter.onError(new Throwable(e.toString()));
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                }
-            });
-            while (true) {
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                if (!Session_ME.this.sc.connected() && Session_ME.this.sc != null) {
-                    if (Session_ME.messageHandler != null) {
-                        if (mSystem.currentTimeMillis() - Session_ME.this.timeConnected > 500) {
-                            Session_ME.messageHandler.onDisconnected();
-                        } else {
-                            Session_ME.messageHandler.onConnectionFail();
-                        }
-                    }
-                    Session_ME.this.cleanNetwork();
-                    break;
-                }
-            }
-        }
+                    }, BackpressureStrategy.BUFFER).subscribeOn(Schedulers.single())
+                    .observeOn(Schedulers.io())
+                    .subscribe(
+                            message -> {
+                                messageHandler.onMessage((Message) message);
+                            }, throwable -> {
+                                Log.e(this.getClass().getSimpleName(), throwable.getMessage());
+                            }
+                    );
+        });
 
-    }
-
-    public void waitconnect() {
-        boolean flag = true;
-        while (flag) {
-            if (mSystem.currentTimeMillis() - timeConnected <= 30000 && (mSystem.currentTimeMillis() / 1000) % 3 == 0) {
-                if (sc.connected()) {
-                    setStart();
-                    flag = false;
-                }
-            }
-            if (mSystem.currentTimeMillis() - timeConnected >= 30000) {
-                break;
-            }
-        }
-        if (!flag) {
-            Log.e("STATUS CONNECT:", " EMIT AND ON TURN ON");
-        }
-    }
-
-    private void cleanNetwork() {
-        Session_ME.this.sc.close();
-    }
-
-    /**
-     * Sender Message
-     */
-
-    class Sender implements Runnable {
-        public final Vector sendingMessage = new Vector();
-
-        public Sender() {
-        }
-
-        public void AddMessage(Message message) {
-            this.sendingMessage.addElement(message);
-        }
-
-        public void removeAllMessage() {
-            if (this.sendingMessage != null) {
-                this.sendingMessage.removeAllElements();
-            }
-        }
-
-        public void run() {
-            while (Session_ME.this.connected) {
-                // if (Session_ME.this.getKeyComplete) {
-                while (this.sendingMessage.size() > 0) {
-                    Session_ME.this.doSendMessage((Message) this.sendingMessage.elementAt(0));
-                    this.sendingMessage.removeElementAt(0);
-                    try {
-                        Thread.sleep(300);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    //    }
-                }
-            }
-        }
-
-
+        //socket.emit("hello", "world", new AckWithTimeout(5000) {
+        //    @Override
+        //    public void onTimeout() {
+        //        // ...
+        //    }
+        //
+        //    @Override
+        //    public void onSuccess(Object... args) {
+        //        // ...
+        //    }
+        //});
     }
 
     private synchronized void doSendMessage(Message m) {
@@ -301,6 +136,12 @@ public class Session_ME implements ISession, Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    @Override
+    public void addListener(List<Listener> listeners) {
+        for (Listener listener : listeners) {
+            this.sc.on(listener.event, listener.fn);
+        }
     }
 }

@@ -1,12 +1,13 @@
-package com.Repository.Login;
+package JavaCode.Repository.Login;
 
 import androidx.lifecycle.LiveData;
 
-import JavaCode.DataLocal.Screen.Login.StateLogin;
+import JavaCode.Screen.Login.cStateLogin;
 
 public interface iLoginRepository {
-    public void login(String username, String password);
-    public void signUp();
-    public LiveData<String> getTextStatusLogin();
-    public LiveData<StateLogin> getStateLogin();
+    void login(String username, String password);
+
+    void signUp();
+
+    LiveData<cStateLogin> getStateLogin();
 }

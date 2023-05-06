@@ -5,26 +5,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 
-import androidx.lifecycle.MutableLiveData;
+import JavaCode.Utils.NetworkUtils;
 
-import JavaCode.Clib.NetworkME;
-
-public class MyBroadcastReceiver extends BroadcastReceiver {
+public class BroadcastReceiverInternet extends BroadcastReceiver {
     private static final String TAG = "MyBroadcastReceiver";
+    private final iSubscriberInternet subscriberInternet;
 
-    public MutableLiveData<Boolean> getIsInternet() {
-        return isInternet;
+    public BroadcastReceiverInternet(iSubscriberInternet subscriberInternet) {
+        this.subscriberInternet = subscriberInternet;
     }
-
-    private MutableLiveData<Boolean> isInternet = new MutableLiveData<>();
 
     @Override
     public void onReceive(Context context, Intent intent) {
         if (ConnectivityManager.CONNECTIVITY_ACTION.equals(intent.getAction())) {
-            if (NetworkME.isNetworkAvailable(context)) {
-                isInternet.setValue(true);
+            if (NetworkUtils.isNetworkAvailable(context)) {
+                subscriberInternet.listeningStatusInternet(true);
             } else {
-                isInternet.setValue(false);
+                subscriberInternet.listeningStatusInternet(false);
             }
         }
     }

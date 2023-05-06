@@ -1,12 +1,12 @@
 package JavaCode.Model;
 
 import android.content.Context;
-import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MessageApdater extends RecyclerView.Adapter<MessageApdater.ViewHolder> {
-    private List<MessageChat> mMessageChat ;
+    private List<MessageChat> mMessageChat;
     private final Context mContext;
     public final static int ME_TYPE_CHAT_IMG = 1;
     public final static int ME_TYPE_CHAT_STR = 2;
@@ -29,12 +29,17 @@ public class MessageApdater extends RecyclerView.Adapter<MessageApdater.ViewHold
     public final static int NOT_ME_TYPE_CHAT_VIDEO = 8;
     public final static int NOT_ME_TYPE_CHAT_HYPER_LINK = 9;
     public final static int NOT_ME_TYPE_CHAT_GIF = 10;
+
     public MessageApdater(List<MessageChat> mMessageChat, Context mContext) {
-        if(mMessageChat != null)
-        this.mMessageChat = mMessageChat;
-        else  this.mMessageChat = new ArrayList<>();
+        if (mMessageChat != null)
+            this.mMessageChat = mMessageChat;
+        else {
+            Toast.makeText(mContext, "Null list message", Toast.LENGTH_LONG).show();
+            this.mMessageChat = new ArrayList<>();
+        }
         this.mContext = mContext;
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -89,35 +94,35 @@ public class MessageApdater extends RecyclerView.Adapter<MessageApdater.ViewHold
     @Override
     public int getItemViewType(int position) {
         //cc
-        if(mMessageChat.get(position).user.iduser == 1){ // chua xong
-            switch (mMessageChat.get(position).typeChat) {
-                case MessageApdater.ME_TYPE_CHAT_STR:
-                    return MessageApdater.ME_TYPE_CHAT_STR;
-                case MessageApdater.ME_TYPE_CHAT_IMG:
-                    return MessageApdater.ME_TYPE_CHAT_IMG;
-                case MessageApdater.ME_TYPE_CHAT_VIDEO:
-                    return MessageApdater.ME_TYPE_CHAT_VIDEO;
-                case MessageApdater.ME_TYPE_CHAT_HYPER_LINK:
-                    return MessageApdater.ME_TYPE_CHAT_HYPER_LINK;
-                case MessageApdater.ME_TYPE_CHAT_GIF:
-                    return MessageApdater.ME_TYPE_CHAT_GIF;
-            }
-        }
-        else{
-            switch (mMessageChat.get(position).typeChat) {
-                case MessageApdater.NOT_ME_TYPE_CHAT_STR:
-                    return MessageApdater.NOT_ME_TYPE_CHAT_STR;
-                case MessageApdater.NOT_ME_TYPE_CHAT_IMG:
-                    return MessageApdater.NOT_ME_TYPE_CHAT_IMG;
-                case MessageApdater.NOT_ME_TYPE_CHAT_VIDEO:
-                    return MessageApdater.NOT_ME_TYPE_CHAT_VIDEO;
-                case MessageApdater.NOT_ME_TYPE_CHAT_HYPER_LINK:
-                    return MessageApdater.NOT_ME_TYPE_CHAT_HYPER_LINK;
-                case MessageApdater.NOT_ME_TYPE_CHAT_GIF:
-                    return MessageApdater.NOT_ME_TYPE_CHAT_GIF;
-            }
-        }
-        return  0;
+//        if(mMessageChat.get(position).user.iduser == 1){ // chua xong
+//            switch (mMessageChat.get(position).typeChat) {
+//                case MessageApdater.ME_TYPE_CHAT_STR:
+//                    return MessageApdater.ME_TYPE_CHAT_STR;
+//                case MessageApdater.ME_TYPE_CHAT_IMG:
+//                    return MessageApdater.ME_TYPE_CHAT_IMG;
+//                case MessageApdater.ME_TYPE_CHAT_VIDEO:
+//                    return MessageApdater.ME_TYPE_CHAT_VIDEO;
+//                case MessageApdater.ME_TYPE_CHAT_HYPER_LINK:
+//                    return MessageApdater.ME_TYPE_CHAT_HYPER_LINK;
+//                case MessageApdater.ME_TYPE_CHAT_GIF:
+//                    return MessageApdater.ME_TYPE_CHAT_GIF;
+//            }
+//        }
+//        else{
+//            switch (mMessageChat.get(position).typeChat) {
+//                case MessageApdater.NOT_ME_TYPE_CHAT_STR:
+//                    return MessageApdater.NOT_ME_TYPE_CHAT_STR;
+//                case MessageApdater.NOT_ME_TYPE_CHAT_IMG:
+//                    return MessageApdater.NOT_ME_TYPE_CHAT_IMG;
+//                case MessageApdater.NOT_ME_TYPE_CHAT_VIDEO:
+//                    return MessageApdater.NOT_ME_TYPE_CHAT_VIDEO;
+//                case MessageApdater.NOT_ME_TYPE_CHAT_HYPER_LINK:
+//                    return MessageApdater.NOT_ME_TYPE_CHAT_HYPER_LINK;
+//                case MessageApdater.NOT_ME_TYPE_CHAT_GIF:
+//                    return MessageApdater.NOT_ME_TYPE_CHAT_GIF;
+//            }
+//        }
+        return 0;
     }
 
     @Override
