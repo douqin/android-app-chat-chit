@@ -47,7 +47,7 @@
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/ic_login_love_me" />
+                    android:src="@drawable/user" />
 
                 <TextView
                     android:id="@+id/nameGroup"

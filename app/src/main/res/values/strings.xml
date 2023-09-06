@@ -1,17 +1,24 @@
 <resources>
-    <string name="app_name">Dx Mess</string>
+    <string name="app_name">Chat Chit</string>
     <string name="name_me">Dang Xuan Lam</string>
-    <string name="name">/@dxlampro</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="name">/@douqin</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="todo">TODO</string>
-    <string name="find">Find...</string>
+    <string name="find">Find…</string>
     <string name="check_connect_internet">Check connect internet</string>
     <string name="sign_up">Sign Up</string>
-    <string name="if_you_haven_t_account_please_sign_up">If you haven\'t account, Please sign up</string>
+    <string name="if_you_haven_t_account_please_sign_up">If you haven\'t account. Please sign up</string>
     <string name="login">Login</string>
-    <string name="forgot_password">Forgot password ?</string>
+    <string name="forgot_password"><u>Forgot password ?</u></string>
     <string name="group">Nhóm: </string>
-    <string name="mail">Mail</string>
+    <string name="mail">Phone</string>
     <string name="loginstr">Login</string>
+    <string name="type_here"> Type here...</string>
+    <string name="hello">Hello</string>
+    <string name="chat">Chat</string>
+    <string name="pass">Password</string>
+    <string name="back">Back</string>
+    <string name="search">Search Chat</string>
+    <string name="ll">LL</string>
+    <string name="loading">Loading Image …</string>
 </resources>

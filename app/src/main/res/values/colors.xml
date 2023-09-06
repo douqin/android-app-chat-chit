@@ -11,6 +11,9 @@
     <color name="yellow">#FFFF00</color>
     <color name="red">#FF3300</color>
     <color name="color_main">#599</color>
-    <color name="bg_color_app">#1E293D</color>
+    <color name="color_text_main">#CCCCCC</color>
+    <color name="color_watched">#5C5C5C</color>
+    <!--    <color name="bg_color_app">#1E293D</color>-->
+    <color name="bg_color_app">#20232B</color>
     <color name="trans">#99000000</color>
 </resources>

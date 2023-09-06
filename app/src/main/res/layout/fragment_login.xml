@@ -1,33 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Main"
+    tools:context=".ui.main.MainView"
     android:id="@+id/layoutLogin"
-    android:background="@color/bg_color_app">
+    android:background="@color/bg_color_app"
+    android:gravity="center">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="400px"
-        android:layout_height="400px"
-        android:layout_marginTop="100px"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_login_love_me" />
+    <LinearLayout
+        android:id="@+id/title_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Hello, Welcome "
+            android:textColor="#CCCCCC"
+            android:textSize="34sp" />
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
+            android:text="Happy to see you , to use your "
+            android:textColor="#CCCCCC"
+            android:textSize="17sp" />
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
+            android:text="account please login first."
+            android:textColor="#CCCCCC"
+            android:textSize="17sp" />
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/loginstr"
-            android:textColor="#F5FFFF"
-            android:textSize="40sp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -38,24 +58,30 @@
             android:layout_marginLeft="10dp"
             android:orientation="horizontal">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <TextView
                 android:id="@+id/TvLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="10dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="0dp"
                 android:text="@string/mail"
-                android:textColor="#8B9096"
-                android:textSize="11sp" />
+                android:textColor="#8B9096" />
 
             <EditText
-                android:text=""
                 android:id="@+id/username"
                 android:layout_width="match_parent"
-                android:layout_height="47dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/TvLogin"
-                android:paddingStart="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="-1dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="2dp"
                 android:autofillHints=""
-                android:inputType="" />
+                android:fontFamily="@font/poppins_regular"
+                android:inputType=""
+                android:paddingStart="10dp"
+                android:paddingEnd="0dp"
+                android:text="" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -71,19 +97,36 @@
                 android:id="@+id/TvPass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="0dp"
                 android:text="Pass"
-                android:textColor="#8B9096"
-                android:textSize="10sp" />
+                android:textColor="#8B9096" />
 
             <EditText
-                android:contentDescription=""
                 android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="47dp"
                 android:layout_below="@+id/TvPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="2dp"
+                android:autofillHints=""
                 android:inputType="textPassword"
-                android:paddingStart="10dp" />
+                android:paddingStart="10dp"
+                android:paddingEnd="20dp"
+                android:fontFamily="@font/poppins_regular"
+                android:text=""
+                tools:ignore="LabelFor" />
+
+            <ImageButton
+                android:id="@+id/show_password"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/eye_icon"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"
+                android:contentDescription="TODO" />
         </RelativeLayout>
 
         <ProgressBar
@@ -100,7 +143,7 @@
             android:text="Hi bro"
             android:textColor="#FF0000"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"></TextView>
+            android:layout_height="wrap_content" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -112,8 +155,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
                 android:layout_marginEnd="10dp"
-                android:layout_marginBottom="3dp"
                 android:text="@string/forgot_password"
                 android:textColor="#77728A"
                 android:textStyle="italic"
@@ -160,6 +204,6 @@
             android:layout_height="wrap_content"
             android:background="@drawable/custom_btn_login"
             android:textAllCaps="false"
-            android:layout_marginTop="7dp"></androidx.appcompat.widget.AppCompatButton>
+            android:layout_marginTop="7dp" />
     </LinearLayout>
 </LinearLayout>
