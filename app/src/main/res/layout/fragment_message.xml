@@ -83,26 +83,30 @@
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+
         android:id="@+id/messageContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="2dp"
-        app:layout_constraintBottom_toTopOf="@id/layout_emoji"
-        app:layout_constraintTop_toBottomOf="@id/ToolbarChat" />
+        android:elevation="1dp"
+        app:layout_constraintBottom_toTopOf="@id/viewGrSendMess"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ToolbarChat"
+        app:layout_constraintVertical_bias="0.0" />
 
     <LinearLayout
-        android:id="@+id/layout_emoji"
+        android:id="@+id/layout_gift"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@android:color/transparent"
+        android:background="@drawable/bg_layout_gif"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHeight_percent="0.1"
         app:layout_constraintBottom_toTopOf="@id/viewGrSendMess"
-        app:layout_constraintTop_toBottomOf="@id/messageContainer"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:elevation="2dp">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/gift_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
@@ -112,7 +116,7 @@
     <RelativeLayout
         android:id="@+id/viewGrSendMess"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:background="@drawable/bg_shadow_top"
         android:paddingTop="5dp"
         app:layout_constraintBottom_toBottomOf="parent">
@@ -139,9 +143,11 @@
             android:contentDescription="@string/todo" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/parent_of_tv_mess"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
+
             android:layout_toStartOf="@+id/send_btn"
             android:layout_toEndOf="@id/addImage"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -153,16 +159,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:autofillHints=""
-                android:fontFamily="@font/poppins_regular"
                 android:hint="@string/type_here"
                 android:inputType="text"
                 android:paddingStart="20dp"
-                android:paddingEnd="35dp"
+                android:paddingEnd="45dp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
                 tools:ignore="RtlSymmetry" />
 
             <ImageButton
+                android:id="@+id/btn_gif"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginRight="10dp"

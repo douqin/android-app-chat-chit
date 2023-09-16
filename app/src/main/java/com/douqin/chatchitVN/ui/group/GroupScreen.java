@@ -15,23 +15,29 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.douqin.chatchitVN.R;
-import com.douqin.chatchitVN.data.models.GroupChat;
-import com.douqin.chatchitVN.databinding.FragmentStartChatBinding;
+import com.douqin.chatchitVN.common.MyDiffCallback;
+import com.douqin.chatchitVN.databinding.FragmentGroupBinding;
+import com.douqin.chatchitVN.databinding.GroupBottomSheetDialogBinding;
+import com.douqin.chatchitVN.domain.entities.GroupAndMemberAndMessage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class GroupScreen extends Fragment {
     private static final String TAG = "StartChatView";
     private GroupAdapter groupAdapter;
-    private FragmentStartChatBinding startChatBinding;
+    private FragmentGroupBinding startChatBinding;
+
+    private List<GroupAndMemberAndMessage> messageList;
 
     private GroupViewModel groupViewModel;
 
@@ -39,8 +45,7 @@ public class GroupScreen extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         assert getArguments() != null;
-        groupViewModel = new ViewModelProvider(this).get(GroupViewModel.class);
-        startChatBinding = FragmentStartChatBinding.inflate(inflater, container, false);
+        startChatBinding = FragmentGroupBinding.inflate(inflater, container, false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setStackFromEnd(false);
         startChatBinding.listChat.setLayoutManager(linearLayoutManager);
@@ -51,6 +56,8 @@ public class GroupScreen extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        messageList = new ArrayList<>();
+        groupViewModel = new ViewModelProvider(this.requireActivity()).get(GroupViewModel.class);
         syncWithServer();
         super.onCreate(savedInstanceState);
     }
@@ -60,27 +67,44 @@ public class GroupScreen extends Fragment {
         boolean isLoginNew = args.getIsStartFromScrLogin();
     }
 
-    private void initListener() {
-        groupAdapter = new GroupAdapter(groupViewModel.getListGroupChat().getValue(), groupChat -> {
-            GroupScreen.this.openMessageOfGroup(groupChat.idgroup);
-        });
-        groupViewModel.getListGroupChat().observe(this.getViewLifecycleOwner(), groupChats -> {
-            groupAdapter = new GroupAdapter(groupChats, groupChat -> {
-                GroupScreen.this.openMessageOfGroup(groupChat.idgroup);
-            });
-        });
-        startChatBinding.listChat.setAdapter(groupAdapter);
-
+    public GroupScreen() {
+        super();
     }
 
-    private void openMessageOfGroup(int idgroup){
+    public GroupScreen(int contentLayoutId) {
+        super(contentLayoutId);
+    }
+
+    private void initListener() {
+        groupAdapter = new GroupAdapter(messageList, groupChat -> {
+            GroupScreen.this.openMessageOfGroup(groupChat.idgroup);
+        },  groupChat -> {
+            GroupBottomSheetDiaLogFragment groupBottomSheetDiaLogFragment = GroupBottomSheetDiaLogFragment.newInstance(groupChat.idgroup);
+            groupBottomSheetDiaLogFragment.show(GroupScreen.this.requireActivity().getSupportFragmentManager(),"GroupBottomSheetDiaLogFragment");
+        }, groupViewModel);
+        startChatBinding.listChat.setAdapter(groupAdapter);
+        groupViewModel.getListGroupChat().observe(this.getViewLifecycleOwner(), groupChatWithMemberAndMessage -> {
+            if (groupChatWithMemberAndMessage != null) {
+                MyDiffCallback<GroupAndMemberAndMessage> diffCallback = new MyDiffCallback<>(messageList, groupChatWithMemberAndMessage);
+                DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
+                diffResult.dispatchUpdatesTo(groupAdapter);
+                messageList.clear();
+                messageList.addAll(groupChatWithMemberAndMessage);
+            } else {
+                messageList.clear();
+            }
+        });
+    }
+
+
+    private void openMessageOfGroup(int idgroup) {
         GroupScreenDirections.ActionScreenStartChatToScreenChat chatToScreenChat = GroupScreenDirections.actionScreenStartChatToScreenChat(idgroup);
         final NavController navController = NavHostFragment.findNavController(this);
-        navController.navigate(chatToScreenChat);
+        navController.navigate((NavDirections) chatToScreenChat);
     }
 
     @SuppressLint({"ShowToast", "RestrictedApi"})
-    private void initOnClickView(FragmentStartChatBinding startChatBinding) {
+    private void initOnClickView(FragmentGroupBinding startChatBinding) {
         MenuBuilder menuBuilder = new MenuBuilder(this.requireContext());
         MenuInflater menuInflater = new MenuInflater(this.getContext());
         menuInflater.inflate(R.menu.menu_add_more_startchat, menuBuilder);
@@ -117,7 +141,7 @@ public class GroupScreen extends Fragment {
                 GroupScreen.this.requireActivity().finish();
             }
         };
-        requireActivity().getOnBackPressedDispatcher().addCallback(requireActivity(), callback);
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
     }
 }
 

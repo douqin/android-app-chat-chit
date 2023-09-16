@@ -1,8 +1,8 @@
 package com.douqin.chatchitVN.data.repositories.login.dtos;
 
-import com.douqin.chatchitVN.data.apis.dtos.UserDTO;
+import com.douqin.chatchitVN.network.apis.RemoteData.UserRemoteData;
 
 public class LoginDTO {
-    public UserDTO user;
+    public UserRemoteData user;
     public Token token;
 }

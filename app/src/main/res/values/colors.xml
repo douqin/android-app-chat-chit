@@ -16,4 +16,9 @@
     <!--    <color name="bg_color_app">#1E293D</color>-->
     <color name="bg_color_app">#20232B</color>
     <color name="trans">#99000000</color>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="colorGray">#747474</color>
+    <color name="bg_color_btn_clicked">#1B1D26</color>
 </resources>

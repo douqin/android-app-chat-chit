@@ -9,6 +9,7 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.douqin.chatchitVN.common.MotherCanvas;
 import com.douqin.chatchitVN.common.SaveDT;
 import com.douqin.chatchitVN.databinding.ActivityMainBinding;
 
@@ -32,7 +33,7 @@ public class MainView extends AppCompatActivity {
     }
 
     private void initGame(Context c) {
-//        DeviceInfoUtils.initIMEI(getApplicationContext());
+        MotherCanvas.init(this);
         this.setView();
         this._initViewModel();
     }

@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'androidx.navigation.safeargs'
+    id 'com.google.devtools.ksp'
     //id 'org.jetbrains.kotlin.android' version '1.8.0' apply false
 }
 
@@ -27,6 +28,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     buildFeatures {
+        dataBinding true
         viewBinding true
     }
     namespace 'com.douqin.chatchitVN'
@@ -35,59 +37,69 @@ android {
 dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
 
-    implementation 'androidx.appcompat:appcompat:1.4.0'
-    implementation 'com.google.android.material:material:1.4.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
-    implementation 'androidx.annotation:annotation:1.2.0'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.constraintlayout
+    implementation libs.annotation
+    implementation libs.legacy.support.v4
     testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
 
-    implementation('io.socket:socket.io-client:2.1.0') {
+    implementation(libs.socket.io.client) {
         exclude group: 'org.json', module: 'json'
     }
-    // service firebase
-    implementation platform('com.google.firebase:firebase-bom:31.0.2')
-    implementation 'com.google.firebase:firebase-messaging'
-    implementation 'com.google.firebase:firebase-analytics'
 
-    implementation 'de.hdodenhof:circleimageview:3.1.0'
-    implementation 'gun0912.ted:tedbottompicker:2.0.1'
-    implementation 'io.github.ParkSangGwon:tedpermission-normal:3.3.0'
-    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation libs.circleimageview
 
-    implementation "androidx.navigation:navigation-fragment:2.6.0"
-    implementation "androidx.navigation:navigation-ui:2.6.0"
+    implementation libs.cardview
 
-    implementation "androidx.lifecycle:lifecycle-viewmodel:2.6.1"
-    implementation "androidx.lifecycle:lifecycle-livedata:2.6.1"
+    implementation libs.androidx.navigation.fragment
+    implementation libs.androidx.navigation.ui
+    implementation libs.androidx.transition
+
+    implementation libs.lifecycle.viewmodel
+    implementation libs.androidx.lifecycle.livedata
     //gson
-    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation libs.gson
 
     //Room
-    implementation "androidx.room:room-runtime:2.5.2"
-    annotationProcessor "androidx.room:room-compiler:2.5.2"
+    implementation libs.androidx.room.runtime
+    annotationProcessor libs.androidx.room.compiler
+    // To use Kotlin annotation processing tool (kapt)
+    ksp libs.androidx.room.compiler
+    // To use Kotlin Symbol Processing (KSP)
+    ksp libs.androidx.room.compiler
     // optional - RxJava3 support for Room
-    implementation "androidx.room:room-rxjava3:2.5.2"
+    implementation libs.room.rxjava3
     // Rxjava
-    implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
-    implementation 'io.reactivex.rxjava3:rxjava:3.1.6'
+    implementation libs.rxandroid
+    implementation libs.rxjava
 
-    //reoifit
-    implementation "com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0"
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
-    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
-    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+    //retrofit
+    implementation libs.rxjava3.retrofit.adapter
+    implementation libs.retrofit
+    implementation(libs.logging.interceptor)
+    implementation libs.converter.gson
+    implementation libs.okhttp
 
     // data store
-    implementation "androidx.datastore:datastore-preferences:1.0.0"
-    implementation "androidx.datastore:datastore-preferences-rxjava3:1.0.0"
+    implementation libs.datastore.preferences
+    implementation libs.datastore.preferences.rxjava3
 
-    //Coil
-    implementation("io.coil-kt:coil:2.4.0")
+    //gilde
+    implementation libs.glide
 
-    // quick action
+    //video
+    implementation libs.androidx.media3.exoplayer
+    implementation libs.androidx.media3.exoplayer.dash
+    implementation libs.androidx.media3.ui
 
+
+    //ted lib
+    implementation libs.tedimagepicker
+
+    //lib for keyboard
+    implementation(libs.keyboardvisibilityevent)
+    
 }

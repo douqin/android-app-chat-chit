@@ -33,6 +33,7 @@ import java.util.concurrent.Executors;
 }, version = 1, exportSchema = false)
 @TypeConverters(DateConverter.class)
 public abstract class AppDatabase extends RoomDatabase {
+
     public abstract UserDao userDao();
 
     public abstract MySelfDao mySelfDao();

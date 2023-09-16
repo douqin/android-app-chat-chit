@@ -24,7 +24,7 @@ public interface UserDao {
     LiveData<List<UserEntity>> loadAllByIds(int[] userIds);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(UserEntity... users);
+    void insertAll(List<UserEntity> users);
 
     @Delete
     void delete(UserEntity user);

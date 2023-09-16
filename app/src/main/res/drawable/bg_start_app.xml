@@ -5,5 +5,5 @@
         android:width="120dp"
         android:height="120dp"
         android:gravity="center"
-        android:drawable="@drawable/logo_spl_src" />
+        android:drawable="@drawable/meetme_1_icon" />
 </layer-list>

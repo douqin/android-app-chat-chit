@@ -7,21 +7,24 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.douqin.chatchitVN.data.models.GroupChat;
 import com.douqin.chatchitVN.databinding.ItGroupBinding;
+import com.douqin.chatchitVN.domain.entities.GroupAndMemberAndMessage;
+import com.douqin.chatchitVN.ui.message.enums.MessageType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
-    private final List<GroupChat> mGroupChat;
+    private final List<GroupAndMemberAndMessage> mGroupChat;
     private final iOnClickItemGroupChat onClickItemGroupChat;
 
-    public GroupAdapter(List<GroupChat> mGroupChat, iOnClickItemGroupChat onClickItemGroupChat) {
-        if (mGroupChat != null) {
-            this.mGroupChat = mGroupChat;
-        } else this.mGroupChat = new ArrayList<>();
+    private final iOnLongClickItemGroupChat onLongClickItemGroupChat;
+    GroupViewModel groupViewModel;
+
+    public GroupAdapter(@NonNull List<GroupAndMemberAndMessage> mGroupChat, @NonNull iOnClickItemGroupChat onClickItemGroupChat,@NonNull iOnLongClickItemGroupChat onLongClickItemGroupChat, @NonNull GroupViewModel groupViewModel) {
+        this.mGroupChat = mGroupChat;
         this.onClickItemGroupChat = onClickItemGroupChat;
+        this.groupViewModel = groupViewModel;
+        this.onLongClickItemGroupChat = onLongClickItemGroupChat;
     }
 
     @NonNull
@@ -33,7 +36,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull GroupAdapter.ViewHolder holder, int position) {
-        GroupChat groupChat = mGroupChat.get(position);
+        GroupAndMemberAndMessage groupChat = mGroupChat.get(position);
         holder.bindView(groupChat, this.onClickItemGroupChat);
     }
 
@@ -42,7 +45,8 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         return mGroupChat.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
         ItGroupBinding inflate;
 
         public ViewHolder(ItGroupBinding inflate) {
@@ -51,22 +55,33 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         }
 
         @SuppressLint("ResourceAsColor")
-        public void bindView(GroupChat groupChat, iOnClickItemGroupChat onClickItemGroupChat) {
-            this.inflate.nameGroup.setText(groupChat.name);
-            this.inflate.nameUser.setText("");
-            this.inflate.messageUser.setText("Loading Message ...");
+        public void bindView(GroupAndMemberAndMessage groupChatWithMemberAndMessage, iOnClickItemGroupChat onClickItemGroupChat) {
+            this.inflate.nameGroup.setText(groupChatWithMemberAndMessage.group.name);
             this.inflate.layoutDetailsChat.setOnClickListener(v -> {
-                onClickItemGroupChat.onClickItemGroupChat(groupChat);
+                onClickItemGroupChat.onClickItemGroupChat(groupChatWithMemberAndMessage.group);
             });
-//            if(groupChat.messageChatList.getValue() != null) {
-//                if (groupChat.messageChatList.getValue().size() >= 1) {
-//                    this.inflate.nameUser.setText(groupChat.messageChatList.getValue().get(groupChat.messageChatList.getValue().size() - 1).idMember);
-//                    this.inflate.messageUser.setText(String.format("%s : %s", groupChat.members.getValue().get(groupChat.messageChatList.getValue().size() - 1).lastname, groupChat.messageChatList.getValue().get(groupChat.messageChatList.getValue().size() - 1).content));
-//                } else {
-//                    this.inflate.nameUser.setText("");
-//                    this.inflate.messageUser.setText("Chưa có ai nhắn tin, Hãy vào bắt đầu nhắn tin nào");
-//                }
-//            }
+            this.inflate.layoutDetailsChat.setOnLongClickListener(v->{
+                onLongClickItemGroupChat.onClickItemGroupChat(groupChatWithMemberAndMessage.group);
+                return true;
+            });
+            if (groupChatWithMemberAndMessage.memberWithMessages != null) {
+                if (groupChatWithMemberAndMessage.memberWithMessages.messageChat.type == MessageType.TEXT.getValue()) {
+                    this.inflate.nameUser.setText(groupViewModel.getInformationMember(groupChatWithMemberAndMessage.memberWithMessages.member.id).lastname + ": ");
+                    this.inflate.messageUser.setText(groupChatWithMemberAndMessage.memberWithMessages.messageChat.content);
+                } else if (groupChatWithMemberAndMessage.memberWithMessages.messageChat.type == MessageType.VIDEO.getValue()) {
+                    this.inflate.nameUser.setText(groupViewModel.getInformationMember(groupChatWithMemberAndMessage.memberWithMessages.member.id).lastname + ": ");
+                    this.inflate.messageUser.setText("Sent VIDEO");
+                } else if (groupChatWithMemberAndMessage.memberWithMessages.messageChat.type == MessageType.GIF.getValue()) {
+                    this.inflate.nameUser.setText(groupViewModel.getInformationMember(groupChatWithMemberAndMessage.memberWithMessages.member.id).lastname + ": ");
+                    this.inflate.messageUser.setText("Sent GIF");
+                } else if (groupChatWithMemberAndMessage.memberWithMessages.messageChat.type == MessageType.IMAGE.getValue()) {
+                    this.inflate.nameUser.setText(groupViewModel.getInformationMember(groupChatWithMemberAndMessage.memberWithMessages.member.id).lastname + ": ");
+                    this.inflate.messageUser.setText("Sent IMAGE");
+                }
+            } else {
+                this.inflate.nameUser.setText("");
+                this.inflate.messageUser.setText("Nothing in here, let's start conversation");
+            }
         }
     }
 }

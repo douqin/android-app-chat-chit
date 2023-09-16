@@ -14,6 +14,9 @@ public interface MySelfDao {
     @Query("SELECT * FROM user WHERE user.isMe = 1 LIMIT 1 ")
     Observable<UserEntity> getMe();
 
+    @Query("SELECT * FROM user WHERE user.isMe = 1 LIMIT 1 ")
+    UserEntity getMe2();
+
     @Query("SELECT COUNT(*) FROM user WHERE user.isMe = 1")
     int getCount();
 

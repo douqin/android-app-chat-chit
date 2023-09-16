@@ -7,21 +7,31 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.douqin.chatchitVN.data.database.room.database.AppDatabase;
-import com.douqin.chatchitVN.data.models.GroupChat;
+import com.douqin.chatchitVN.data.models.UI.User;
 import com.douqin.chatchitVN.data.repositories.chat.GroupRepository;
+import com.douqin.chatchitVN.data.repositories.chat.MessageRepository;
+import com.douqin.chatchitVN.domain.GroupUserCase;
+import com.douqin.chatchitVN.domain.entities.GroupAndMemberAndMessage;
 
 import java.util.List;
 
 public class GroupViewModel extends AndroidViewModel {
-    private GroupRepository groupRepository;
-    private LiveData<List<GroupChat>> mListGroupChat;
+
+    private final GroupUserCase groupUserCase;
 
     public GroupViewModel(@NonNull Application application) {
         super(application);
-        groupRepository = new GroupRepository(AppDatabase.gI(application).groupChatDao(), AppDatabase.gI(application).memberDao());
+        this.groupUserCase = new GroupUserCase(new GroupRepository(AppDatabase.gI(application).groupChatDao(), AppDatabase.gI(application).memberDao(), AppDatabase.gI(application).userDao()),
+                new MessageRepository(AppDatabase.gI(application).messageDao()));
+        this.groupUserCase.initBaseData();
     }
-    public LiveData<List<GroupChat>> getListGroupChat() {
-        return mListGroupChat;
+
+    public LiveData<List<GroupAndMemberAndMessage>> getListGroupChat() {
+        return groupUserCase.getListGroupWithLastMessage();
+    }
+
+    public User getInformationMember(int idMember) {
+        return this.groupUserCase.getInformationMember(idMember);
     }
 
 }

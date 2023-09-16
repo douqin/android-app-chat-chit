@@ -3,15 +3,14 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingTop="0dip"
-    android:paddingBottom="0dip"
-    android:paddingLeft="20dip"
-    android:paddingRight="20dip">
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
 
     <ImageView
         android:id="@+id/iv_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:scaleType="fitXY"
         android:contentDescription="TODO" />
 
     <TextView
@@ -20,5 +19,5 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:textSize="12sp"
-        android:textColor="#666"/>
+        android:textColor="#666" />
 </androidx.appcompat.widget.LinearLayoutCompat>

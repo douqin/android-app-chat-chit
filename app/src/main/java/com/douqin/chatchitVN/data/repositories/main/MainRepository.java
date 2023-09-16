@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.douqin.chatchitVN.common.StatusIO;
-import com.douqin.chatchitVN.data.network.ISession;
-import com.douqin.chatchitVN.data.network.Session_ME;
+import com.douqin.chatchitVN.network.socketIO.ISession;
+import com.douqin.chatchitVN.network.socketIO.Session_ME;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;

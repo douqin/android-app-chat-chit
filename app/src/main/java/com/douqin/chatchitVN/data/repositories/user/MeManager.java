@@ -3,11 +3,11 @@ package com.douqin.chatchitVN.data.repositories.user;
 import android.app.Application;
 
 import com.douqin.chatchitVN.common.SaveDT;
-import com.douqin.chatchitVN.data.apis.dtos.UserDTO;
 import com.douqin.chatchitVN.data.database.room.dao.MySelfDao;
 import com.douqin.chatchitVN.data.database.room.database.AppDatabase;
 import com.douqin.chatchitVN.data.database.room.entity.UserEntity;
 import com.douqin.chatchitVN.data.repositories.login.dtos.Token;
+import com.douqin.chatchitVN.network.apis.RemoteData.UserRemoteData;
 import com.google.gson.Gson;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -44,6 +44,7 @@ public class MeManager {
         if (mySelfDao.getCount() != 1) {
             throw new Exception("Không tìm thấy dữ liệu bản thân");
         } else {
+            this.me = mySelfDao.getMe2();
             mySelf = mySelfDao.getMe();
             mySelf.observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(AndroidSchedulers.mainThread())
@@ -90,13 +91,15 @@ public class MeManager {
         return instance;
     }
 
-    public void setMySelf(UserDTO user) {
+    public void setMySelf(UserRemoteData user) {
         UserEntity userEntity = user.toUserEntity();
         userEntity.isMe = true;
+        this.me = userEntity;
         this.mySelfDao.setMe(userEntity);
         mySelf = mySelfDao.getMe();
         mySelf.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(AndroidSchedulers.mainThread())
+                .repeat()
                 .subscribe(new Observer<UserEntity>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {

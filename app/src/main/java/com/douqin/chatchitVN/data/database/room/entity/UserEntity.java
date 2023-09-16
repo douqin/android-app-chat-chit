@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.douqin.chatchitVN.data.apis.dtos.UserDTO;
+import com.douqin.chatchitVN.data.models.UI.User;
 
 import java.util.Date;
 
@@ -54,7 +54,20 @@ public class UserEntity {
         this.username = username;
     }
 
-    public UserDTO toModel() {
-        return null;
+    public User toModel() {
+        return new User(
+                this.idUser,
+                this.avatar,
+                this.phone,
+                this.lastName,
+                this.address,
+                this.birthday,
+                this.gender,
+                this.email,
+                this.background,
+                this.firstName,
+                this.bio,
+                this.username
+        );
     }
 }

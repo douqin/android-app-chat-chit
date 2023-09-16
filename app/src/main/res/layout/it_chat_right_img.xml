@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/transparent"
+    android:layout_marginEnd="25dp"
     android:paddingBottom="10dp">
 
     <RelativeLayout
@@ -12,17 +13,24 @@
         android:layout_alignParentEnd="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintWidth_percent="0.75"
-        >
+        app:layout_constraintWidth_percent="0.75">
 
-        <ImageView
-            android:id="@+id/imgMess"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="15dp"
-            android:contentDescription="TODO" />
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="5dp"
+            android:background="@android:color/white"
+            android:layout_alignParentEnd="true">
+
+            <ImageView
+                android:id="@+id/imgMess"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:scaleType="centerInside"
+                android:contentDescription="TODO" />
+        </com.google.android.material.card.MaterialCardView>
+
         />
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

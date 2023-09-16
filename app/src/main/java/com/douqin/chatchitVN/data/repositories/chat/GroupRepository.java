@@ -3,18 +3,22 @@ package com.douqin.chatchitVN.data.repositories.chat;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
-import com.douqin.chatchitVN.data.apis.Response.Request.ApiGroup;
-import com.douqin.chatchitVN.data.apis.Response.ResponseAPI;
-import com.douqin.chatchitVN.data.apis.dtos.GroupChatDTO;
-import com.douqin.chatchitVN.data.apis.dtos.MemberDTO;
 import com.douqin.chatchitVN.data.database.room.dao.GroupChatDao;
 import com.douqin.chatchitVN.data.database.room.dao.MemberDao;
+import com.douqin.chatchitVN.data.database.room.dao.UserDao;
+import com.douqin.chatchitVN.data.database.room.entity.GroupAndMemberAndMessageEntity;
+import com.douqin.chatchitVN.data.database.room.entity.GroupChatWithMemberAndMessageEntity;
 import com.douqin.chatchitVN.data.database.room.entity.GroupEntity;
 import com.douqin.chatchitVN.data.database.room.entity.MemberEntity;
-import com.douqin.chatchitVN.data.models.GroupChat;
+import com.douqin.chatchitVN.data.database.room.entity.UserEntity;
+import com.douqin.chatchitVN.data.repositories.user.MeManager;
+import com.douqin.chatchitVN.network.apis.RemoteData.GroupChatRemoteData;
+import com.douqin.chatchitVN.network.apis.RemoteData.MemberRemoteData;
+import com.douqin.chatchitVN.network.apis.Response.Request.ApiGroup;
+import com.douqin.chatchitVN.network.apis.Response.ResponseAPI;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,47 +32,48 @@ public class GroupRepository {
 
     static String TAG = "GroupRepository";
 
-    private final LiveData<List<GroupEntity>> listGroupChat;
-
-    private final MutableLiveData<GroupChat> currentGr;
-
-    public LiveData<GroupChat> getCurrentGr() {
-        return currentGr;
-    }
+    private LiveData<List<GroupEntity>> listGroupChat;
 
     private final GroupChatDao groupChatDao;
 
     private final MemberDao memberDao;
 
-    public GroupRepository(GroupChatDao groupChatDao, MemberDao memberDao) {
+    private final UserDao userDao;
+
+    public GroupRepository(GroupChatDao groupChatDao, MemberDao memberDao, UserDao userDao) {
         this.groupChatDao = groupChatDao;
         this.memberDao = memberDao;
+        this.userDao = userDao;
         this.registerEmitter();
-        listGroupChat = groupChatDao.getListGroupChat();
-        currentGr = new MutableLiveData<>(null);
+    }
+
+    public LiveData<List<GroupEntity>> abc() {
+        return this.groupChatDao.getListGroupChat();
+    }
+
+    public LiveData<List<GroupAndMemberAndMessageEntity>> getListGroupWithLastMessage() {
+        return this.groupChatDao.getListGroupWithLastMessage();
     }
 
     public LiveData<List<GroupEntity>> getListGroupChat() {
         return listGroupChat;
     }
 
-    public void openChat(GroupChat groupChat) {
-        currentGr.setValue(groupChat);
-    }
-
     public void syncWithServer(String time) {
-        ApiGroup.groupService.syncWithServer(time).subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).subscribe(new Observer<ResponseAPI<List<GroupChatDTO>>>() {
+        ApiGroup.groupService.syncWithServer(time).subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).subscribe(new Observer<ResponseAPI<List<GroupChatRemoteData>>>() {
             @Override
             public void onSubscribe(@NonNull Disposable d) {
 
             }
 
             @Override
-            public void onNext(@NonNull ResponseAPI<List<GroupChatDTO>> dataResponse) {
-                List<GroupChatDTO> groupChats = dataResponse.data;
+            public void onNext(@NonNull ResponseAPI<List<GroupChatRemoteData>> dataResponse) {
+                List<GroupChatRemoteData> groupChats = dataResponse.data;
+                List<GroupEntity> list = new ArrayList<>();
                 for (int i = 0; i < groupChats.size(); i++) {
-                    groupChatDao.insertGroup(groupChats.get(i).toEntity());
+                    list.add(groupChats.get(i).toEntity());
                 }
+                groupChatDao.insertAllGroup(list);
             }
 
             @Override
@@ -83,10 +88,10 @@ public class GroupRepository {
         });
     }
 
-    public Observable<ResponseAPI<List<GroupChatDTO>>> getListGroupFromServer() {
+    public Observable<ResponseAPI<List<GroupChatRemoteData>>> getListGroupFromServer() {
         return ApiGroup.groupService.getAllGroup()
                 .doOnNext(responseAPI -> {
-                    List<GroupChatDTO> groupChats = responseAPI.data;
+                    List<GroupChatRemoteData> groupChats = responseAPI.data;
                     for (int i = 0; i < groupChats.size(); i++) {
                         groupChatDao.insertGroup(groupChats.get(i).toEntity());
                         GroupRepository.this.getAllMemberFromServer(groupChats.get(i).idgroup);
@@ -98,19 +103,31 @@ public class GroupRepository {
         ApiGroup.groupService.getAllMemberFromServer(idgroup)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .subscribe(new Observer<ResponseAPI<List<MemberDTO>>>() {
+                .subscribe(new Observer<ResponseAPI<List<MemberRemoteData>>>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(@NonNull ResponseAPI<List<MemberDTO>> listResponseAPI) {
-                        List<MemberDTO> listMember = listResponseAPI.data;
-                        for (MemberDTO memberDTO : listMember) {
+                    public void onNext(@NonNull ResponseAPI<List<MemberRemoteData>> listResponseAPI) {
+                        List<MemberRemoteData> listMember = listResponseAPI.data;
+                        List<MemberEntity> memberEntities = new ArrayList<>();
+                        List<UserEntity> userEntities = new ArrayList<>();
+                        for (MemberRemoteData memberDTO : listMember) {
                             MemberEntity memberDTO1 = memberDTO.getMemberEntity();
-                            memberDao.Insert(memberDTO1);
+                            memberEntities.add(memberDTO1);
+                            UserEntity entity = memberDTO.getInformationUserEntity();
+                            UserEntity me = MeManager.gI().getMySelf();
+                            if (me != null) {
+                                if (entity.idUser == me.idUser) {
+                                    entity.isMe = true;
+                                }
+                            }
+                            userEntities.add(entity);
                         }
+                        memberDao.InsertAll(memberEntities);
+                        userDao.insertAll(userEntities);
                     }
 
                     @Override
@@ -129,4 +146,11 @@ public class GroupRepository {
 
     }
 
+    public LiveData<GroupChatWithMemberAndMessageEntity> getGrWithMemberAndMessage(int id) {
+        return this.groupChatDao.getGrWithMemberAndMessage(id);
+    }
+
+    public UserEntity getInformationMember(int idMember) {
+        return memberDao.getInformationMember(idMember);
+    }
 }

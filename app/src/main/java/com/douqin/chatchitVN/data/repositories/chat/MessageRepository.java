@@ -2,28 +2,24 @@ package com.douqin.chatchitVN.data.repositories.chat;
 
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Transformations;
-
-import com.douqin.chatchitVN.data.apis.Response.Request.ApiMessage;
-import com.douqin.chatchitVN.data.apis.Response.ResponseAPI;
-import com.douqin.chatchitVN.data.apis.dtos.GroupChatDTO;
-import com.douqin.chatchitVN.data.apis.dtos.MessageDTO;
 import com.douqin.chatchitVN.data.database.room.dao.MessageDao;
-import com.douqin.chatchitVN.data.database.room.entity.MemberEntity;
 import com.douqin.chatchitVN.data.database.room.entity.MessageEntity;
-import com.douqin.chatchitVN.data.models.MessageChat;
-import com.douqin.chatchitVN.data.repositories.user.MeManager;
+import com.douqin.chatchitVN.network.apis.RemoteData.GroupChatRemoteData;
+import com.douqin.chatchitVN.network.apis.RemoteData.MessageRemoteData;
+import com.douqin.chatchitVN.network.apis.Response.Request.ApiMessage;
+import com.douqin.chatchitVN.network.apis.Response.ResponseAPI;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class MessageRepository {
     private static String TAG = "MessageRepository";
@@ -39,22 +35,24 @@ public class MessageRepository {
 
     }
 
-    public void initMessageOfGroup(@androidx.annotation.NonNull GroupChatDTO groupChat) {
-        ApiMessage.messgaeService.getMessageFromGroupID(groupChat.idgroup, "")
+    public void initMessageOfGroup(@androidx.annotation.NonNull GroupChatRemoteData groupChat) {
+        ApiMessage.messageService.getMessageFromGroupID(groupChat.idgroup, "")
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .subscribe(new Observer<ResponseAPI<List<MessageDTO>>>() {
+                .subscribe(new Observer<ResponseAPI<List<MessageRemoteData>>>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(@NonNull ResponseAPI<List<MessageDTO>> listResponseAPI) {
-                        for (MessageDTO messageChat : listResponseAPI.data
+                    public void onNext(@NonNull ResponseAPI<List<MessageRemoteData>> listResponseAPI) {
+                        List<MessageEntity> messageEntityList = new ArrayList<>();
+                        for (MessageRemoteData messageChat : listResponseAPI.data
                         ) {
-                            messageDao.Insert(messageChat.toEntity());
+                            messageEntityList.add(messageChat.toEntity());
                         }
+                        messageDao.InsertAll(messageEntityList);
                     }
 
                     @Override
@@ -69,24 +67,65 @@ public class MessageRepository {
                 });
     }
 
-    public LiveData<List<MessageChat>> getListMessageWithIdGroup(int id) {
-        return Transformations.map(messageDao.getListMessageWithIdGroup(id), groupEntityListMap -> {
-            List<MessageEntity> messageEntityList = new ArrayList<>();
-            for (List<MessageEntity> messageEntity : groupEntityListMap.values()) {
-                messageEntityList.addAll(messageEntity);
-            }
-            messageEntityList.sort(Comparator.comparing(messageEntity -> messageEntity.createdAt));
-            List<MessageChat> messageModelList = new ArrayList<>();
-            for (MessageEntity messageChat : messageEntityList) {
-                MessageChat messageChatModel = messageChat.toMessageChat();
-                messageChatModel.me = MessageRepository.this.messageDao.getIduserFromMessage(messageChatModel.idMember, id) == MeManager.gI().getMySelf().idUser;
-                messageModelList.add(messageChatModel);
-            }
-            return messageModelList;
-        });
+    public void sendFileMessage(int idgroup, File message, String mimeType) {
+        MultipartBody.Part part = MultipartBody.Part.createFormData("files", message.getName(), RequestBody.create(message, MediaType.parse(mimeType)));
+        ApiMessage.messageService.sendFileMessage(idgroup, part)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new Observer<ResponseAPI<List<MessageRemoteData>>>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull ResponseAPI<List<MessageRemoteData>> responseAPI) {
+                        List<MessageEntity> messageEntityList = new ArrayList<>();
+                        for (MessageRemoteData messageChat : responseAPI.data
+                        ) {
+                            messageEntityList.add(messageChat.toEntity());
+                        }
+                        messageDao.InsertAll(messageEntityList);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.w(MessageRepository.TAG, e.toString());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
-    public LiveData<Map<MemberEntity, List<MessageEntity>>> getListMessageWithIdGroup2(int id) {
-        return messageDao.getListMessageWithIdGroup(id);
+    public void sendTextMessage(int idgroup, String message) {
+        RequestBody phoneRequestBody = RequestBody.create(message, MediaType.parse("text/plain"));
+        ApiMessage.messageService.sendTextMessage(idgroup, phoneRequestBody)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new Observer<ResponseAPI<MessageRemoteData>>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull ResponseAPI<MessageRemoteData> responseAPI) {
+                        messageDao.Insert(responseAPI.data.toEntity());
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.w(MessageRepository.TAG, e.toString());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
+
 }

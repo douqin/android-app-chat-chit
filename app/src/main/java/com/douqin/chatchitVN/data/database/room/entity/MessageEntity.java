@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.douqin.chatchitVN.data.models.MessageChat;
+import com.douqin.chatchitVN.data.models.UI.MessageChat;
 
 import java.util.Date;
 

@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.douqin.chatchitVN.data.models.UI.Member;
+
 import java.util.Date;
 
 @Entity(tableName = "member")
@@ -38,6 +40,16 @@ public class MemberEntity {
         this.position = position;
         this.status = status;
         this.timeJoin = timeJoin;
+    }
+
+    public Member toMemberModel() {
+        return new Member(this.id,
+                this.idGroup,
+                this.idUser,
+                this.lastView,
+                this.position,
+                this.status,
+                this.timeJoin);
     }
 }
 

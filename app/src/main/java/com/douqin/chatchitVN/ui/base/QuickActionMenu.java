@@ -1,4 +1,5 @@
 package com.douqin.chatchitVN.ui.base;
+
 import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -11,12 +12,15 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.content.ContextCompat;
+
 import com.douqin.chatchitVN.R;
 
 public class QuickActionMenu implements PopupMenu.OnDismissListener {
 
+    private final View viewParent;
     protected Context mContext;
     protected PopupWindow mWindow;
     protected View mRootView;
@@ -25,25 +29,30 @@ public class QuickActionMenu implements PopupMenu.OnDismissListener {
     protected WindowManager mWindowManager;
     private PopupWindow.OnDismissListener mDismissListener;
     private ViewGroup mTrack;
-    private LayoutInflater inflater;
-    public QuickActionMenu(Context context) {
+    private final LayoutInflater inflater;
+
+    public QuickActionMenu(Context context, View viewParent) {
+        this.viewParent = viewParent;
         mContext = context;
-        mWindow 	= new PopupWindow(context);
+        mWindow = new PopupWindow(context);
         mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        inflater 	= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         setRootViewId(R.layout.quick_action);
-        mChildPos		= 0;
+        mChildPos = 0;
     }
+
     public void setRootViewId(int id) {
-        mRootView	= inflater.inflate(id, null);
-        mTrack 		= mRootView.findViewById(R.id.tracks);
+        mRootView = inflater.inflate(id, null);
+        mTrack = mRootView.findViewById(R.id.tracks);
         mRootView.setLayoutParams(new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT));
         mWindow.setContentView(mRootView);
     }
+
     @Override
     public void onDismiss(PopupMenu menu) {
 
     }
+
     protected void preShow() {
         if (mRootView == null)
             throw new IllegalStateException("setContentView was not called with a view to display.");
@@ -56,44 +65,46 @@ public class QuickActionMenu implements PopupMenu.OnDismissListener {
         mWindow.setOutsideTouchable(true);
         mWindow.setContentView(mRootView);
     }
-    public void show (View anchor) {
+
+    public void showAtView() {
+        View anchor = this.viewParent;
         preShow();
 
-        int[] location 		= new int[2];
+        int[] location = new int[2];
 
         anchor.getLocationOnScreen(location);
 
-        Rect anchorRect 	= new Rect(location[0], location[1], location[0] + anchor.getWidth(), location[1]
+        Rect anchorRect = new Rect(location[0], location[1], location[0] + anchor.getWidth(), location[1]
                 + anchor.getHeight());
 
-        mRootView.measure(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        mRootView.measure(anchor.getMeasuredWidth(), WindowManager.LayoutParams.WRAP_CONTENT);
 
-        int rootWidth 		= mRootView.getMeasuredWidth();
-        int rootHeight 		= mRootView.getMeasuredHeight();
+        int rootWidth = mRootView.getMeasuredWidth();
+        int rootHeight = mRootView.getMeasuredHeight();
 
-        int screenWidth 	= 0;
+        int screenWidth = 0;
 
         DisplayMetrics metrics = mContext.getResources().getDisplayMetrics();
         screenWidth = metrics.widthPixels;
-        int xPos 			= (screenWidth - rootWidth) / 2;
-        int yPos	 		= anchorRect.top - rootHeight;
-        boolean onTop		= true;
+        int xPos = (screenWidth - rootWidth) / 2;
+        int yPos = anchorRect.top - rootHeight;
+        boolean onTop = true;
         // display on bottom
         if (rootHeight > anchor.getTop()) {
-            yPos 	= anchorRect.bottom;
-            onTop	= false;
+            yPos = anchorRect.bottom;
+            onTop = false;
         }
         mWindow.showAtLocation(anchor, Gravity.NO_GRAVITY, xPos, yPos);
     }
-    public void addActionItem(ActionItem actionItem) {
-        String title 	= actionItem.title;
-        Drawable icon 	= actionItem.icon;
-        View container	= inflater.inflate(R.layout.action_item, null);
-        ImageView img 	= container.findViewById(R.id.iv_icon);
-        TextView text 	= container.findViewById(R.id.tv_title);
 
+    public void addActionItem(ActionItem actionItem) {
+        String title = actionItem.title;
+        Drawable icon = actionItem.icon;
+        View container = inflater.inflate(R.layout.action_item, null);
+        ImageView img = container.findViewById(R.id.iv_icon);
+        TextView text = container.findViewById(R.id.tv_title);
+        img.setMaxHeight(this.viewParent.getHeight());
         if (icon != null) {
-            // FIXME: fix size icon
             img.setImageDrawable(icon);
         } else {
             img.setVisibility(View.GONE);
@@ -105,7 +116,7 @@ public class QuickActionMenu implements PopupMenu.OnDismissListener {
             text.setVisibility(View.GONE);
         }
         container.setOnClickListener(view -> {
-            if(actionItem.action != null){
+            if (actionItem.action != null) {
                 actionItem.action.invoke();
             }
             QuickActionMenu.this.mWindow.dismiss();
