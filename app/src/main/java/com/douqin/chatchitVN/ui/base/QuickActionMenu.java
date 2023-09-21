@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.content.ContextCompat;
@@ -103,7 +105,6 @@ public class QuickActionMenu implements PopupMenu.OnDismissListener {
         View container = inflater.inflate(R.layout.action_item, null);
         ImageView img = container.findViewById(R.id.iv_icon);
         TextView text = container.findViewById(R.id.tv_title);
-        img.setMaxHeight(this.viewParent.getHeight());
         if (icon != null) {
             img.setImageDrawable(icon);
         } else {

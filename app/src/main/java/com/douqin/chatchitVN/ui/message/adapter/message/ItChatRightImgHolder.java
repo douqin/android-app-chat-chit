@@ -20,12 +20,27 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class ItChatRightImgHolder extends MessageAdapter.ViewHolder {
     ItChatRightImgBinding viewBinding;
-
     @Override
-    public void bindView(MessageChat messageChat, User o, Object o1) {
-        super.bindView(messageChat, o, o1);
-        viewBinding.message.setText("Loading Image");
+    public void bindView(MessageChat messageChat, User o, boolean isExistPreviousElement, boolean isExistNextElement) {
+        super.bindView(messageChat, o, isExistPreviousElement, isExistNextElement);
+        viewBinding.message.setText("Loading Image ...");
+        viewBinding.time.setText(messageChat.createdAt.toString());
+        viewBinding.stateMessage.setVisibility(View.GONE);
+        viewBinding.time.setVisibility(View.GONE);
+        if(!isExistNextElement){
+            viewBinding.stateMessage.setVisibility(View.VISIBLE);
+        }
+        viewBinding.getRoot().setOnClickListener(v->{
+            if(viewBinding.time.getVisibility() == View.GONE){
+                viewBinding.time.setVisibility(View.VISIBLE);
+                viewBinding.stateMessage.setVisibility(View.VISIBLE);
+            } else {
+                viewBinding.time.setVisibility(View.GONE);
+                viewBinding.stateMessage.setVisibility(View.GONE);
+            }
+        });
         if(messageChat.status == MessageState.DEFAULT.getValue()){
+            this.viewBinding.stateMessage.setText("Received");
             Observable.fromCallable(() -> Glide.with(ItChatRightImgHolder.this.itemView.getContext())
                             .load(messageChat.content)
                             .override(MotherCanvas.width / 2)

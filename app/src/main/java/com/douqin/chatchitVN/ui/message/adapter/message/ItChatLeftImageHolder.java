@@ -18,8 +18,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class ItChatLeftImageHolder extends MessageAdapter.ViewHolder {
     @Override
-    public void bindView(MessageChat messageChat, User o, Object o1) {
-        super.bindView(messageChat, o, o1);
+    public void bindView(MessageChat messageChat, User o, boolean isExistPreviousElement, boolean isExistNextElement) {
+        super.bindView(messageChat, o, isExistPreviousElement, isExistNextElement);
         this.itChatLeftImgBinding.imgMess.setMaxWidth(MotherCanvas.width);
         this.itChatLeftImgBinding.nameUserChat.setText(o.lastname);
         Observable.fromCallable(() -> {

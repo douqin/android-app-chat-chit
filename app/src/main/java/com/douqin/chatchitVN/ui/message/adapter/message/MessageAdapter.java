@@ -67,7 +67,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         MessageChat messageChat = this.listDiffer.getCurrentList().get(position);
-        holder.bindView(messageChat, messageViewModel.getInformationMember(this.listDiffer.getCurrentList().get(position).idMember), new Object());
+        holder.bindView(messageChat, messageViewModel.getInformationMember(this.listDiffer.getCurrentList().get(position).idMember),
+                false,
+                !(position + 1 > this.listDiffer.getCurrentList().size() - 1));
     }
 
     @Override
@@ -119,14 +121,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             super(inflate.getRoot());
         }
 
-        public void bindView(MessageChat messageChat, User o, Object o1) {
+        public void bindView(MessageChat messageChat, User o, boolean isExistPreviousElement, boolean isExistNextElement) {
             this.itemView.setOnLongClickListener(view -> {
                 QuickActionMenu quickActionMenu = new QuickActionMenu(itemView.getContext(), view);
-                quickActionMenu.addActionItem(new ActionItem(null, ContextCompat.getDrawable(this.itemView.getContext(), R.drawable.ok_pepe_img), ""));
-                quickActionMenu.addActionItem(new ActionItem(null, ContextCompat.getDrawable(this.itemView.getContext(), R.drawable.love), ""));
-                quickActionMenu.addActionItem(new ActionItem(null, ContextCompat.getDrawable(this.itemView.getContext(), R.drawable.haha), ""));
-                quickActionMenu.addActionItem(new ActionItem(null, ContextCompat.getDrawable(this.itemView.getContext(), R.drawable.huuh), ""));
-                quickActionMenu.addActionItem(new ActionItem(null, ContextCompat.getDrawable(this.itemView.getContext(), R.drawable.angry), ""));
+                quickActionMenu.addActionItem(new ActionItem(null, ContextCompat.getDrawable(this.itemView.getContext(), R.drawable.emoji_love), ""));
+                quickActionMenu.addActionItem(new ActionItem(null, ContextCompat.getDrawable(this.itemView.getContext(), R.drawable.emoji_haha), ""));
+                quickActionMenu.addActionItem(new ActionItem(null, ContextCompat.getDrawable(this.itemView.getContext(), R.drawable.emoji_angry), ""));
+                quickActionMenu.addActionItem(new ActionItem(null, ContextCompat.getDrawable(this.itemView.getContext(), R.drawable.emoji_huhu), ""));
                 quickActionMenu.showAtView();
                 return false;
             });

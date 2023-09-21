@@ -222,7 +222,7 @@ public class MessageScreen extends Fragment {
                         try {
                             String type = MessageScreen.this.getMimeType(uri);
                             if (type != null) {
-                                MessageScreen.this.messageViewModel.sentMessage(this.groupChatWithMemberAndMessageLiveData.getValue().group.idgroup, new File(Objects.requireNonNull(uri.getPath())), type,
+                                MessageScreen.this.messageViewModel.sentMessage(Objects.requireNonNull(this.groupChatWithMemberAndMessageLiveData.getValue()).group.idgroup, new File(Objects.requireNonNull(uri.getPath())), type,
                                         messageViewModel.getInformationMemberFromUser(MeManager.gI().getMySelf().idUser).id);
                             } else
                                 Toast.makeText(MessageScreen.this.requireContext(), "Error load type of file", Toast.LENGTH_SHORT).show();

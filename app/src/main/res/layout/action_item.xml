@@ -8,16 +8,16 @@
 
     <ImageView
         android:id="@+id/iv_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:scaleType="fitXY"
         android:contentDescription="TODO" />
 
     <TextView
         android:id="@+id/tv_title"
         android:text="haha"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:textSize="12sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
         android:textColor="#666" />
 </androidx.appcompat.widget.LinearLayoutCompat>
