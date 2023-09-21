@@ -23,7 +23,6 @@ public interface MessageDao {
     @Query("SELECT message.createat FROM message ORDER BY message.createat DESC LIMIT 1")
     Date getTimeLastMessage();
 
-    //    @Insert(onConflict = OnConflictStrategy.IGNORE)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void Insert(MessageEntity messageChat);
 
@@ -32,4 +31,11 @@ public interface MessageDao {
 
     @Query("SELECT `member`.iduser FROM `group` join member ON `group`.idgroup = `member`.idgroup AND `member`.id = :idMember AND `group`.idgroup = :idgroup")
     int getIduserFromMessage(int idMember, int idgroup);
+
+    @Query("SELECT * FROM message WHERE message.idmessage < 0 ")
+    List<MessageEntity> getAllMessageNegative();
+
+    @Query("DELETE FROM message WHERE message.idmessage = :idmessage")
+    void Delete(int idmessage);
+
 }

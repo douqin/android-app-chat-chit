@@ -16,6 +16,7 @@
         app:layout_constraintWidth_percent="0.75">
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:cardCornerRadius="5dp"
@@ -28,9 +29,29 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:scaleType="centerInside"
-                android:contentDescription="TODO" />
+                android:contentDescription="TODO"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="15dp"
+                android:text="@string/hello"
+                android:textColor="#FFFFFF"
+                android:padding="15dp"
+                android:background="@drawable/bg_chat_right"
+                android:layout_alignParentEnd="true"/>
         </com.google.android.material.card.MaterialCardView>
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/state_message"
+            android:text="con cac"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/card_container"
+            />
         />
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

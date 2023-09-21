@@ -16,7 +16,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 public class BaseConfigAPI {
 
     static String BASE_URL_SOCKET = "";
-    public static String BASE_URL = "http://192.168.1.8:3000/";
+    public static String BASE_URL = "http://192.168.1.2:3000/";
     static final HttpLoggingInterceptor httpLogging = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS);
     public static final OkHttpClient.Builder okBuild = new OkHttpClient.Builder()
             .readTimeout(15000, TimeUnit.SECONDS)

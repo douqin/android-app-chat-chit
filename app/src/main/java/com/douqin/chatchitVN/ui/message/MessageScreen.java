@@ -25,6 +25,7 @@ import com.douqin.chatchitVN.common.NetworkUtils;
 import com.douqin.chatchitVN.data.models.UI.GroupChatWithMemberAndMessage;
 import com.douqin.chatchitVN.data.models.UI.MemberWithMessage;
 import com.douqin.chatchitVN.data.models.UI.MessageChat;
+import com.douqin.chatchitVN.data.repositories.user.MeManager;
 import com.douqin.chatchitVN.databinding.FragmentMessageBinding;
 import com.douqin.chatchitVN.ui.message.adapter.gift.GiftAdapter;
 import com.douqin.chatchitVN.ui.message.adapter.message.MessageAdapter;
@@ -151,7 +152,11 @@ public class MessageScreen extends Fragment {
         messageScr.sendBtn.setOnClickListener(v -> {
             if (NetworkUtils.isNetworkAvailable(requireActivity().getApplicationContext())) {
                 if (!messageScr.textMess.getText().toString().equals("")) {
-                    messageViewModel.sentMessage(Objects.requireNonNull(MessageScreen.this.groupChatWithMemberAndMessageLiveData.getValue()).group.idgroup, messageScr.textMess.getText().toString());
+                    messageViewModel.sentMessage(
+                            Objects.requireNonNull(
+                                    MessageScreen.this.groupChatWithMemberAndMessageLiveData.getValue()).group.idgroup, messageScr.textMess.getText().toString(),
+                            MessageScreen.this.messageViewModel.getInformationMemberFromUser(MeManager.gI().getMySelf().idUser).id
+                    );
                     messageScr.textMess.setText("");
                 }
             } else {
@@ -217,7 +222,8 @@ public class MessageScreen extends Fragment {
                         try {
                             String type = MessageScreen.this.getMimeType(uri);
                             if (type != null) {
-                                MessageScreen.this.messageViewModel.sentMessage(this.groupChatWithMemberAndMessageLiveData.getValue().group.idgroup, new File(Objects.requireNonNull(uri.getPath())), type);
+                                MessageScreen.this.messageViewModel.sentMessage(this.groupChatWithMemberAndMessageLiveData.getValue().group.idgroup, new File(Objects.requireNonNull(uri.getPath())), type,
+                                        messageViewModel.getInformationMemberFromUser(MeManager.gI().getMySelf().idUser).id);
                             } else
                                 Toast.makeText(MessageScreen.this.requireContext(), "Error load type of file", Toast.LENGTH_SHORT).show();
                         } catch (Exception e) {

@@ -25,5 +25,15 @@
             android:padding="15dp"
             android:background="@drawable/bg_chat_right"
             android:layout_alignParentEnd="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/state_message"
+            android:text="con cac"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/message"
+            />
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,6 +7,7 @@ import androidx.room.Query;
 
 import com.douqin.chatchitVN.data.database.room.entity.MemberEntity;
 import com.douqin.chatchitVN.data.database.room.entity.UserEntity;
+import com.douqin.chatchitVN.data.models.UI.Member;
 
 import java.util.List;
 
@@ -20,4 +21,7 @@ public interface MemberDao {
 
     @Query("SELECT user.* FROM user JOIN member ON user.iduser == member.iduser AND member.id = :idMember")
     UserEntity getInformationMember(int idMember);
+
+    @Query("SELECT member.* FROM user JOIN member ON user.iduser == member.iduser AND user.iduser= :iduser")
+    MemberEntity getInformationMemberFromUser(int iduser);
 }
