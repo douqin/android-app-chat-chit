@@ -31,7 +31,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public MessageAdapter(MessageViewModel messageViewModel, Context mContext){
         this.messageViewModel = messageViewModel;
         this.mContext = mContext;
-
     }
 
     private final MessageViewModel messageViewModel;
@@ -69,7 +68,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         MessageChat messageChat = this.listDiffer.getCurrentList().get(position);
         holder.bindView(messageChat, messageViewModel.getInformationMember(this.listDiffer.getCurrentList().get(position).idMember), new Object());
-//        holder.setIsRecyclable(false);
     }
 
     @Override

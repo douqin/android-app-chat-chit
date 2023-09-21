@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 
 import com.douqin.chatchitVN.data.database.room.entity.GroupAndMemberAndMessageEntity;
+import com.douqin.chatchitVN.data.models.UI.Member;
 import com.douqin.chatchitVN.data.models.UI.User;
 import com.douqin.chatchitVN.data.repositories.chat.GroupRepository;
 import com.douqin.chatchitVN.data.repositories.chat.MessageRepository;
@@ -56,4 +57,9 @@ public class GroupUserCase {
     public User getInformationMember(int idMember) {
         return groupRepository.getInformationMember(idMember).toModel();
     }
+
+    public Member getInformationMemberFromUser(int iduser){
+        return groupRepository.getInformationMemberFromUser(iduser).toMemberModel();
+    }
+
 }

@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.douqin.chatchitVN.data.database.room.database.AppDatabase;
 import com.douqin.chatchitVN.data.models.UI.GroupChatWithMemberAndMessage;
+import com.douqin.chatchitVN.data.models.UI.Member;
 import com.douqin.chatchitVN.data.models.UI.User;
 import com.douqin.chatchitVN.data.repositories.chat.GroupRepository;
 import com.douqin.chatchitVN.data.repositories.chat.MessageRepository;
@@ -38,16 +39,20 @@ public class MessageViewModel extends AndroidViewModel {
         return groupUserCase.getInformationMember(idMember);
     }
 
+    public Member getInformationMemberFromUser(int iduser){
+        return this.groupUserCase.getInformationMemberFromUser(iduser);
+    }
+
     public void getGifFromKeyword(String keyword) {
         this.messageUserCase.getGifFromKeyword(keyword);
     }
 
-    public void sentMessage(int idgroup, File _message, String mimeType) {
-        messageUserCase.sendMessage(idgroup, _message, mimeType);
+    public void sentMessage(int idgroup, File _message, String mimeType, int idMember) {
+        messageUserCase.sendMessage(idgroup, _message, mimeType, idMember);
     }
 
-    public void sentMessage(int idgroup, String _message) {
-        messageUserCase.sendMessage(idgroup, _message);
+    public void sentMessage(int idgroup, String _message, int idMember) {
+        messageUserCase.sendMessage(idgroup, _message, idMember);
     }
 
     public LiveData<TenorRemoteData> getNewGif() {

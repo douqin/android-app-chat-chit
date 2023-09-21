@@ -8,9 +8,12 @@ import com.douqin.chatchitVN.network.apis.RemoteData.GroupChatRemoteData;
 import com.douqin.chatchitVN.network.apis.RemoteData.MessageRemoteData;
 import com.douqin.chatchitVN.network.apis.Response.Request.ApiMessage;
 import com.douqin.chatchitVN.network.apis.Response.ResponseAPI;
+import com.douqin.chatchitVN.ui.message.enums.MessageState;
+import com.douqin.chatchitVN.ui.message.enums.MessageType;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -67,7 +70,10 @@ public class MessageRepository {
                 });
     }
 
-    public void sendFileMessage(int idgroup, File message, String mimeType) {
+    public void sendFileMessage(int idgroup, File message, String mimeType, int idMember) {
+        List<MessageEntity> messageEntityList = messageDao.getAllMessageNegative();
+        int idMessage = ( messageEntityList.size() >= 1 ?  messageEntityList.get(0).idMessage - 1 : -1 );
+        messageDao.Insert(new MessageEntity(idMessage, "Image sending", new Date(), MessageType.TEXT.getValue(), MessageState.SENDING.getValue(),0,false,idMember));
         MultipartBody.Part part = MultipartBody.Part.createFormData("files", message.getName(), RequestBody.create(message, MediaType.parse(mimeType)));
         ApiMessage.messageService.sendFileMessage(idgroup, part)
                 .subscribeOn(Schedulers.io())
@@ -85,6 +91,7 @@ public class MessageRepository {
                         ) {
                             messageEntityList.add(messageChat.toEntity());
                         }
+                        messageDao.Delete(idMessage);
                         messageDao.InsertAll(messageEntityList);
                     }
 
@@ -100,7 +107,10 @@ public class MessageRepository {
                 });
     }
 
-    public void sendTextMessage(int idgroup, String message) {
+    public void sendTextMessage(int idgroup, String message, int idMember) {
+        List<MessageEntity> messageEntityList = messageDao.getAllMessageNegative();
+        int idMessage = ( messageEntityList.size() >= 1 ?  messageEntityList.get(0).idMessage - 1 : -1 );
+        messageDao.Insert(new MessageEntity(idMessage, message, new Date(), MessageType.TEXT.getValue(), MessageState.SENDING.getValue(),0,false,idMember));
         RequestBody phoneRequestBody = RequestBody.create(message, MediaType.parse("text/plain"));
         ApiMessage.messageService.sendTextMessage(idgroup, phoneRequestBody)
                 .subscribeOn(Schedulers.io())
@@ -113,6 +123,7 @@ public class MessageRepository {
 
                     @Override
                     public void onNext(@NonNull ResponseAPI<MessageRemoteData> responseAPI) {
+                        messageDao.Delete(idMessage);
                         messageDao.Insert(responseAPI.data.toEntity());
                     }
 

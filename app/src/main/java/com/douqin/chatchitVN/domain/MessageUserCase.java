@@ -46,11 +46,11 @@ public class MessageUserCase {
         return null;
     }
 
-    public void sendMessage(int idgroup, File message, String mimeType) {
-        messageRepository.sendFileMessage(idgroup, message, mimeType);
+    public void sendMessage(int idgroup, File message, String mimeType, int idMember) {
+        messageRepository.sendFileMessage(idgroup, message, mimeType, idMember);
     }
 
-    public void sendMessage(int idgroup, String message) {
-        messageRepository.sendTextMessage(idgroup, message);
+    public void sendMessage(int idgroup, String message, int idMember) {
+        messageRepository.sendTextMessage(idgroup, message, idMember);
     }
 }

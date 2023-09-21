@@ -12,6 +12,7 @@ import com.douqin.chatchitVN.data.database.room.entity.GroupChatWithMemberAndMes
 import com.douqin.chatchitVN.data.database.room.entity.GroupEntity;
 import com.douqin.chatchitVN.data.database.room.entity.MemberEntity;
 import com.douqin.chatchitVN.data.database.room.entity.UserEntity;
+import com.douqin.chatchitVN.data.models.UI.Member;
 import com.douqin.chatchitVN.data.repositories.user.MeManager;
 import com.douqin.chatchitVN.network.apis.RemoteData.GroupChatRemoteData;
 import com.douqin.chatchitVN.network.apis.RemoteData.MemberRemoteData;
@@ -152,5 +153,8 @@ public class GroupRepository {
 
     public UserEntity getInformationMember(int idMember) {
         return memberDao.getInformationMember(idMember);
+    }
+    public MemberEntity getInformationMemberFromUser(int iduser) {
+        return memberDao.getInformationMemberFromUser(iduser);
     }
 }
