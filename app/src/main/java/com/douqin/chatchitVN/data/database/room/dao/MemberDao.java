@@ -7,7 +7,6 @@ import androidx.room.Query;
 
 import com.douqin.chatchitVN.data.database.room.entity.MemberEntity;
 import com.douqin.chatchitVN.data.database.room.entity.UserEntity;
-import com.douqin.chatchitVN.data.models.UI.Member;
 
 import java.util.List;
 

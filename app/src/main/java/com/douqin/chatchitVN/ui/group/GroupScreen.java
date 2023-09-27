@@ -25,12 +25,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.douqin.chatchitVN.R;
 import com.douqin.chatchitVN.common.MyDiffCallback;
 import com.douqin.chatchitVN.databinding.FragmentGroupBinding;
-import com.douqin.chatchitVN.databinding.GroupBottomSheetDialogBinding;
 import com.douqin.chatchitVN.domain.entities.GroupAndMemberAndMessage;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class GroupScreen extends Fragment {
     private static final String TAG = "StartChatView";
@@ -78,9 +76,9 @@ public class GroupScreen extends Fragment {
     private void initListener() {
         groupAdapter = new GroupAdapter(messageList, groupChat -> {
             GroupScreen.this.openMessageOfGroup(groupChat.idgroup);
-        },  groupChat -> {
+        }, groupChat -> {
             GroupBottomSheetDiaLogFragment groupBottomSheetDiaLogFragment = GroupBottomSheetDiaLogFragment.newInstance(groupChat.idgroup);
-            groupBottomSheetDiaLogFragment.show(GroupScreen.this.requireActivity().getSupportFragmentManager(),"GroupBottomSheetDiaLogFragment");
+            groupBottomSheetDiaLogFragment.show(GroupScreen.this.requireActivity().getSupportFragmentManager(), "GroupBottomSheetDiaLogFragment");
         }, groupViewModel);
         startChatBinding.listChat.setAdapter(groupAdapter);
         groupViewModel.getListGroupChat().observe(this.getViewLifecycleOwner(), groupChatWithMemberAndMessage -> {

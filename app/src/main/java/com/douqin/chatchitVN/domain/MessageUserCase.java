@@ -3,7 +3,7 @@ package com.douqin.chatchitVN.domain;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 
-import com.douqin.chatchitVN.data.database.room.entity.GroupChatWithMemberAndMessageEntity;
+import com.douqin.chatchitVN.data.database.room.relationship.GroupChatDataEntity;
 import com.douqin.chatchitVN.data.models.UI.GroupChatWithMemberAndMessage;
 import com.douqin.chatchitVN.data.models.UI.User;
 import com.douqin.chatchitVN.data.repositories.chat.GroupRepository;
@@ -25,9 +25,9 @@ public class MessageUserCase {
     }
 
     public LiveData<GroupChatWithMemberAndMessage> getGrWithMemberAndMessage(int id) {
-        LiveData<GroupChatWithMemberAndMessageEntity> memberAndMessageEntityLiveData = groupRepository.getGrWithMemberAndMessage(id);
+        LiveData<GroupChatDataEntity> memberAndMessageEntityLiveData = groupRepository.getGrWithMemberAndMessage(id);
         return Transformations.map(
-                memberAndMessageEntityLiveData, GroupChatWithMemberAndMessageEntity::toModel
+                memberAndMessageEntityLiveData, GroupChatDataEntity::toModel
         );
     }
 

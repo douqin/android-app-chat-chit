@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -19,6 +20,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.douqin.chatchitVN.R;
 import com.douqin.chatchitVN.common.MotherCanvas;
 import com.douqin.chatchitVN.common.NetworkUtils;
@@ -29,13 +31,16 @@ import com.douqin.chatchitVN.data.repositories.user.MeManager;
 import com.douqin.chatchitVN.databinding.FragmentMessageBinding;
 import com.douqin.chatchitVN.ui.message.adapter.gift.GiftAdapter;
 import com.douqin.chatchitVN.ui.message.adapter.message.MessageAdapter;
+
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+
 import gun0912.tedimagepicker.builder.TedImagePicker;
 
 
@@ -58,7 +63,7 @@ public class MessageScreen extends Fragment {
             }
             messageScr.giftContainer.setAdapter(giftAdapter);
         });
-        this.messageAdapter = new MessageAdapter( messageViewModel, this.requireContext());
+        this.messageAdapter = new MessageAdapter(messageViewModel, this.requireContext());
         this.messageScr.messageContainer.setAdapter(messageAdapter);
         this.messageAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override

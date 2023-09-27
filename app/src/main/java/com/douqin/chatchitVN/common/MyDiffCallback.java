@@ -1,7 +1,6 @@
 package com.douqin.chatchitVN.common;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;
 
 import java.util.List;

@@ -8,17 +8,33 @@
     tools:context=".ui.main.MainView">
 
     <LinearLayout
+        android:id="@+id/banner_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_name_screen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chats"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="30dp"
+            android:fontFamily="@font/poppins_semibold"/>
+    </LinearLayout>
+    <LinearLayout
         android:id="@+id/checkInternet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:gravity="center_horizontal"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_below="@id/banner_main">
 
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
-
         <TextView
             android:id="@+id/notificationApp"
             android:layout_width="wrap_content"
@@ -33,7 +49,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/checkInternet"
+        android:layout_above="@id/navigation"
         android:orientation="vertical"
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        app:menu="@menu/menu_nav_main"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg_shadow_top"
+        style="@style/Widget.MaterialComponents.BottomNavigationView.Colored" />
 </RelativeLayout>

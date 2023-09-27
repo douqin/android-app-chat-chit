@@ -2,25 +2,33 @@ plugins {
     id 'com.android.application'
     id 'androidx.navigation.safeargs'
     id 'com.google.devtools.ksp'
-    //id 'org.jetbrains.kotlin.android' version '1.8.0' apply false
 }
 
 android {
+    signingConfigs {
+        my_config {
+            storeFile file('C:\\Users\\dagxu\\Desktop\\keystore.jks')
+            storePassword 'keystore.jks'
+            keyPassword 'keystore.jks'
+            keyAlias 'douqin'
+        }
+    }
     compileSdk 33
 
     defaultConfig {
-        applicationId 'com.douqin.chatchitVN'
+        applicationId 'com.douqin.chatchit'
         minSdk 24
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            multiDexEnabled true
+            signingConfig signingConfigs.my_config
         }
     }
     compileOptions {
@@ -101,5 +109,6 @@ dependencies {
 
     //lib for keyboard
     implementation(libs.keyboardvisibilityevent)
-    
+
+
 }

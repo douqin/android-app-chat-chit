@@ -12,6 +12,7 @@ import com.douqin.chatchitVN.data.database.room.dao.GroupChatDao;
 import com.douqin.chatchitVN.data.database.room.dao.MemberDao;
 import com.douqin.chatchitVN.data.database.room.dao.MessageDao;
 import com.douqin.chatchitVN.data.database.room.dao.MySelfDao;
+import com.douqin.chatchitVN.data.database.room.dao.ReactionDao;
 import com.douqin.chatchitVN.data.database.room.dao.UserDao;
 import com.douqin.chatchitVN.data.database.room.entity.GroupEntity;
 import com.douqin.chatchitVN.data.database.room.entity.MemberEntity;
@@ -37,6 +38,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();
 
     public abstract MySelfDao mySelfDao();
+
+    public abstract ReactionDao reactionDao();
 
     public abstract MessageDao messageDao();
 

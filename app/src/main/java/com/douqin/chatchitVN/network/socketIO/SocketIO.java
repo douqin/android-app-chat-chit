@@ -18,21 +18,22 @@ import io.reactivex.rxjava3.subjects.BehaviorSubject;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 
-public class Session_ME implements ISession, iBehaviorSocket, iSocketIO {
-    private Session_ME() {
+public class SocketIO implements ISession, iBehaviorSocket, iSocketIO {
+    private SocketIO() {
         this.connectionSubject = BehaviorSubject.createDefault(StatusIO.INITIALIZE);
     }
 
-    protected static Session_ME instance = new Session_ME();
+    protected static SocketIO instance = new SocketIO();
     private final BehaviorSubject<StatusIO> connectionSubject;
+    //    private Flowable<StatusIO> flowStatusSocket;
     private volatile Socket sc;
 
     @Override
-    public void initBaseIO(Token token, String notificationToken ) {
+    public void initBaseIO(Token token, String notificationToken) {
         String url = BaseConfigAPI.BASE_URL;
         Map<String, List<String>> header = new HashMap<>();
         header.put("token", Collections.singletonList("bearer " + token.accessToken));
-        header.put("notification", Collections.singletonList( "con cac nek"));
+        header.put("notification", Collections.singletonList("con cac nek"));
         //FIXME: notificationToken
         IO.Options options = IO.Options.builder()
                 .setExtraHeaders(header)
@@ -56,19 +57,19 @@ public class Session_ME implements ISession, iBehaviorSocket, iSocketIO {
     }
 
     private void initBaseListener() {
-        Session_ME.gI().addListener(new Listener(
+        SocketIO.gI().addListener(new Listener(
                 Socket.EVENT_CONNECT_ERROR,
                 args -> {
                     this.connectionSubject.onNext(StatusIO.CONNECT_ERROR);
                 }
         ));
-        Session_ME.gI().addListener(new Listener(
+        SocketIO.gI().addListener(new Listener(
                 Socket.EVENT_CONNECT,
                 args -> {
                     this.connectionSubject.onNext(StatusIO.CONNECTED);
                 }
         ));
-        Session_ME.gI().addListener(new Listener(
+        SocketIO.gI().addListener(new Listener(
                 Socket.EVENT_DISCONNECT,
                 args -> {
                     this.connectionSubject.onNext(StatusIO.DISCONNECT);
@@ -86,7 +87,7 @@ public class Session_ME implements ISession, iBehaviorSocket, iSocketIO {
         return connectionSubject;
     }
 
-    public static Session_ME gI() {
+    public static SocketIO gI() {
         return instance;
     }
 
@@ -99,7 +100,7 @@ public class Session_ME implements ISession, iBehaviorSocket, iSocketIO {
 
     @Override
     public void doSendMessage(Object o) {
-        this.sc.emit("typing","");
+        this.sc.emit("typing", "");
     }
 
     public void addListener(Listener listener) {

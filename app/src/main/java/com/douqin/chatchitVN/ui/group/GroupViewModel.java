@@ -7,10 +7,10 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.douqin.chatchitVN.data.database.room.database.AppDatabase;
-import com.douqin.chatchitVN.data.models.UI.Member;
 import com.douqin.chatchitVN.data.models.UI.User;
 import com.douqin.chatchitVN.data.repositories.chat.GroupRepository;
 import com.douqin.chatchitVN.data.repositories.chat.MessageRepository;
+import com.douqin.chatchitVN.data.socketIO.SocketDataManager;
 import com.douqin.chatchitVN.domain.GroupUserCase;
 import com.douqin.chatchitVN.domain.entities.GroupAndMemberAndMessage;
 
@@ -22,9 +22,16 @@ public class GroupViewModel extends AndroidViewModel {
 
     public GroupViewModel(@NonNull Application application) {
         super(application);
+        new SocketDataManager(AppDatabase.gI(application));
         this.groupUserCase = new GroupUserCase(new GroupRepository(AppDatabase.gI(application).groupChatDao(), AppDatabase.gI(application).memberDao(), AppDatabase.gI(application).userDao()),
-                new MessageRepository(AppDatabase.gI(application).messageDao()));
+                new MessageRepository(AppDatabase.gI(application).messageDao(), AppDatabase.gI(application).reactionDao()));
         this.groupUserCase.initBaseData();
+    }
+
+    @Override
+    protected void onCleared() {
+
+        super.onCleared();
     }
 
     public LiveData<List<GroupAndMemberAndMessage>> getListGroupChat() {

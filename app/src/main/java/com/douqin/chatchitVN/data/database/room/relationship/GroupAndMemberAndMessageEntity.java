@@ -1,8 +1,10 @@
-package com.douqin.chatchitVN.data.database.room.entity;
+package com.douqin.chatchitVN.data.database.room.relationship;
 
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
+import com.douqin.chatchitVN.data.database.room.entity.GroupEntity;
+import com.douqin.chatchitVN.data.database.room.entity.MemberEntity;
 import com.douqin.chatchitVN.domain.entities.GroupAndMemberAndMessage;
 
 public class GroupAndMemberAndMessageEntity {
@@ -16,8 +18,9 @@ public class GroupAndMemberAndMessageEntity {
     public MemberAndMessageEntity memberWithMessages;
 
     public GroupAndMemberAndMessage toModel() {
-        if(this.memberWithMessages == null)
-        return new GroupAndMemberAndMessage(this.group.toModel(), null);
-        else return new GroupAndMemberAndMessage(this.group.toModel(), this.memberWithMessages.toModel());
+        if (this.memberWithMessages == null)
+            return new GroupAndMemberAndMessage(this.group.toModel(), null);
+        else
+            return new GroupAndMemberAndMessage(this.group.toModel(), this.memberWithMessages.toModel());
     }
 }

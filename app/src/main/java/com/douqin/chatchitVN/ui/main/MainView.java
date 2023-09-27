@@ -1,5 +1,7 @@
 package com.douqin.chatchitVN.ui.main;
 
+import static androidx.navigation.ui.AppBarConfigurationKt.AppBarConfiguration;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
@@ -8,28 +10,78 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
+import com.douqin.chatchitVN.R;
 import com.douqin.chatchitVN.common.MotherCanvas;
 import com.douqin.chatchitVN.common.SaveDT;
 import com.douqin.chatchitVN.databinding.ActivityMainBinding;
+import com.douqin.chatchitVN.network.socketIO.SocketIO;
 
 import java.util.Objects;
 
 public class MainView extends AppCompatActivity {
     private static final String TAG = "Main";
-    private ActivityMainBinding activityMainBinding;
+    private ActivityMainBinding mainView;
     private MainViewModel mainViewModel;
 
     public static String tokenNotification = SaveDT.loadData("tokenNotification");
 
-    @SuppressLint("ResourceAsColor")
+    @SuppressLint({"ResourceAsColor", "NonConstantResourceId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         initGame(this);
         super.onCreate(savedInstanceState);
-        activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
-        View view = activityMainBinding.getRoot();
+        mainView = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = mainView.getRoot();
         setContentView(view);
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
+                .findFragmentById(mainView.Main.getId());
+        assert navHostFragment != null;
+        NavController navCo = navHostFragment.getNavController();
+        navCo.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            switch (destination.getId()){
+                case R.id.storyView:
+                    MainView.this.mainView.bannerMain.setVisibility(View.VISIBLE);
+                    MainView.this.mainView.tvNameScreen.setText("Stories");
+                break;
+                case R.id.splashView:
+                    MainView.this.mainView.bannerMain.setVisibility(View.GONE);
+                    MainView.this.mainView.navigation.setVisibility(View.GONE);
+                    break;
+                case R.id.loginView:
+                    MainView.this.mainView.bannerMain.setVisibility(View.GONE);
+                    MainView.this.mainView.navigation.setVisibility(View.GONE);
+                    break;
+                case R.id.groupMessage:
+                    MainView.this.mainView.bannerMain.setVisibility(View.VISIBLE);
+                    MainView.this.mainView.tvNameScreen.setText("Chats");
+                    MainView.this.mainView.navigation.setVisibility(View.VISIBLE);
+                    break;
+                case R.id.screenMessage:
+                    MainView.this.mainView.bannerMain.setVisibility(View.GONE);
+                    MainView.this.mainView.navigation.setVisibility(View.GONE);
+                    break;
+                case R.id.screenInforUser:
+                    MainView.this.mainView.bannerMain.setVisibility(View.GONE);
+                    MainView.this.mainView.navigation.setVisibility(View.GONE);
+                    break;
+            }
+        });
+        this.mainView.navigation.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.groupMessage:
+                    if(navCo.getCurrentDestination().getId() == R.id.groupMessage)
+                        return false;
+                    navCo.popBackStack(R.id.groupMessage, false);
+                    return true;
+                case R.id.storyView:
+                    navCo.navigate(R.id.action_groupMessage_to_storyView);
+                    return true;
+            }
+            return false;
+        });
     }
 
     private void initGame(Context c) {
@@ -48,11 +100,11 @@ public class MainView extends AppCompatActivity {
     private void _initViewModel() {
         mainViewModel = new ViewModelProvider(this, new MainViewModelFactory(this.getApplication())).get(MainViewModel.class);
         mainViewModel.getStatusApp().observe(this, str -> {
-            activityMainBinding.checkInternet.setVisibility(View.VISIBLE);
+            mainView.checkInternet.setVisibility(View.VISIBLE);
             if (str.isEmpty()) {
-                activityMainBinding.checkInternet.setVisibility(View.GONE);
+                mainView.checkInternet.setVisibility(View.GONE);
             }
-            activityMainBinding.notificationApp.setText(str);
+            mainView.notificationApp.setText(str);
         });
     }
 
@@ -69,5 +121,11 @@ public class MainView extends AppCompatActivity {
 //                    Log.w(TAG, token);
 //                    SaveDT.saveStr("notificationToken", token);
 //                });
+    }
+
+    @Override
+    protected void onDestroy() {
+        SocketIO.gI().disconnect();
+        super.onDestroy();
     }
 }

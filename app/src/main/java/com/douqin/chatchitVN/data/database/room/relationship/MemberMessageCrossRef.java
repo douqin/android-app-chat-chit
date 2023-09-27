@@ -1,4 +1,4 @@
-package com.douqin.chatchitVN.data.database.room.entity;
+package com.douqin.chatchitVN.data.database.room.relationship;
 
 import androidx.room.Entity;
 

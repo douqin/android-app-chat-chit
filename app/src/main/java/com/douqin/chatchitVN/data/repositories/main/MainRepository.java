@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.douqin.chatchitVN.common.StatusIO;
 import com.douqin.chatchitVN.network.socketIO.ISession;
-import com.douqin.chatchitVN.network.socketIO.Session_ME;
+import com.douqin.chatchitVN.network.socketIO.SocketIO;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
@@ -18,7 +18,7 @@ public class MainRepository {
     public static String TAG = MainRepository.class.getSimpleName();
 
     public MainRepository(Application application) {
-        ISession session = Session_ME.gI();
+        ISession session = SocketIO.gI();
         Object a = session.isConnected()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onChangeStatus);

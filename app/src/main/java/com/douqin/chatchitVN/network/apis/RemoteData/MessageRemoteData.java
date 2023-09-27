@@ -4,6 +4,7 @@ import com.douqin.chatchitVN.data.database.room.entity.MessageEntity;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
+import java.util.List;
 
 public class MessageRemoteData {
     @SerializedName("content")
@@ -29,6 +30,8 @@ public class MessageRemoteData {
 
     @SerializedName("ispin")
     public boolean isPin = false;
+
+    public List<ReactionRemoteData> reacts;
 
     public MessageEntity toEntity() {
         return new MessageEntity(

@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="true"
@@ -76,7 +76,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
-        android:paddingTop="10dp"
         android:background="@color/bg_color_app"
         android:visibility="visible" />
 </RelativeLayout>

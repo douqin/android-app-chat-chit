@@ -9,7 +9,6 @@ buildscript {
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0'
         def nav_version = "2.5.3"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
-        // Add the dependency for the Google services Gradle plugin
         classpath 'com.android.tools.build:gradle:8.1.0'
     }
 }

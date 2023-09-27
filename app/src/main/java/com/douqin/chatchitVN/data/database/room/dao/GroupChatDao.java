@@ -7,10 +7,10 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
-import com.douqin.chatchitVN.data.database.room.entity.GroupAndMemberAndMessageEntity;
-import com.douqin.chatchitVN.data.database.room.entity.GroupChatWithMemberAndMessageEntity;
 import com.douqin.chatchitVN.data.database.room.entity.GroupEntity;
-import com.douqin.chatchitVN.data.database.room.entity.MemberWithMessageEntity;
+import com.douqin.chatchitVN.data.database.room.relationship.GroupAndMemberAndMessageEntity;
+import com.douqin.chatchitVN.data.database.room.relationship.GroupChatDataEntity;
+import com.douqin.chatchitVN.data.database.room.relationship.MemberWithMessageEntity;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import java.util.List;
 public interface GroupChatDao {
     @Transaction()
     @Query("SELECT * FROM `group` WHERE `group`.idgroup == :id")
-    LiveData<GroupChatWithMemberAndMessageEntity> getGrWithMemberAndMessage(int id);
+    LiveData<GroupChatDataEntity> getGrWithMemberAndMessage(int id);
 
 
     @Transaction()

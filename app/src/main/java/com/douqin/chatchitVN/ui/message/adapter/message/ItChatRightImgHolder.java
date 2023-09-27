@@ -20,6 +20,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class ItChatRightImgHolder extends MessageAdapter.ViewHolder {
     ItChatRightImgBinding viewBinding;
+
     @Override
     public void bindView(MessageChat messageChat, User o, boolean isExistPreviousElement, boolean isExistNextElement) {
         super.bindView(messageChat, o, isExistPreviousElement, isExistNextElement);
@@ -27,11 +28,11 @@ public class ItChatRightImgHolder extends MessageAdapter.ViewHolder {
         viewBinding.time.setText(messageChat.createdAt.toString());
         viewBinding.stateMessage.setVisibility(View.GONE);
         viewBinding.time.setVisibility(View.GONE);
-        if(!isExistNextElement){
+        if (!isExistNextElement) {
             viewBinding.stateMessage.setVisibility(View.VISIBLE);
         }
-        viewBinding.getRoot().setOnClickListener(v->{
-            if(viewBinding.time.getVisibility() == View.GONE){
+        viewBinding.getRoot().setOnClickListener(v -> {
+            if (viewBinding.time.getVisibility() == View.GONE) {
                 viewBinding.time.setVisibility(View.VISIBLE);
                 viewBinding.stateMessage.setVisibility(View.VISIBLE);
             } else {
@@ -39,7 +40,7 @@ public class ItChatRightImgHolder extends MessageAdapter.ViewHolder {
                 viewBinding.stateMessage.setVisibility(View.GONE);
             }
         });
-        if(messageChat.status == MessageState.DEFAULT.getValue()){
+        if (messageChat.status == MessageState.DEFAULT.getValue()) {
             this.viewBinding.stateMessage.setText("Received");
             Observable.fromCallable(() -> Glide.with(ItChatRightImgHolder.this.itemView.getContext())
                             .load(messageChat.content)
@@ -73,12 +74,11 @@ public class ItChatRightImgHolder extends MessageAdapter.ViewHolder {
                         }
                     });
             this.viewBinding.stateMessage.setText("Received");
-        }
-        else if(messageChat.status == MessageState.SENDING.getValue()){
+        } else if (messageChat.status == MessageState.SENDING.getValue()) {
             this.viewBinding.stateMessage.setText("Sending");
-        } else if(messageChat.status == MessageState.DEL_BY_ADMIN.getValue()){
+        } else if (messageChat.status == MessageState.DEL_BY_ADMIN.getValue()) {
             this.viewBinding.message.setText("Message has been deleted by admin");
-        }else if(messageChat.status == MessageState.DEL_BY_OWNER.getValue()){
+        } else if (messageChat.status == MessageState.DEL_BY_OWNER.getValue()) {
             this.viewBinding.message.setText("Message has been revoked ");
         }
     }

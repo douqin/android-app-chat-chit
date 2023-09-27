@@ -76,7 +76,7 @@
                 android:layout_marginTop="-1dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="2dp"
-                android:autofillHints=""
+                android:autofillHints="text"
                 android:fontFamily="@font/poppins_regular"
                 android:inputType=""
                 android:paddingStart="10dp"
@@ -110,12 +110,10 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="2dp"
-                android:autofillHints=""
                 android:inputType="textPassword"
                 android:paddingStart="10dp"
                 android:paddingEnd="20dp"
                 android:fontFamily="@font/poppins_regular"
-                android:text=""
                 tools:ignore="LabelFor" />
 
             <ImageButton

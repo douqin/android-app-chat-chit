@@ -1,2 +1,4 @@
-package com.douqin.chatchitVN.ui.message;public class MessageBottomFragmentDialog {
+package com.douqin.chatchitVN.ui.message;
+
+public class MessageBottomFragmentDialog {
 }

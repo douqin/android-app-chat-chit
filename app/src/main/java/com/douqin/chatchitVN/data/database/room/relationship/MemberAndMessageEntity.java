@@ -1,8 +1,10 @@
-package com.douqin.chatchitVN.data.database.room.entity;
+package com.douqin.chatchitVN.data.database.room.relationship;
 
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
+import com.douqin.chatchitVN.data.database.room.entity.MemberEntity;
+import com.douqin.chatchitVN.data.database.room.entity.MessageEntity;
 import com.douqin.chatchitVN.domain.entities.MemberAndMessage;
 
 public class MemberAndMessageEntity {

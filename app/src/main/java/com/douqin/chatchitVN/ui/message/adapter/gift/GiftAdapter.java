@@ -55,7 +55,7 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder> {
             Glide.with(this.itemView.getContext())
                     .asGif()
                     .load(url)
-                    .override((int) (MotherCanvas.height * 0.12))
+                    .override((int) (MotherCanvas.width / 0.12), (int) (MotherCanvas.height * 0.12))
                     .into(this.itLayoutGifBinding.gifContainer);
         }
     }

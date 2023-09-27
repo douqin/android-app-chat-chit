@@ -24,11 +24,10 @@ import com.douqin.chatchitVN.ui.base.QuickActionMenu;
 import com.douqin.chatchitVN.ui.message.MessageViewModel;
 
 import java.util.List;
-import java.util.Objects;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
 
-    public MessageAdapter(MessageViewModel messageViewModel, Context mContext){
+    public MessageAdapter(MessageViewModel messageViewModel, Context mContext) {
         this.messageViewModel = messageViewModel;
         this.mContext = mContext;
     }
@@ -112,7 +111,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         return this.listDiffer.getCurrentList().size();
     }
 
-    public void submitList(List<MessageChat> newList){
+    public void submitList(List<MessageChat> newList) {
         this.listDiffer.submitList(newList);
     }
 
@@ -135,7 +134,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     }
 
 
-    private DiffUtil.ItemCallback<MessageChat> a = new DiffUtil.ItemCallback<MessageChat>(){
+    private DiffUtil.ItemCallback<MessageChat> a = new DiffUtil.ItemCallback<MessageChat>() {
 
         @Override
         public boolean areItemsTheSame(@NonNull MessageChat oldItem, @NonNull MessageChat newItem) {
@@ -147,5 +146,5 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             return oldItem.equals(newItem);
         }
     };
-    private final AsyncListDiffer<MessageChat> listDiffer = new AsyncListDiffer<MessageChat>(this,a);
+    private final AsyncListDiffer<MessageChat> listDiffer = new AsyncListDiffer<MessageChat>(this, a);
 }

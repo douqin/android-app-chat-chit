@@ -27,8 +27,8 @@ public class MessageViewModel extends AndroidViewModel {
 
     public MessageViewModel(@NonNull Application application) {
         super(application);
-        messageUserCase = new MessageUserCase(new GroupRepository(AppDatabase.gI(application).groupChatDao(), AppDatabase.gI(application).memberDao(), AppDatabase.gI(application).userDao()), new MessageRepository(AppDatabase.gI(application).messageDao()), new GifRepository());
-        groupUserCase = new GroupUserCase(new GroupRepository(AppDatabase.gI(application).groupChatDao(), AppDatabase.gI(application).memberDao(), AppDatabase.gI(application).userDao()), new MessageRepository(AppDatabase.gI(application).messageDao()));
+        messageUserCase = new MessageUserCase(new GroupRepository(AppDatabase.gI(application).groupChatDao(), AppDatabase.gI(application).memberDao(), AppDatabase.gI(application).userDao()), new MessageRepository(AppDatabase.gI(application).messageDao(), AppDatabase.gI(application).reactionDao()), new GifRepository());
+        groupUserCase = new GroupUserCase(new GroupRepository(AppDatabase.gI(application).groupChatDao(), AppDatabase.gI(application).memberDao(), AppDatabase.gI(application).userDao()), new MessageRepository(AppDatabase.gI(application).messageDao(), AppDatabase.gI(application).reactionDao()));
     }
 
     public LiveData<GroupChatWithMemberAndMessage> getGrWithMemberAndMessage(int id) {
@@ -39,7 +39,7 @@ public class MessageViewModel extends AndroidViewModel {
         return groupUserCase.getInformationMember(idMember);
     }
 
-    public Member getInformationMemberFromUser(int iduser){
+    public Member getInformationMemberFromUser(int iduser) {
         return this.groupUserCase.getInformationMemberFromUser(iduser);
     }
 

@@ -2,7 +2,9 @@ package com.douqin.chatchitVN.data.models.UI;
 
 import com.douqin.chatchitVN.common.Identifiable;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class MessageChat implements Identifiable {
@@ -24,6 +26,9 @@ public class MessageChat implements Identifiable {
     public boolean isPin;
 
     public int idMember;
+
+
+    public List<Reaction> reactions = new ArrayList<>();
 
     public final static int TYPE_CHAT_IMG = 1;
     public final static int TYPE_CHAT_STR = 2;

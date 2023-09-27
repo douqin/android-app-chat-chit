@@ -4,21 +4,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
 
-import com.douqin.chatchitVN.data.models.UI.GroupChat;
 import com.douqin.chatchitVN.databinding.GroupBottomSheetDialogBinding;
-import com.douqin.chatchitVN.ui.message.MessageViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public class GroupBottomSheetDiaLogFragment extends BottomSheetDialogFragment {
 
     private final int id;
 
-    private GroupBottomSheetDiaLogFragment(int id){
+    private GroupBottomSheetDiaLogFragment(int id) {
         this.id = id;
     }
 
@@ -29,6 +26,7 @@ public class GroupBottomSheetDiaLogFragment extends BottomSheetDialogFragment {
     GroupBottomSheetDialogBinding groupBottomSheetDialogBinding;
 
     GroupViewModel groupViewModel;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

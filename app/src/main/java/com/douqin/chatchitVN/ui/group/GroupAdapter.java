@@ -20,7 +20,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     private final iOnLongClickItemGroupChat onLongClickItemGroupChat;
     GroupViewModel groupViewModel;
 
-    public GroupAdapter(@NonNull List<GroupAndMemberAndMessage> mGroupChat, @NonNull iOnClickItemGroupChat onClickItemGroupChat,@NonNull iOnLongClickItemGroupChat onLongClickItemGroupChat, @NonNull GroupViewModel groupViewModel) {
+    public GroupAdapter(@NonNull List<GroupAndMemberAndMessage> mGroupChat, @NonNull iOnClickItemGroupChat onClickItemGroupChat, @NonNull iOnLongClickItemGroupChat onLongClickItemGroupChat, @NonNull GroupViewModel groupViewModel) {
         this.mGroupChat = mGroupChat;
         this.onClickItemGroupChat = onClickItemGroupChat;
         this.groupViewModel = groupViewModel;
@@ -60,7 +60,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
             this.inflate.layoutDetailsChat.setOnClickListener(v -> {
                 onClickItemGroupChat.onClickItemGroupChat(groupChatWithMemberAndMessage.group);
             });
-            this.inflate.layoutDetailsChat.setOnLongClickListener(v->{
+            this.inflate.layoutDetailsChat.setOnLongClickListener(v -> {
                 onLongClickItemGroupChat.onClickItemGroupChat(groupChatWithMemberAndMessage.group);
                 return true;
             });

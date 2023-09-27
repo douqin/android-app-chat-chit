@@ -7,12 +7,11 @@ import androidx.lifecycle.LiveData;
 import com.douqin.chatchitVN.data.database.room.dao.GroupChatDao;
 import com.douqin.chatchitVN.data.database.room.dao.MemberDao;
 import com.douqin.chatchitVN.data.database.room.dao.UserDao;
-import com.douqin.chatchitVN.data.database.room.entity.GroupAndMemberAndMessageEntity;
-import com.douqin.chatchitVN.data.database.room.entity.GroupChatWithMemberAndMessageEntity;
 import com.douqin.chatchitVN.data.database.room.entity.GroupEntity;
 import com.douqin.chatchitVN.data.database.room.entity.MemberEntity;
 import com.douqin.chatchitVN.data.database.room.entity.UserEntity;
-import com.douqin.chatchitVN.data.models.UI.Member;
+import com.douqin.chatchitVN.data.database.room.relationship.GroupAndMemberAndMessageEntity;
+import com.douqin.chatchitVN.data.database.room.relationship.GroupChatDataEntity;
 import com.douqin.chatchitVN.data.repositories.user.MeManager;
 import com.douqin.chatchitVN.network.apis.RemoteData.GroupChatRemoteData;
 import com.douqin.chatchitVN.network.apis.RemoteData.MemberRemoteData;
@@ -147,13 +146,14 @@ public class GroupRepository {
 
     }
 
-    public LiveData<GroupChatWithMemberAndMessageEntity> getGrWithMemberAndMessage(int id) {
+    public LiveData<GroupChatDataEntity> getGrWithMemberAndMessage(int id) {
         return this.groupChatDao.getGrWithMemberAndMessage(id);
     }
 
     public UserEntity getInformationMember(int idMember) {
         return memberDao.getInformationMember(idMember);
     }
+
     public MemberEntity getInformationMemberFromUser(int iduser) {
         return memberDao.getInformationMemberFromUser(iduser);
     }

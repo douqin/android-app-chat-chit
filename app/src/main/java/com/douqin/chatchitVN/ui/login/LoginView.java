@@ -1,6 +1,8 @@
 package com.douqin.chatchitVN.ui.login;
 
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,10 +98,12 @@ public class LoginView extends Fragment {
         this.viewLoginBinding.showPassword.setOnClickListener((v) -> {
             if (stateShowPassword) {
                 this.viewLoginBinding.showPassword.setBackground(ContextCompat.getDrawable(this.requireContext(), R.drawable.crossed_eye_icon));
-                this.viewLoginBinding.password.setInputType(0x00000001);
+                this.viewLoginBinding.password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                ;
             } else {
                 this.viewLoginBinding.showPassword.setBackground(ContextCompat.getDrawable(this.requireContext(), R.drawable.eye_icon));
-                this.viewLoginBinding.password.setInputType(0x00000081);
+                this.viewLoginBinding.password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                ;
             }
             stateShowPassword = !stateShowPassword;
         });
