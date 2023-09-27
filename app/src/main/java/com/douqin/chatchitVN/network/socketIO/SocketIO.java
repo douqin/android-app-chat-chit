@@ -28,11 +28,12 @@ public class Session_ME implements ISession, iBehaviorSocket, iSocketIO {
     private volatile Socket sc;
 
     @Override
-    public void initBaseIO(Token token, String notificationToken) {
+    public void initBaseIO(Token token, String notificationToken ) {
         String url = BaseConfigAPI.BASE_URL;
         Map<String, List<String>> header = new HashMap<>();
         header.put("token", Collections.singletonList("bearer " + token.accessToken));
-        header.put("notification", Collections.singletonList(notificationToken));
+        header.put("notification", Collections.singletonList( "con cac nek"));
+        //FIXME: notificationToken
         IO.Options options = IO.Options.builder()
                 .setExtraHeaders(header)
                 .build();
@@ -98,6 +99,7 @@ public class Session_ME implements ISession, iBehaviorSocket, iSocketIO {
 
     @Override
     public void doSendMessage(Object o) {
+        this.sc.emit("typing","");
     }
 
     public void addListener(Listener listener) {
