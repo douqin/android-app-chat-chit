@@ -1,6 +1,6 @@
 package com.douqin.chatchitVN.data.socketIO;
 
-import com.douqin.chatchitVN.data.database.room.database.AppDatabase;
+import com.douqin.chatchitVN.data.local.room.database.AppDatabase;
 import com.douqin.chatchitVN.data.repositories.user.MeManager;
 import com.douqin.chatchitVN.network.apis.RemoteData.MessageRemoteData;
 import com.douqin.chatchitVN.network.apis.RemoteData.ReactionRemoteData;

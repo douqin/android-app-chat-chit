@@ -4,6 +4,9 @@
         android:id="@+id/groupMessage"
         android:title="Chats" />
     <item
+        android:id="@+id/friends"
+        android:title="Friends" />
+    <item
         android:id="@+id/storyView"
         android:title="Stories" />
 </menu>

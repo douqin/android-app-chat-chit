@@ -10,6 +10,8 @@ import com.douqin.chatchitVN.common.MotherCanvas;
 import com.douqin.chatchitVN.data.models.UI.MessageChat;
 import com.douqin.chatchitVN.data.models.UI.User;
 import com.douqin.chatchitVN.databinding.ItChatRightImgBinding;
+import com.douqin.chatchitVN.ui.base.onDoubleClickListener;
+import com.douqin.chatchitVN.ui.message.MessageViewModel;
 import com.douqin.chatchitVN.ui.message.enums.MessageState;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -20,6 +22,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class ItChatRightImgHolder extends MessageAdapter.ViewHolder {
     ItChatRightImgBinding viewBinding;
+
+    MessageViewModel messageViewModel;
 
     @Override
     public void bindView(MessageChat messageChat, User o, boolean isExistPreviousElement, boolean isExistNextElement) {
@@ -32,13 +36,14 @@ public class ItChatRightImgHolder extends MessageAdapter.ViewHolder {
             viewBinding.stateMessage.setVisibility(View.VISIBLE);
         }
         viewBinding.getRoot().setOnClickListener(v -> {
-            if (viewBinding.time.getVisibility() == View.GONE) {
-                viewBinding.time.setVisibility(View.VISIBLE);
-                viewBinding.stateMessage.setVisibility(View.VISIBLE);
-            } else {
-                viewBinding.time.setVisibility(View.GONE);
-                viewBinding.stateMessage.setVisibility(View.GONE);
-            }
+//            if (viewBinding.time.getVisibility() == View.GONE) {
+//                viewBinding.time.setVisibility(View.VISIBLE);
+//                viewBinding.stateMessage.setVisibility(View.VISIBLE);
+//            } else {
+//                viewBinding.time.setVisibility(View.GONE);
+//                viewBinding.stateMessage.setVisibility(View.GONE);
+//            }
+
         });
         if (messageChat.status == MessageState.DEFAULT.getValue()) {
             this.viewBinding.stateMessage.setText("Received");
@@ -61,6 +66,9 @@ public class ItChatRightImgHolder extends MessageAdapter.ViewHolder {
                             viewBinding.message.setVisibility(View.GONE);
                             viewBinding.imgMess.setVisibility(View.VISIBLE);
                             ItChatRightImgHolder.this.viewBinding.imgMess.setImageDrawable(o);
+                            ItChatRightImgHolder.this.viewBinding.imgMess.setOnClickListener(new onDoubleClickListener(() -> {
+                                messageViewModel.openMessageInDetailsImageScreen(messageChat);
+                            }));
                         }
 
                         @Override
@@ -83,8 +91,9 @@ public class ItChatRightImgHolder extends MessageAdapter.ViewHolder {
         }
     }
 
-    public ItChatRightImgHolder(@NonNull ItChatRightImgBinding viewBinding) {
+    public ItChatRightImgHolder(@NonNull ItChatRightImgBinding viewBinding, MessageViewModel messageViewModel) {
         super(viewBinding);
         this.viewBinding = viewBinding;
+        this.messageViewModel = messageViewModel;
     }
 }

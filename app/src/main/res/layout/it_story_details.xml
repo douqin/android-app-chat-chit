@@ -3,9 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <androidx.media3.ui.PlayerView
+        android:id="@+id/story"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:controller_layout_id="@layout/layout_story_details"
-        app:use_controller="true"/>
+        app:use_controller="true" />
 </androidx.constraintlayout.widget.ConstraintLayout>

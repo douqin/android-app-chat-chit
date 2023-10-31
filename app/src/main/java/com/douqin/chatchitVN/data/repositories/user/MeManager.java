@@ -3,9 +3,9 @@ package com.douqin.chatchitVN.data.repositories.user;
 import android.app.Application;
 
 import com.douqin.chatchitVN.common.SaveDT;
-import com.douqin.chatchitVN.data.database.room.dao.MySelfDao;
-import com.douqin.chatchitVN.data.database.room.database.AppDatabase;
-import com.douqin.chatchitVN.data.database.room.entity.UserEntity;
+import com.douqin.chatchitVN.data.local.room.dao.MySelfDao;
+import com.douqin.chatchitVN.data.local.room.database.AppDatabase;
+import com.douqin.chatchitVN.data.local.room.entity.UserEntity;
 import com.douqin.chatchitVN.data.repositories.login.dtos.Token;
 import com.douqin.chatchitVN.network.apis.RemoteData.UserRemoteData;
 import com.google.gson.Gson;

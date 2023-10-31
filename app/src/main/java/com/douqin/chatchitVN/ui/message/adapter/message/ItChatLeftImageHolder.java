@@ -9,6 +9,8 @@ import com.douqin.chatchitVN.common.MotherCanvas;
 import com.douqin.chatchitVN.data.models.UI.MessageChat;
 import com.douqin.chatchitVN.data.models.UI.User;
 import com.douqin.chatchitVN.databinding.ItChatLeftImgBinding;
+import com.douqin.chatchitVN.ui.base.onDoubleClickListener;
+import com.douqin.chatchitVN.ui.message.MessageViewModel;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
@@ -41,6 +43,11 @@ public class ItChatLeftImageHolder extends MessageAdapter.ViewHolder {
                     @Override
                     public void onNext(@io.reactivex.rxjava3.annotations.NonNull Drawable o) {
                         ItChatLeftImageHolder.this.itChatLeftImgBinding.imgMess.setImageDrawable(o);
+                        ItChatLeftImageHolder.this.itChatLeftImgBinding.imgMess.setOnClickListener(new onDoubleClickListener(
+                                () -> {
+                                    ItChatLeftImageHolder.this.messageViewModel.openMessageInDetailsImageScreen(messageChat);
+                                }
+                        ));
                     }
 
                     @Override
@@ -57,8 +64,11 @@ public class ItChatLeftImageHolder extends MessageAdapter.ViewHolder {
 
     ItChatLeftImgBinding itChatLeftImgBinding;
 
-    public ItChatLeftImageHolder(@NonNull ItChatLeftImgBinding viewBinding) {
+    MessageViewModel messageViewModel;
+
+    public ItChatLeftImageHolder(@NonNull ItChatLeftImgBinding viewBinding, MessageViewModel messageViewModel) {
         super(viewBinding);
         this.itChatLeftImgBinding = viewBinding;
+        this.messageViewModel = messageViewModel;
     }
 }

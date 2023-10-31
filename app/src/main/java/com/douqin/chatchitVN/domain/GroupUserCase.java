@@ -6,7 +6,7 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 
-import com.douqin.chatchitVN.data.database.room.relationship.GroupAndMemberAndMessageEntity;
+import com.douqin.chatchitVN.data.local.room.relationship.GroupAndMemberAndMessageEntity;
 import com.douqin.chatchitVN.data.models.UI.Member;
 import com.douqin.chatchitVN.data.models.UI.User;
 import com.douqin.chatchitVN.data.repositories.chat.GroupRepository;

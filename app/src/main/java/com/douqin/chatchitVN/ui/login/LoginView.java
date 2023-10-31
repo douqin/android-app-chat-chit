@@ -39,13 +39,13 @@ public class LoginView extends Fragment {
         this.animationShowPassword();
         viewLoginBinding.singUp.setOnClickListener(view -> showDialogSignUp());
         this.listenViewModel();
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                LoginView.this.requireActivity().finish();
-            }
-        };
-        requireActivity().getOnBackPressedDispatcher().addCallback(requireActivity(), callback);
+//        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+//            @Override
+//            public void handleOnBackPressed() {
+//                LoginView.this.requireActivity().finish();
+//            }
+//        };
+//        requireActivity().getOnBackPressedDispatcher().addCallback(requireActivity(), callback);
         return viewLoginBinding.getRoot();
     }
 

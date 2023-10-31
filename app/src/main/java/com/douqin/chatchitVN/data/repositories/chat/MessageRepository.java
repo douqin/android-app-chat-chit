@@ -2,14 +2,14 @@ package com.douqin.chatchitVN.data.repositories.chat;
 
 import android.util.Log;
 
-import com.douqin.chatchitVN.data.database.room.dao.MessageDao;
-import com.douqin.chatchitVN.data.database.room.dao.ReactionDao;
-import com.douqin.chatchitVN.data.database.room.entity.MessageEntity;
-import com.douqin.chatchitVN.data.database.room.entity.ReactionEntity;
+import com.douqin.chatchitVN.data.local.room.dao.MessageDao;
+import com.douqin.chatchitVN.data.local.room.dao.ReactionDao;
+import com.douqin.chatchitVN.data.local.room.entity.MessageEntity;
+import com.douqin.chatchitVN.data.local.room.entity.ReactionEntity;
 import com.douqin.chatchitVN.network.apis.RemoteData.GroupChatRemoteData;
 import com.douqin.chatchitVN.network.apis.RemoteData.MessageRemoteData;
 import com.douqin.chatchitVN.network.apis.RemoteData.ReactionRemoteData;
-import com.douqin.chatchitVN.network.apis.Response.Request.ApiMessage;
+import com.douqin.chatchitVN.network.apis.Request.ApiMessage;
 import com.douqin.chatchitVN.network.apis.Response.ResponseAPI;
 import com.douqin.chatchitVN.ui.message.enums.MessageState;
 import com.douqin.chatchitVN.ui.message.enums.MessageType;
@@ -29,7 +29,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 public class MessageRepository {
-    private static String TAG = "MessageRepository";
+    private static final String TAG = "MessageRepository";
 
     public MessageRepository(MessageDao messageDao, ReactionDao reactionDao) {
         this.messageDao = messageDao;
@@ -82,7 +82,7 @@ public class MessageRepository {
     public void sendFileMessage(int idgroup, File message, String mimeType, int idMember) {
         List<MessageEntity> messageEntityList = messageDao.getAllMessageNegative();
         int idMessage = (messageEntityList.size() >= 1 ? messageEntityList.get(0).idMessage - 1 : -1);
-        messageDao.Insert(new MessageEntity(idMessage, "Image sending", new Date(), MessageType.TEXT.getValue(), MessageState.SENDING.getValue(), 0, false, idMember));
+        messageDao.Insert(new MessageEntity(idMessage, "Image sending", new Date(), MessageType.TEXT, MessageState.SENDING.getValue(), 0, false, idMember));
         MultipartBody.Part part = MultipartBody.Part.createFormData("files", message.getName(), RequestBody.create(message, MediaType.parse(mimeType)));
         ApiMessage.messageService.sendFileMessage(idgroup, part)
                 .subscribeOn(Schedulers.io())
@@ -119,7 +119,7 @@ public class MessageRepository {
     public void sendTextMessage(int idgroup, String message, int idMember) {
         List<MessageEntity> messageEntityList = messageDao.getAllMessageNegative();
         int idMessage = (messageEntityList.size() >= 1 ? messageEntityList.get(0).idMessage - 1 : -1);
-        messageDao.Insert(new MessageEntity(idMessage, message, new Date(), MessageType.TEXT.getValue(), MessageState.SENDING.getValue(), 0, false, idMember));
+        messageDao.Insert(new MessageEntity(idMessage, message, new Date(), MessageType.TEXT, MessageState.SENDING.getValue(), 0, false, idMember));
         RequestBody phoneRequestBody = RequestBody.create(message, MediaType.parse("text/plain"));
         ApiMessage.messageService.sendTextMessage(idgroup, phoneRequestBody)
                 .subscribeOn(Schedulers.io())

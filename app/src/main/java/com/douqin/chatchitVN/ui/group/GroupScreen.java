@@ -17,7 +17,6 @@ import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -98,7 +97,7 @@ public class GroupScreen extends Fragment {
     private void openMessageOfGroup(int idgroup) {
         GroupScreenDirections.ActionScreenStartChatToScreenChat chatToScreenChat = GroupScreenDirections.actionScreenStartChatToScreenChat(idgroup);
         final NavController navController = NavHostFragment.findNavController(this);
-        navController.navigate((NavDirections) chatToScreenChat);
+        navController.navigate(chatToScreenChat);
     }
 
     @SuppressLint({"ShowToast", "RestrictedApi"})

@@ -38,6 +38,9 @@
         <argument
             android:name="idgroup"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_screenMessage_to_imageDetailsScreen"
+            app:destination="@id/imageDetailsScreen" />
     </fragment>
     <fragment
         android:id="@+id/screenInforUser"
@@ -69,14 +72,18 @@
     <fragment
         android:id="@+id/storyView"
         android:name="com.douqin.chatchitVN.ui.story.StoryScreen"
-        android:label="StoryView" >
+        android:label="StoryView">
         <action
             android:id="@+id/action_storyView_to_storyDetailsView2"
             app:destination="@id/storyDetailsView" />
     </fragment>
     <fragment
         android:id="@+id/storyDetailsView"
-        android:name="com.douqin.chatchitVN.ui.story.StoryDetailsView"
+        android:name="com.douqin.chatchitVN.ui.story.StoryDetailsScreen"
         android:label="StoryDetailsView" />
+    <fragment
+        android:id="@+id/imageDetailsScreen"
+        android:name="com.douqin.chatchitVN.ui.message.image.ImageDetailsScreen"
+        android:label="ImageDetailsScreen"></fragment>
 
 </navigation>

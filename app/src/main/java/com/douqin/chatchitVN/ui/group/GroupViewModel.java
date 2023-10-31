@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.douqin.chatchitVN.data.database.room.database.AppDatabase;
+import com.douqin.chatchitVN.data.local.room.database.AppDatabase;
 import com.douqin.chatchitVN.data.models.UI.User;
 import com.douqin.chatchitVN.data.repositories.chat.GroupRepository;
 import com.douqin.chatchitVN.data.repositories.chat.MessageRepository;

@@ -1,34 +1,49 @@
 package com.douqin.chatchitVN.ui.story.adapter;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.AsyncListDiffer;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.douqin.chatchitVN.common.MotherCanvas;
-import com.douqin.chatchitVN.data.models.UI.Story;
-import com.douqin.chatchitVN.databinding.ItStoryBinding;
+import com.douqin.chatchitVN.databinding.ItUserStoryDetailsBinding;
+import com.douqin.chatchitVN.domain.entities.UserWithListStory;
+import com.douqin.chatchitVN.ui.story.StoryViewModel;
 
 import java.util.List;
+import java.util.Objects;
 
 public class StoryDetailsAdapter extends RecyclerView.Adapter<StoryDetailsAdapter.StoryDetailsHolder> {
+
+    private int currentSelect = -1;
+
+    StoryViewModel storyViewModel;
+
+    public StoryDetailsAdapter(StoryViewModel storyViewModel) {
+        this.storyViewModel = storyViewModel;
+    }
+
+    public void setCurrentSelect(int currentSelect) {
+        this.currentSelect = currentSelect;
+    }
+
     @NonNull
     @Override
     public StoryDetailsAdapter.StoryDetailsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        return new StoryAdapter.StoryHolder(ItStoryBinding.inflate(layoutInflater));
+        return new StoryDetailsAdapter.StoryDetailsHolder(ItUserStoryDetailsBinding.inflate(layoutInflater));
     }
-    public void submitList(List<Story> newList) {
+
+    public void submitList(List<UserWithListStory> newList) {
         this.listDiffer.submitList(newList);
     }
+
     @Override
     public void onBindViewHolder(@NonNull StoryDetailsAdapter.StoryDetailsHolder holder, int position) {
-        holder.bindView(listDiffer.getCurrentList().get(position));
+        if (this.currentSelect == position)
+            holder.bindView(listDiffer.getCurrentList().get(position));
     }
 
     @Override
@@ -36,36 +51,31 @@ public class StoryDetailsAdapter extends RecyclerView.Adapter<StoryDetailsAdapte
         return listDiffer.getCurrentList().size();
     }
 
-    public static class StoryDetailsHolder extends RecyclerView.ViewHolder{
+    public static class StoryDetailsHolder extends RecyclerView.ViewHolder {
+        ItUserStoryDetailsBinding itStory;
 
-        private static int height;
-        private static int width;
-        ItStoryBinding itStory;
-
-        public StoryDetailsHolder(@NonNull ItStoryBinding binding) {
+        public StoryDetailsHolder(@NonNull ItUserStoryDetailsBinding binding) {
             super(binding.getRoot());
             itStory = binding;
-            int dpValue = 14;
-//            int sizeInPixels = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue, this.itStory.getRoot().getContext().getResources().getDisplayMetrics());
         }
 
-        public void bindView(Object story){
-            ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams((int) (MotherCanvas.width * 0.47),(int) (MotherCanvas.height * 0.3));
-            layoutParams.setMargins(10,10,10,10);
-            itStory.containerStory.setLayoutParams(layoutParams);
+        public void bindView(UserWithListStory story) {
+            StoryDetailsUserAdapter storyDetailsUserAdapter = new StoryDetailsUserAdapter(story);
+            this.itStory.itListDetailsStory.setAdapter(storyDetailsUserAdapter);
         }
     }
-    private DiffUtil.ItemCallback<Story> a = new DiffUtil.ItemCallback<Story>() {
+
+    private DiffUtil.ItemCallback<UserWithListStory> a = new DiffUtil.ItemCallback<UserWithListStory>() {
 
         @Override
-        public boolean areItemsTheSame(@NonNull Story oldItem, @NonNull Story newItem) {
-            return false;
+        public boolean areItemsTheSame(@NonNull UserWithListStory oldItem, @NonNull UserWithListStory newItem) {
+            return oldItem.getId() == oldItem.getId();
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull Story oldItem, @NonNull Story newItem) {
-            return true;
+        public boolean areContentsTheSame(@NonNull UserWithListStory oldItem, @NonNull UserWithListStory newItem) {
+            return Objects.equals(oldItem, newItem);
         }
     };
-    private final AsyncListDiffer<Story> listDiffer = new AsyncListDiffer<Story>(this, a);
+    private final AsyncListDiffer<UserWithListStory> listDiffer = new AsyncListDiffer<UserWithListStory>(this, a);
 }

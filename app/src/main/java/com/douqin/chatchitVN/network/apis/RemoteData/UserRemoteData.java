@@ -1,6 +1,6 @@
 package com.douqin.chatchitVN.network.apis.RemoteData;
 
-import com.douqin.chatchitVN.data.database.room.entity.UserEntity;
+import com.douqin.chatchitVN.data.local.room.entity.UserEntity;
 
 import java.util.Date;
 

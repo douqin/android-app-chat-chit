@@ -3,6 +3,7 @@ package com.douqin.chatchitVN.ui.message;
 import android.content.ContentResolver;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -18,6 +19,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -45,30 +48,50 @@ import gun0912.tedimagepicker.builder.TedImagePicker;
 
 
 public class MessageScreen extends Fragment {
+
+    private boolean isNav = false;
+
+    private Parcelable recyclerViewState;
+
+    private static final String TAG = "MessageScreen";
     private MessageViewModel messageViewModel;
     private MessageAdapter messageAdapter;
     private FragmentMessageBinding messageScr;
     LiveData<GroupChatWithMemberAndMessage> groupChatWithMemberAndMessageLiveData;
-
     LinearLayoutManager linearLayoutManager;
-
+    GiftAdapter giftAdapter;
 
     private void initListener() {
+        groupChatWithMemberAndMessageLiveData.observe(this.getViewLifecycleOwner(), groupChatWithMemberAndMessage -> {
+            if (groupChatWithMemberAndMessage != null) {
+                this.messageScr.nameGr.setText(groupChatWithMemberAndMessage.group.name);
+            } else this.messageScr.nameGr.setText("");
+        });
         messageViewModel.getNewGif().observe(this.getViewLifecycleOwner(), gif -> {
-            GiftAdapter giftAdapter;
-            if (gif != null) {
-                giftAdapter = new GiftAdapter(gif.results);
+            if (gif == null) {
+                return;
             } else {
-                giftAdapter = new GiftAdapter(new ArrayList<>());
+                if (gif.results.size() == 0) {
+                    return;
+                }
             }
-            messageScr.giftContainer.setAdapter(giftAdapter);
+            if (MessageScreen.this.giftAdapter != null) {
+                MessageScreen.this.giftAdapter.submitList(gif.results);
+            } else {
+                MessageScreen.this.giftAdapter = new GiftAdapter((giftRemoteData) -> MessageScreen.this.messageViewModel.sentMessage(Objects.requireNonNull(MessageScreen.this.groupChatWithMemberAndMessageLiveData.getValue()).group.idgroup,
+                        giftRemoteData.url, MessageScreen.this.messageViewModel.getInformationMemberFromUser(MeManager.gI().getMySelf().idUser).id));
+                MessageScreen.this.messageScr.giftContainer.setAdapter(giftAdapter);
+                MessageScreen.this.giftAdapter.submitList(gif.results);
+            }
         });
         this.messageAdapter = new MessageAdapter(messageViewModel, this.requireContext());
         this.messageScr.messageContainer.setAdapter(messageAdapter);
         this.messageAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
-                MessageScreen.this.linearLayoutManager.smoothScrollToPosition(MessageScreen.this.messageScr.messageContainer, null, MessageScreen.this.messageAdapter.getItemCount());
+                if (!isNav) {
+                    MessageScreen.this.linearLayoutManager.smoothScrollToPosition(MessageScreen.this.messageScr.messageContainer, null, MessageScreen.this.messageAdapter.getItemCount());
+                }
             }
         });
         this.groupChatWithMemberAndMessageLiveData.observe(this.getViewLifecycleOwner(), groupChatWithMemberAndMessage -> {
@@ -80,8 +103,13 @@ public class MessageScreen extends Fragment {
                     }
                     mMessageChat.sort(Comparator.comparing(messageChat -> messageChat.createdAt));
                     this.messageAdapter.submitList(mMessageChat);
-                    this.messageScr.messageContainer.scrollToPosition(this.messageAdapter.getItemCount() - 1);
                 }
+            }
+        });
+        this.messageViewModel.getMessageOpenDetails().observe(this.getViewLifecycleOwner(), value -> {
+            if (value != null) {
+                final NavController navController = NavHostFragment.findNavController(this);
+                navController.navigate(R.id.imageDetailsScreen);
             }
         });
     }
@@ -94,6 +122,29 @@ public class MessageScreen extends Fragment {
         int idgroup = args.getIdgroup();
         messageViewModel = new ViewModelProvider(this.requireActivity()).get(MessageViewModel.class);
         groupChatWithMemberAndMessageLiveData = messageViewModel.getGrWithMemberAndMessage(idgroup);
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        isNav = false;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        isNav = true;
+//        recyclerViewState = Objects.requireNonNull(messageScr.messageContainer.getLayoutManager()).onSaveInstanceState();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (isNav) {
+            isNav = false;
+//            Objects.requireNonNull(messageScr.messageContainer.getLayoutManager()).onRestoreInstanceState(recyclerViewState);
+        }
     }
 
     @Nullable
@@ -110,11 +161,6 @@ public class MessageScreen extends Fragment {
     }
 
     private void initBaseView() {
-        groupChatWithMemberAndMessageLiveData.observe(this.getViewLifecycleOwner(), groupChatWithMemberAndMessage -> {
-            if (groupChatWithMemberAndMessage != null) {
-                this.messageScr.nameGr.setText(groupChatWithMemberAndMessage.group.name);
-            } else this.messageScr.nameGr.setText("");
-        });
         LinearLayout layout = this.messageScr.layoutGift;
         ViewGroup.LayoutParams params = layout.getLayoutParams();
         params.height = (int) (MotherCanvas.height * 0.12);
@@ -137,14 +183,11 @@ public class MessageScreen extends Fragment {
                 }
                 if (charSequence.toString().contains("@gif ")) {
                     String[] str = charSequence.toString().split(" ");
-                    if (str.length == 2 && !str[1].isEmpty()) {
-                        messageViewModel.getGifFromKeyword(str[1]);
+                    if (str.length >= 2 && !str[1].isEmpty()) {
+                        messageViewModel.getGifFromKeyword(charSequence.toString().substring(4));
                         messageScr.layoutGift.setVisibility(View.VISIBLE);
-                        GiftAdapter giftAdapter = new GiftAdapter(new ArrayList<>());
-                        messageScr.giftContainer.setAdapter(giftAdapter);
                     }
                 } else if (messageScr.layoutGift.getVisibility() == View.VISIBLE) {
-                    GiftAdapter giftAdapter = new GiftAdapter(new ArrayList<>());
                     messageScr.layoutGift.setVisibility(View.GONE);
                 }
             }
@@ -174,7 +217,6 @@ public class MessageScreen extends Fragment {
                 messageViewModel.getGifFromKeyword("trending");
                 messageScr.layoutGift.setVisibility(View.VISIBLE);
             } else {
-                GiftAdapter giftAdapter = new GiftAdapter(new ArrayList<>());
                 messageScr.layoutGift.setVisibility(View.GONE);
             }
         });
@@ -196,27 +238,6 @@ public class MessageScreen extends Fragment {
 
     private void addImage() {
         pickImg();
-    }
-
-    public void showPermission() {
-//        PermissionListener permissionlistener = new PermissionListener() {
-//            @Override
-//            public void onPermissionGranted() {
-//                pickImg();
-//            }
-//
-//            @Override
-//            public void onPermissionDenied(List<String> deniedPermissions) {
-//                Toast.makeText(requireContext(), "Quyền truy cập bộ nhớ bị chặn \n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
-//            }
-//
-//
-//        };
-//        TedPermission.create()
-//                .setPermissionListener(permissionlistener)
-//                .setDeniedMessage(" Nếu bạn hủy cho phép ứng dụng truy cập bộ nhớ \n\n Hãy bật nó tại [Setting] > [Permission]")
-//                .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//                .check();
     }
 
     private void pickImg() {

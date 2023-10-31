@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.douqin.chatchitVN.databinding.ItGroupBinding;
 import com.douqin.chatchitVN.domain.entities.GroupAndMemberAndMessage;
+import com.douqin.chatchitVN.ui.group.event.iOnClickItemGroupChat;
+import com.douqin.chatchitVN.ui.group.event.iOnLongClickItemGroupChat;
 import com.douqin.chatchitVN.ui.message.enums.MessageType;
 
 import java.util.List;
@@ -65,16 +67,16 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
                 return true;
             });
             if (groupChatWithMemberAndMessage.memberWithMessages != null) {
-                if (groupChatWithMemberAndMessage.memberWithMessages.messageChat.type == MessageType.TEXT.getValue()) {
+                if (groupChatWithMemberAndMessage.memberWithMessages.messageChat.type == MessageType.TEXT) {
                     this.inflate.nameUser.setText(groupViewModel.getInformationMember(groupChatWithMemberAndMessage.memberWithMessages.member.id).lastname + ": ");
                     this.inflate.messageUser.setText(groupChatWithMemberAndMessage.memberWithMessages.messageChat.content);
-                } else if (groupChatWithMemberAndMessage.memberWithMessages.messageChat.type == MessageType.VIDEO.getValue()) {
+                } else if (groupChatWithMemberAndMessage.memberWithMessages.messageChat.type == MessageType.VIDEO) {
                     this.inflate.nameUser.setText(groupViewModel.getInformationMember(groupChatWithMemberAndMessage.memberWithMessages.member.id).lastname + ": ");
                     this.inflate.messageUser.setText("Sent VIDEO");
-                } else if (groupChatWithMemberAndMessage.memberWithMessages.messageChat.type == MessageType.GIF.getValue()) {
+                } else if (groupChatWithMemberAndMessage.memberWithMessages.messageChat.type == MessageType.GIF) {
                     this.inflate.nameUser.setText(groupViewModel.getInformationMember(groupChatWithMemberAndMessage.memberWithMessages.member.id).lastname + ": ");
                     this.inflate.messageUser.setText("Sent GIF");
-                } else if (groupChatWithMemberAndMessage.memberWithMessages.messageChat.type == MessageType.IMAGE.getValue()) {
+                } else if (groupChatWithMemberAndMessage.memberWithMessages.messageChat.type == MessageType.IMAGE) {
                     this.inflate.nameUser.setText(groupViewModel.getInformationMember(groupChatWithMemberAndMessage.memberWithMessages.member.id).lastname + ": ");
                     this.inflate.messageUser.setText("Sent IMAGE");
                 }

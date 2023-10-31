@@ -4,18 +4,18 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
-import com.douqin.chatchitVN.data.database.room.dao.GroupChatDao;
-import com.douqin.chatchitVN.data.database.room.dao.MemberDao;
-import com.douqin.chatchitVN.data.database.room.dao.UserDao;
-import com.douqin.chatchitVN.data.database.room.entity.GroupEntity;
-import com.douqin.chatchitVN.data.database.room.entity.MemberEntity;
-import com.douqin.chatchitVN.data.database.room.entity.UserEntity;
-import com.douqin.chatchitVN.data.database.room.relationship.GroupAndMemberAndMessageEntity;
-import com.douqin.chatchitVN.data.database.room.relationship.GroupChatDataEntity;
+import com.douqin.chatchitVN.data.local.room.dao.GroupChatDao;
+import com.douqin.chatchitVN.data.local.room.dao.MemberDao;
+import com.douqin.chatchitVN.data.local.room.dao.UserDao;
+import com.douqin.chatchitVN.data.local.room.entity.GroupEntity;
+import com.douqin.chatchitVN.data.local.room.entity.MemberEntity;
+import com.douqin.chatchitVN.data.local.room.entity.UserEntity;
+import com.douqin.chatchitVN.data.local.room.relationship.GroupAndMemberAndMessageEntity;
+import com.douqin.chatchitVN.data.local.room.relationship.GroupChatDataEntity;
 import com.douqin.chatchitVN.data.repositories.user.MeManager;
 import com.douqin.chatchitVN.network.apis.RemoteData.GroupChatRemoteData;
 import com.douqin.chatchitVN.network.apis.RemoteData.MemberRemoteData;
-import com.douqin.chatchitVN.network.apis.Response.Request.ApiGroup;
+import com.douqin.chatchitVN.network.apis.Request.ApiGroup;
 import com.douqin.chatchitVN.network.apis.Response.ResponseAPI;
 
 import java.util.ArrayList;

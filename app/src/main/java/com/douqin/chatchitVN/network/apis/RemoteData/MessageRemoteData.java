@@ -1,6 +1,6 @@
 package com.douqin.chatchitVN.network.apis.RemoteData;
 
-import com.douqin.chatchitVN.data.database.room.entity.MessageEntity;
+import com.douqin.chatchitVN.data.local.room.entity.MessageEntity;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;

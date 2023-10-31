@@ -5,14 +5,6 @@ plugins {
 }
 
 android {
-    signingConfigs {
-        my_config {
-            storeFile file('C:\\Users\\dagxu\\Desktop\\keystore.jks')
-            storePassword 'keystore.jks'
-            keyPassword 'keystore.jks'
-            keyAlias 'douqin'
-        }
-    }
     compileSdk 33
 
     defaultConfig {
@@ -28,7 +20,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             multiDexEnabled true
-            signingConfig signingConfigs.my_config
+//            signingConfig signingConfigs.my_config
         }
     }
     compileOptions {
@@ -44,7 +36,6 @@ android {
 
 dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
-
     implementation libs.appcompat
     implementation libs.material
     implementation libs.constraintlayout
@@ -109,6 +100,9 @@ dependencies {
 
     //lib for keyboard
     implementation(libs.keyboardvisibilityevent)
+
+    // paging
+    implementation "androidx.paging:paging-runtime:3.2.1"
 
 
 }

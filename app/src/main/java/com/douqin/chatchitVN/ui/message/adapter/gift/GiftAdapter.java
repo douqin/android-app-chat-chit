@@ -4,24 +4,25 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.AsyncListDiffer;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.douqin.chatchitVN.common.MotherCanvas;
-import com.douqin.chatchitVN.data.models.UI.TypeGift;
+import com.douqin.chatchitVN.data.models.UI.TypeGiftConstants;
 import com.douqin.chatchitVN.databinding.ItLayoutGifBinding;
 import com.douqin.chatchitVN.network.apis.RemoteData.GiftRemoteData;
+import com.douqin.chatchitVN.ui.message.adapter.OnClickItemGif;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder> {
-    private final List<GiftRemoteData> listDataGift;
+    private final OnClickItemGif onClickItemGif;
 
-    public GiftAdapter(List<GiftRemoteData> listDataGift) {
-        if (listDataGift != null) {
-            this.listDataGift = listDataGift;
-        } else this.listDataGift = new ArrayList<>();
+    public GiftAdapter(OnClickItemGif onClickItemGif) {
+        this.onClickItemGif = onClickItemGif;
     }
 
     @NonNull
@@ -33,16 +34,16 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        GiftRemoteData giftRemoteData = listDataGift.get(position);
+        GiftRemoteData giftRemoteData = this.listDiffer.getCurrentList().get(position);
         holder.bindView(giftRemoteData);
     }
 
     @Override
     public int getItemCount() {
-        return listDataGift.size();
+        return this.listDiffer.getCurrentList().size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private final ItLayoutGifBinding itLayoutGifBinding;
 
         public ViewHolder(ItLayoutGifBinding inflate) {
@@ -51,7 +52,7 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder> {
         }
 
         public void bindView(GiftRemoteData gif) {
-            String url = gif.media_formats.get(TypeGift.NANO_GIF.getValue()).url;
+            String url = Objects.requireNonNull(gif.media_formats.get(TypeGiftConstants.NANO_GIF)).url;
             Glide.with(this.itemView.getContext())
                     .asGif()
                     .load(url)
@@ -59,4 +60,22 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder> {
                     .into(this.itLayoutGifBinding.gifContainer);
         }
     }
+
+    public void submitList(List<GiftRemoteData> newList) {
+        this.listDiffer.submitList(newList);
+    }
+
+    private DiffUtil.ItemCallback<GiftRemoteData> a = new DiffUtil.ItemCallback<GiftRemoteData>() {
+
+        @Override
+        public boolean areItemsTheSame(@NonNull GiftRemoteData oldItem, @NonNull GiftRemoteData newItem) {
+            return Objects.equals(oldItem.id, newItem.id);
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull GiftRemoteData oldItem, @NonNull GiftRemoteData newItem) {
+            return true;
+        }
+    };
+    private final AsyncListDiffer<GiftRemoteData> listDiffer = new AsyncListDiffer<GiftRemoteData>(this, a);
 }

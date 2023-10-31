@@ -17,4 +17,5 @@ public class GiftRemoteData {
     public List<String> tags;
     public List<String> flags;
     public boolean hasaudio;
+
 }

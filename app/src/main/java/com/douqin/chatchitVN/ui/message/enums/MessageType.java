@@ -1,17 +1,8 @@
 package com.douqin.chatchitVN.ui.message.enums;
 
-public enum MessageType {
-    TEXT(0),
-    IMAGE(1),
-    VIDEO(2),
-    GIF(4);
-    private final int value;
-
-    MessageType(int value) {
-        this.value = value;
-    }
-
-    public int getValue() {
-        return value;
-    }
+public class MessageType {
+    public static final int TEXT = 0;
+    public static final int IMAGE = 1;
+    public static final int VIDEO = 2;
+    public static final int GIF = 3;
 }

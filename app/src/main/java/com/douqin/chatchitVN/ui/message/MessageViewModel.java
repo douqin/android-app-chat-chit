@@ -5,10 +5,12 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
-import com.douqin.chatchitVN.data.database.room.database.AppDatabase;
+import com.douqin.chatchitVN.data.local.room.database.AppDatabase;
 import com.douqin.chatchitVN.data.models.UI.GroupChatWithMemberAndMessage;
 import com.douqin.chatchitVN.data.models.UI.Member;
+import com.douqin.chatchitVN.data.models.UI.MessageChat;
 import com.douqin.chatchitVN.data.models.UI.User;
 import com.douqin.chatchitVN.data.repositories.chat.GroupRepository;
 import com.douqin.chatchitVN.data.repositories.chat.MessageRepository;
@@ -21,6 +23,12 @@ import java.io.File;
 
 public class MessageViewModel extends AndroidViewModel {
 
+    private int offset = 0;
+
+    private final int limit = 12;
+
+    private MutableLiveData<MessageChat> messageOpenDetails;
+
     private final MessageUserCase messageUserCase;
 
     private final GroupUserCase groupUserCase;
@@ -29,6 +37,7 @@ public class MessageViewModel extends AndroidViewModel {
         super(application);
         messageUserCase = new MessageUserCase(new GroupRepository(AppDatabase.gI(application).groupChatDao(), AppDatabase.gI(application).memberDao(), AppDatabase.gI(application).userDao()), new MessageRepository(AppDatabase.gI(application).messageDao(), AppDatabase.gI(application).reactionDao()), new GifRepository());
         groupUserCase = new GroupUserCase(new GroupRepository(AppDatabase.gI(application).groupChatDao(), AppDatabase.gI(application).memberDao(), AppDatabase.gI(application).userDao()), new MessageRepository(AppDatabase.gI(application).messageDao(), AppDatabase.gI(application).reactionDao()));
+        messageOpenDetails = new MutableLiveData<>(null);
     }
 
     public LiveData<GroupChatWithMemberAndMessage> getGrWithMemberAndMessage(int id) {
@@ -57,5 +66,13 @@ public class MessageViewModel extends AndroidViewModel {
 
     public LiveData<TenorRemoteData> getNewGif() {
         return this.messageUserCase.getNewGif();
+    }
+
+    public LiveData<MessageChat> getMessageOpenDetails() {
+        return messageOpenDetails;
+    }
+
+    public void openMessageInDetailsImageScreen(MessageChat messageOpenDetails) {
+        this.messageOpenDetails.setValue(messageOpenDetails);
     }
 }

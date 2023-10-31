@@ -1,7 +1,5 @@
 package com.douqin.chatchitVN.ui.main;
 
-import static androidx.navigation.ui.AppBarConfigurationKt.AppBarConfiguration;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
@@ -41,11 +39,11 @@ public class MainView extends AppCompatActivity {
         assert navHostFragment != null;
         NavController navCo = navHostFragment.getNavController();
         navCo.addOnDestinationChangedListener((controller, destination, arguments) -> {
-            switch (destination.getId()){
+            switch (destination.getId()) {
                 case R.id.storyView:
                     MainView.this.mainView.bannerMain.setVisibility(View.VISIBLE);
                     MainView.this.mainView.tvNameScreen.setText("Stories");
-                break;
+                    break;
                 case R.id.splashView:
                     MainView.this.mainView.bannerMain.setVisibility(View.GONE);
                     MainView.this.mainView.navigation.setVisibility(View.GONE);
@@ -70,9 +68,9 @@ public class MainView extends AppCompatActivity {
             }
         });
         this.mainView.navigation.setOnItemSelectedListener(item -> {
-            switch (item.getItemId()){
+            switch (item.getItemId()) {
                 case R.id.groupMessage:
-                    if(navCo.getCurrentDestination().getId() == R.id.groupMessage)
+                    if (navCo.getCurrentDestination().getId() == R.id.groupMessage)
                         return false;
                     navCo.popBackStack(R.id.groupMessage, false);
                     return true;

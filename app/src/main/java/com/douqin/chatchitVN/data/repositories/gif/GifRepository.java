@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.douqin.chatchitVN.network.apis.RemoteData.TenorRemoteData;
-import com.douqin.chatchitVN.network.apis.Response.Request.ApiTenor;
+import com.douqin.chatchitVN.network.apis.Request.ApiTenor;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;

@@ -19,9 +19,11 @@ import com.douqin.chatchitVN.databinding.ItChatLeftBinding;
 import com.douqin.chatchitVN.databinding.ItChatLeftImgBinding;
 import com.douqin.chatchitVN.databinding.ItChatRightBinding;
 import com.douqin.chatchitVN.databinding.ItChatRightImgBinding;
+import com.douqin.chatchitVN.databinding.ItChatRightVideoBinding;
 import com.douqin.chatchitVN.ui.base.ActionItem;
 import com.douqin.chatchitVN.ui.base.QuickActionMenu;
 import com.douqin.chatchitVN.ui.message.MessageViewModel;
+import com.douqin.chatchitVN.ui.message.enums.MessageType;
 
 import java.util.List;
 
@@ -54,11 +56,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             case MessageAdapter.NOT_ME_TYPE_CHAT_STR:
                 return new ItChatLeftHolder(ItChatLeftBinding.inflate(layoutInflater));
             case MessageAdapter.NOT_ME_TYPE_CHAT_IMG:
-                return new ItChatLeftImageHolder(ItChatLeftImgBinding.inflate(layoutInflater));
+                return new ItChatLeftImageHolder(ItChatLeftImgBinding.inflate(layoutInflater), messageViewModel);
             case MessageAdapter.ME_TYPE_CHAT_IMG:
-                return new ItChatRightImgHolder(ItChatRightImgBinding.inflate(layoutInflater));
+                return new ItChatRightImgHolder(ItChatRightImgBinding.inflate(layoutInflater), messageViewModel);
             case MessageAdapter.ME_TYPE_CHAT_STR:
                 return new ItChatRightHolder(ItChatRightBinding.inflate(layoutInflater));
+            case MessageAdapter.ME_TYPE_CHAT_VIDEO:
+                return new ItChatRightVideoHolder(ItChatRightVideoBinding.inflate(layoutInflater));
         }
         return null;
     }
@@ -73,31 +77,26 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     @Override
     public int getItemViewType(int position) {
-        //     TEXT = 0,
-        //    IMAGE = 1,
-        //    VIDEO = 2,
-        //    GIF = 3
-        //    ANOTHER_FILE = 4
         if (messageViewModel.getInformationMember(this.listDiffer.getCurrentList().get(position).idMember).iduser == MeManager.gI().getMySelf().idUser) {
             this.listDiffer.getCurrentList().get(position).me = true;
         }
         switch (this.listDiffer.getCurrentList().get(position).type) {
-            case 0:
+            case MessageType.TEXT:
                 if (this.listDiffer.getCurrentList().get(position).me) {
                     return MessageAdapter.ME_TYPE_CHAT_STR;
                 }
                 return MessageAdapter.NOT_ME_TYPE_CHAT_STR;
-            case 1:
+            case MessageType.IMAGE:
                 if (this.listDiffer.getCurrentList().get(position).me) {
                     return MessageAdapter.ME_TYPE_CHAT_IMG;
                 }
                 return MessageAdapter.NOT_ME_TYPE_CHAT_IMG;
-            case 2:
+            case MessageType.VIDEO:
                 if (this.listDiffer.getCurrentList().get(position).me) {
                     return MessageAdapter.ME_TYPE_CHAT_VIDEO;
                 }
                 return MessageAdapter.NOT_ME_TYPE_CHAT_VIDEO;
-            case 3:
+            case MessageType.GIF:
                 if (this.listDiffer.getCurrentList().get(position).me) {
                     return MessageAdapter.ME_TYPE_CHAT_GIF;
                 }

@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.douqin.chatchitVN.data.repositories.login.dtos.LoginDTO;
 import com.douqin.chatchitVN.data.repositories.user.MeManager;
 import com.douqin.chatchitVN.network.apis.BaseConfigAPI;
-import com.douqin.chatchitVN.network.apis.Response.Request.ApiAuth;
+import com.douqin.chatchitVN.network.apis.Request.ApiAuth;
 import com.douqin.chatchitVN.network.apis.Response.ResponseAPI;
 import com.douqin.chatchitVN.ui.login.StateLogin;
 import com.douqin.chatchitVN.ui.login.cStateLogin;
