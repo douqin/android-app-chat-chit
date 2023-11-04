@@ -40,7 +40,9 @@
             app:argType="integer" />
         <action
             android:id="@+id/action_screenMessage_to_imageDetailsScreen"
-            app:destination="@id/imageDetailsScreen" />
+            app:destination="@id/imageDetailsScreen"
+            app:enterAnim="@anim/anim_zoom_in"
+            app:exitAnim="@anim/anim_zoom_out" />
     </fragment>
     <fragment
         android:id="@+id/screenInforUser"
