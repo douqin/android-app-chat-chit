@@ -3,10 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/loading_content"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        style="?android:attr/progressBarStyleLarge"
+        android:visibility="visible"
+        android:elevation="2dp"
+        />
     <androidx.media3.ui.PlayerView
         android:id="@+id/story"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:use_controller="true" />
+        android:elevation="1dp"
+        app:hide_on_touch="false"
+        app:controller_layout_id="@layout/custom_controller_story"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,7 +23,7 @@ public class SplashView extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(!isFirstTime){
+        if (!isFirstTime) {
             NavController navController = NavHostFragment.findNavController(this);
             try {
                 MeManager.gI().initializeDAO(requireActivity().getApplication());

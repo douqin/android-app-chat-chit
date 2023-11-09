@@ -15,12 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.douqin.chatchitVN.databinding.FragmentStoryDetailsBinding;
 import com.douqin.chatchitVN.ui.base.OnSnapPositionChangeListener;
 import com.douqin.chatchitVN.ui.base.SnapOnScrollListener;
-import com.douqin.chatchitVN.ui.story.adapter.StoryDetailsAdapter;
+import com.douqin.chatchitVN.ui.story.adapter.StoryDetailsMultiUserAdapter;
 
 public class StoryDetailsScreen extends Fragment {
     FragmentStoryDetailsBinding storyDetailsBinding;
 
-    StoryDetailsAdapter storyDetailsAdapter;
+    StoryDetailsMultiUserAdapter storyDetailsAdapter;
 
     StoryViewModel storyViewModel;
 
@@ -35,17 +35,17 @@ public class StoryDetailsScreen extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.storyDetailsBinding = FragmentStoryDetailsBinding.inflate(inflater);
-        storyViewModel = new ViewModelProvider(this.requireActivity()).get(StoryViewModel.class);
-        pagerSnapHelper = new PagerSnapHelper();
+        this.storyViewModel = new ViewModelProvider(this.requireActivity()).get(StoryViewModel.class);
+        this.pagerSnapHelper = new PagerSnapHelper();
         RecyclerView.OnScrollListener snapOnScrollListener = new SnapOnScrollListener(pagerSnapHelper, SnapOnScrollListener.Behavior.NOTIFY_ON_SCROLL, new OnSnapPositionChangeListener() {
             @Override
             public void onSnapPositionChange(int position) {
-                storyDetailsAdapter.setCurrentSelect(position);
+//                storyDetailsAdapter.setCurrentSelect(position);
             }
         });
         storyDetailsBinding.listStory.addOnScrollListener(snapOnScrollListener);
         storyDetailsBinding = FragmentStoryDetailsBinding.inflate(inflater);
-        storyDetailsAdapter = new StoryDetailsAdapter(this.storyViewModel);
+        storyDetailsAdapter = new StoryDetailsMultiUserAdapter(this.storyViewModel);
         storyDetailsBinding.listStory.setAdapter(storyDetailsAdapter);
         storyViewModel.getStory().observe(this.getViewLifecycleOwner(), userWithListStories -> {
             storyDetailsAdapter.submitList(userWithListStories);

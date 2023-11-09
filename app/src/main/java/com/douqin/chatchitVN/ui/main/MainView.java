@@ -40,6 +40,9 @@ public class MainView extends AppCompatActivity {
         NavController navCo = navHostFragment.getNavController();
         navCo.addOnDestinationChangedListener((controller, destination, arguments) -> {
             switch (destination.getId()) {
+                case R.id.storyDetailsView:
+                    MainView.this.mainView.bannerMain.setVisibility(View.GONE);
+                    MainView.this.mainView.tvNameScreen.setText("Stories");
                 case R.id.storyView:
                     MainView.this.mainView.bannerMain.setVisibility(View.VISIBLE);
                     MainView.this.mainView.tvNameScreen.setText("Stories");
@@ -126,4 +129,12 @@ public class MainView extends AppCompatActivity {
         SocketIO.gI().disconnect();
         super.onDestroy();
     }
+    // FIXME: 11/8/23 https://www.youtube.com/watch?v=Hw0Jeq42FNU
+//    private void hideSysUI(){
+//        WindowCompat.setDecorFitsSystemWindows (window,  false);
+//        WindowInsetsControllerCompat(window, viewBinding.videoView) {controller ->
+//                controller.hide(WindowInsetsCompat.Type.systemBars())
+//            controller.systemBarsBehavior =
+//                    WindowInsetsControllerCompat.BEHAVIOR SHOW TRANSIENT BARS_BY_SWIPE
+//    }
 }

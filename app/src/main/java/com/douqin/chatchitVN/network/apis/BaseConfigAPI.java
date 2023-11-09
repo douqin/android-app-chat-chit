@@ -2,13 +2,13 @@ package com.douqin.chatchitVN.network.apis;
 
 import android.os.Build;
 
-import com.douqin.chatchitVN.BuildConfig;
 import com.douqin.chatchitVN.common.SaveDT;
 import com.douqin.chatchitVN.data.repositories.login.dtos.Token;
 import com.google.gson.Gson;
 
 import java.util.concurrent.TimeUnit;
 
+import de.hdodenhof.circleimageview.BuildConfig;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -16,7 +16,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 public class BaseConfigAPI {
 
     static String BASE_URL_SOCKET = "";
-    public static String BASE_URL = "http://192.168.1.11:3000/";
+    public static String BASE_URL = "http://192.168.1.14:3000/";
     static final HttpLoggingInterceptor httpLogging = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS);
     public static final OkHttpClient.Builder okBuild = new OkHttpClient.Builder()
             .readTimeout(15000, TimeUnit.SECONDS)
