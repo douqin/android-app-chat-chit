@@ -102,7 +102,10 @@ dependencies {
     implementation(libs.keyboardvisibilityevent)
 
     // paging
-    implementation "androidx.paging:paging-runtime:3.2.1"
+    implementation libs.androidx.paging.runtime
+    implementation libs.androidx.paging.rxjava3
+
+    implementation libs.circleindicator
 
 
 }

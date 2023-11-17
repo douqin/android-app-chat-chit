@@ -41,10 +41,13 @@ public class MainView extends AppCompatActivity {
         navCo.addOnDestinationChangedListener((controller, destination, arguments) -> {
             switch (destination.getId()) {
                 case R.id.storyDetailsView:
+                    MainView.this.mainView.navigation.setVisibility(View.GONE);
                     MainView.this.mainView.bannerMain.setVisibility(View.GONE);
                     MainView.this.mainView.tvNameScreen.setText("Stories");
+                    break;
                 case R.id.storyView:
                     MainView.this.mainView.bannerMain.setVisibility(View.VISIBLE);
+                    MainView.this.mainView.navigation.setVisibility(View.VISIBLE);
                     MainView.this.mainView.tvNameScreen.setText("Stories");
                     break;
                 case R.id.splashView:
@@ -68,6 +71,11 @@ public class MainView extends AppCompatActivity {
                     MainView.this.mainView.bannerMain.setVisibility(View.GONE);
                     MainView.this.mainView.navigation.setVisibility(View.GONE);
                     break;
+                case R.id.friendScreen:
+                    MainView.this.mainView.bannerMain.setVisibility(View.VISIBLE);
+                    MainView.this.mainView.tvNameScreen.setText("Friends");
+                    MainView.this.mainView.navigation.setVisibility(View.VISIBLE);
+                    break;
             }
         });
         this.mainView.navigation.setOnItemSelectedListener(item -> {
@@ -79,6 +87,9 @@ public class MainView extends AppCompatActivity {
                     return true;
                 case R.id.storyView:
                     navCo.navigate(R.id.action_groupMessage_to_storyView);
+                    return true;
+                case R.id.friends:
+                    navCo.navigate(R.id.friendScreen);
                     return true;
             }
             return false;
@@ -132,7 +143,7 @@ public class MainView extends AppCompatActivity {
     // FIXME: 11/8/23 https://www.youtube.com/watch?v=Hw0Jeq42FNU
 //    private void hideSysUI(){
 //        WindowCompat.setDecorFitsSystemWindows (window,  false);
-//        WindowInsetsControllerCompat(window, viewBinding.videoView) {controller ->
+//        WindowInsetsControllerCompat(window, viewBinding.videoView) { controller ->
 //                controller.hide(WindowInsetsCompat.Type.systemBars())
 //            controller.systemBarsBehavior =
 //                    WindowInsetsControllerCompat.BEHAVIOR SHOW TRANSIENT BARS_BY_SWIPE

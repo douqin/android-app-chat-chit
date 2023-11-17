@@ -8,21 +8,21 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.douqin.chatchitVN.data.local.room.entity.ReactionEntity;
-import com.douqin.chatchitVN.data.local.room.entity.UserEntity;
+import com.douqin.chatchitVN.data.local.room.entity.RelationshipEntity;
 
 import java.util.List;
 
 @Dao
-public interface ReactionDao {
+public interface RelationshipDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(List<ReactionEntity> reactEntities);
+    void insertAll(List<RelationshipEntity> reactEntities);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(ReactionEntity reactEntity);
+    void insert(RelationshipEntity reactEntity);
 
     @Delete
-    void delete(ReactionEntity user);
+    void delete(RelationshipEntity user);
 
     @Query("SELECT * FROM reaction")
-    LiveData<List<ReactionEntity>> getAllReaction();
+    LiveData<List<RelationshipEntity>> getAllReaction();
 }

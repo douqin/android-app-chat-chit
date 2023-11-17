@@ -5,7 +5,6 @@
     android:layout_height="80dp"
     android:background="@drawable/btn_bg_test"
     android:paddingTop="15dp"
-    android:layout_marginTop="12dp"
     android:paddingBottom="15dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -18,7 +17,6 @@
         android:src="@drawable/user" />
 
     <LinearLayout
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"

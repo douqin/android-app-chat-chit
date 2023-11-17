@@ -29,7 +29,7 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        return new GiftAdapter.ViewHolder(ItLayoutGifBinding.inflate(layoutInflater));
+        return new GiftAdapter.ViewHolder(ItLayoutGifBinding.inflate(layoutInflater, parent, false));
     }
 
     @Override

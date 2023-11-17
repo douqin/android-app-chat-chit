@@ -54,15 +54,15 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         switch (viewType) {
             case MessageAdapter.NOT_ME_TYPE_CHAT_STR:
-                return new ItChatLeftHolder(ItChatLeftBinding.inflate(layoutInflater));
+                return new ItChatLeftHolder(ItChatLeftBinding.inflate(layoutInflater, parent, false));
             case MessageAdapter.NOT_ME_TYPE_CHAT_IMG:
-                return new ItChatLeftImageHolder(ItChatLeftImgBinding.inflate(layoutInflater), messageViewModel);
+                return new ItChatLeftImageHolder(ItChatLeftImgBinding.inflate(layoutInflater, parent, false), messageViewModel);
             case MessageAdapter.ME_TYPE_CHAT_IMG:
-                return new ItChatRightImgHolder(ItChatRightImgBinding.inflate(layoutInflater), messageViewModel);
+                return new ItChatRightImgHolder(ItChatRightImgBinding.inflate(layoutInflater, parent, false), messageViewModel);
             case MessageAdapter.ME_TYPE_CHAT_STR:
-                return new ItChatRightHolder(ItChatRightBinding.inflate(layoutInflater));
+                return new ItChatRightHolder(ItChatRightBinding.inflate(layoutInflater, parent, false));
             case MessageAdapter.ME_TYPE_CHAT_VIDEO:
-                return new ItChatRightVideoHolder(ItChatRightVideoBinding.inflate(layoutInflater));
+                return new ItChatRightVideoHolder(ItChatRightVideoBinding.inflate(layoutInflater, parent, false));
         }
         return null;
     }

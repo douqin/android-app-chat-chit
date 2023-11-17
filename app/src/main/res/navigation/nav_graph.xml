@@ -70,6 +70,9 @@
             app:exitAnim="@anim/anim_fade_out"
             app:launchSingleTop="true"
             app:popUpTo="@+id/groupMessage" />
+        <action
+            android:id="@+id/action_groupMessage_to_friendScreen"
+            app:destination="@id/friendScreen" />
     </fragment>
     <fragment
         android:id="@+id/storyView"
@@ -87,5 +90,9 @@
         android:id="@+id/imageDetailsScreen"
         android:name="com.douqin.chatchitVN.ui.message.image.ImageDetailsScreen"
         android:label="ImageDetailsScreen"></fragment>
+    <fragment
+        android:id="@+id/friendScreen"
+        android:name="com.douqin.chatchitVN.ui.relationship.FriendScreenContainer"
+        android:label="FriendScreen" />
 
 </navigation>

@@ -31,7 +31,7 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryHolder>
     @Override
     public StoryHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        return new StoryHolder(ItStoryBinding.inflate(layoutInflater));
+        return new StoryHolder(ItStoryBinding.inflate(layoutInflater, parent, false));
     }
 
     public void submitList(List<UserWithListStory> newList) {
