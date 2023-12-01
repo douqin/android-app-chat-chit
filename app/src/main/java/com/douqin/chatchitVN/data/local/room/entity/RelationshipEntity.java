@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
 public class RelationshipEntity {
     @PrimaryKey()
     public int id;
-    @ColumnInfo(name = "iduser1")
+    @ColumnInfo(name = "request")
     public int idUser1;
 
     @ColumnInfo(name = "iduser2")

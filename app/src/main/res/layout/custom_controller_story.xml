@@ -17,4 +17,9 @@
         app:unplayed_color="#80FFFFFF"
         app:show_timeout="0"
         app:hide_on_touch="false"/>
+<!--    <ImageButton-->
+<!--        android:id="@id/exo_play"-->
+<!--        style="@style/ExoMediaButton.Play"-->
+<!--        app:tint="@color/colorPrimaryDark"-->
+<!--        android:tintMode="src_in" />-->
 </RelativeLayout>

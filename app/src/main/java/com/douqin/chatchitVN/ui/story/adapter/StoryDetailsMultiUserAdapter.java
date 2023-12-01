@@ -86,6 +86,8 @@ public class StoryDetailsMultiUserAdapter extends RecyclerView.Adapter<StoryDeta
             this.itStory.itListDetailsStory.addOnScrollListener(snapOnScrollListener);
             this.itStory.itListDetailsStory.setLayoutManager(layoutManager);
             this.itStory.itListDetailsStory.setAdapter(storyDetailsUserAdapter);
+            this.itStory.circleIndicator.attachToRecyclerView(this.itStory.itListDetailsStory, pagerSnapHelper);
+            storyDetailsUserAdapter.registerAdapterDataObserver(this.itStory.circleIndicator.getAdapterDataObserver());
         }
     }
 

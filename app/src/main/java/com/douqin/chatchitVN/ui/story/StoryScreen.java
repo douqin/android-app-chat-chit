@@ -52,14 +52,6 @@ public class StoryScreen extends Fragment {
         storyViewModel.getStory().observe(this.getViewLifecycleOwner(), userWithListStories -> {
             storyAdapter.submitList(userWithListStories);
         });
-//        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-//            @Override
-//            public void handleOnBackPressed() {
-//                final NavController navCo = NavHostFragment.findNavController(StoryScreen.this);
-//                navCo.popBackStack(R.id.groupMessage, false);
-//            }
-//        };
-//        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
         return storyScreen.getRoot();
     }
 }
